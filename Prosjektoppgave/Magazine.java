@@ -2,12 +2,12 @@
 /**
  * Class that stores all relevant info for a magazine. 
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
+ * @version 1.0
  */
 public class Magazine
 {
-    private String name;
+    private String series;
     private int releaseNr;
     private int year;
     private int month;
@@ -16,10 +16,13 @@ public class Magazine
     /**
      * Constructor for objects of class Magazine
      */
-    public Magazine(String name, int releaseNr, int year, int month, int day)
+    public Magazine(String series, int releaseNr, int year, int month, int day)
     {
-        this.name = name;
-        this.releaseNr = releaseNr;
+        this.series = series;
+        if(releaseNr < 0)
+        {
+            releaseNr = 1;
+        }
         if(month > 12)
         {
             month = 12;
@@ -36,6 +39,7 @@ public class Magazine
         {
             day = 1;
         }
+        this.releaseNr = releaseNr;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -47,25 +51,25 @@ public class Magazine
      */
     public String getDetailsAsString()
     {
-        return "-------------------------\n'" + this.name + "'\nNumber: " + this.releaseNr + "\nRelease date: " + this.year + "/" + this.month + "/" + this.day;
+        return "-------------------------\n'" + this.series + "'\nNumber: " + this.releaseNr + "\nRelease date: " + this.year + "/" + this.month + "/" + this.day;
     }
     
     /**
-     * Returns the name of the magazine.
-     * @return name
+     * Returns the name of the magazine series.
+     * @return series
      */
-    public String getName()
+    public String getSeries()
     {
-        return this.name;
+        return this.series;
     }
     
     /**
-     * Changes the name of the magazine
-     * @param 
+     * Changes the series of the magazine.
+     * @param newSeries new series of the magazine
      */
-    public void setName(String newName)
+    public void setSeries(String newSeries)
     {
-        this.name = newName;
+        this.series = newSeries;
     }
     
     /**
@@ -79,7 +83,7 @@ public class Magazine
     
     /**
      * Changes the number of the magazine.
-     * @param
+     * @param newNumber new number of the magazine
      */
     public void setNumber(int newNumber)
     {

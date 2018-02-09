@@ -29,15 +29,17 @@ public class MagazineStand
     
     /**
      * Removes a magazine from the magazine stand.
+     * @param magazineSeries name of the magazine series to find
+     * @param magazineNumber number of the magazine in the series to remove
      */
-    public void removeMagazine(String magazineName,int magazineNumber)
+    public void removeMagazine(String magazineSeries,int magazineNumber)
     {
        boolean removed = false;
        Iterator<Magazine> it = this.magazineArchive.iterator();
        while(!removed && it.hasNext())
        {
            Magazine m = it.next();
-           if((m.getName().equals(magazineName)) && (m.getNumber() == magazineNumber))
+           if((m.getSeries().equals(magazineSeries)) && (m.getNumber() == magazineNumber))
            {
                it.remove();
                removed = true;
@@ -47,19 +49,23 @@ public class MagazineStand
     }
     
     /**
-     * Changes the name and number of the given magazine.
+     * Changes the series and number of the given magazine.
+     * @param oldSeries the original series of the magazine
+     * @param oldNumber the original number of the magazine
+     * @param newSeries the new series for the magazine
+     * @param newNumber the new number for the magazine
      */
-    public void changeMagazineDetails(String oldName,int oldNumber,String newName,int newNumber) 
+    public void changeMagazineDetails(String oldSeries,int oldNumber,String newSeries,int newNumber) 
     {
         Magazine foundMagazine = null;
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((null == foundMagazine) && (it.hasNext()))
         {
             Magazine m = it.next();
-            if (m.getName().equals(oldName) && (m.getNumber() == oldNumber))
+            if (m.getSeries().equals(oldSeries) && (m.getNumber() == oldNumber))
             {
                 foundMagazine = m;
-                m.setName(newName);
+                m.setSeries(newSeries);
                 m.setNumber(newNumber);
             }
         }
@@ -76,15 +82,17 @@ public class MagazineStand
     
     /**
      * Searches the magazine stand for a particular magazine
+     * @param magazineSeries name of the magazine series to search the stand for
+     * @parem magazineNumber number of the magazine in the series to get
      */
-    public Magazine getMagazine(String magazineName, int magazineNumber)
+    public Magazine getMagazine(String magazineSeries, int magazineNumber)
     {
         Magazine foundMagazine = null;
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((null == foundMagazine) && (it.hasNext()))
         {
             Magazine m = it.next();
-            if (m.getName().equals(magazineName) && (m.getNumber() == magazineNumber))
+            if (m.getSeries().equals(magazineSeries) && (m.getNumber() == magazineNumber))
             {
                 System.out.println(m.getDetailsAsString());
                 foundMagazine = m;
@@ -94,13 +102,14 @@ public class MagazineStand
     }
     
     /**
-     * Search the stand for a magazine series by its name, and display all magazines found in the terminal.
+     * Search the stand for a magazine series by its name, and display all magazines found in the terminal
+     * @param magazineSeries name of the magazine series to search for 
      */
-    public void listMagazineSeries(String name)
+    public void listMagazineSeries(String magazineSeries)
     {
         for (Magazine m:this.magazineArchive)
         {
-            if(m.getName().equals(name))
+            if(m.getSeries().equals(magazineSeries))
             {
                 System.out.println(m.getDetailsAsString());
             }
