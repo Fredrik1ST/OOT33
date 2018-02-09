@@ -1,4 +1,4 @@
-// LWOLOLOLOLOLO
+
 /**
  * Write a description of class Magazine here.
  *
