@@ -86,7 +86,6 @@ public class MagazineStand
     }
     
     /**
-	alsjaølsjdfølkajseøo-klasøviou
      * 
      */
     public void viewMagazineSeries(String name)
