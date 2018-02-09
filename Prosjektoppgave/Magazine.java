@@ -20,9 +20,25 @@ public class Magazine
     {
         this.name = name;
         this.releaseNr = releaseNr;
+        if(month > 12)
+        {
+            month = 12;
+        }
+        else if (month < 1)
+        {
+            month = 1;
+        }
+        if(day > 31)
+        {
+            day = 31;
+        }
+        else if (day < 1)
+        {
+            day = 1;
+        }
         this.year = year;
-        this.month = month%12;
-        this.day = day%31;
+        this.month = month;
+        this.day = day;
     }
 
     /**
