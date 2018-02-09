@@ -2,7 +2,9 @@
 /**
  * Class that stores all relevant info for a magazine. 
  *
- * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
+ * @author Hans Christian Haugan Finnson,
+ *         Fredrik Siem Taklo,
+ *         Magnus Renaa Kjørseng
  * @version 1.0
  */
 public class Magazine
@@ -14,16 +16,21 @@ public class Magazine
     private int day;
     
     /**
-     * Constructor for objects of class Magazine
+     * Constructor for objects of class Magazine.
+     * @param series which series the magazine belongs to
+     * @param releaseNr release number of the magazine
+     * @param year the year the magazine was released
+     * @param month the month the magazine was released
+     * @param day the day the magazine was released
      */
     public Magazine(String series, int releaseNr, int year, int month, int day)
     {
         this.series = series;
-        if(releaseNr < 0)
+        if (releaseNr < 0)
         {
             releaseNr = 1;
         }
-        if(month > 12)
+        if (month > 12)
         {
             month = 12;
         }
@@ -31,7 +38,7 @@ public class Magazine
         {
             month = 1;
         }
-        if(day > 31)
+        if (day > 31)
         {
             day = 31;
         }
