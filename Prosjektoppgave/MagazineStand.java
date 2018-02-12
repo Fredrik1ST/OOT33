@@ -28,7 +28,7 @@ public class MagazineStand
      * @param month the month the magazine was released
      * @param day the day the magazine was released
      */
-    public void addMagazine(String series, int number, int year, int month, int day)
+    public void addMagazine(String series, String publisher, int number, int numberPerYear, int year, int month, int day)
     {
         boolean duplicate = false;
         Iterator<Magazine> it = this.magazineArchive.iterator();
@@ -42,7 +42,7 @@ public class MagazineStand
         }
         if (!duplicate)
         {
-            magazineArchive.add(new Magazine(series, number, year, month, day));
+            magazineArchive.add(new Magazine(series, publisher, number, numberPerYear, year, month, day));
         }
         else
         {
