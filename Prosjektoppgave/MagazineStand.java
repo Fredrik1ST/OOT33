@@ -23,12 +23,15 @@ public class MagazineStand
     /**
      * Adds a magazine with the specified information to the magazine stand.
      * @param series which series the magazine belongs to
+     * @param publisher the publisher of the magazine
      * @param number release number of the magazine
+     * @param numberPerYear the number of magazines released per year
      * @param year the year the magazine was released
      * @param month the month the magazine was released
      * @param day the day the magazine was released
      */
-    public void addMagazine(String series, String publisher, int number, int numberPerYear, int year, int month, int day)
+    public void addMagazine(String series, String publisher, int number,
+        int numberPerYear, int year, int month, int day)
     {
         boolean duplicate = false;
         Iterator<Magazine> it = this.magazineArchive.iterator();
@@ -42,7 +45,8 @@ public class MagazineStand
         }
         if (!duplicate)
         {
-            magazineArchive.add(new Magazine(series, publisher, number, numberPerYear, year, month, day));
+            magazineArchive.add(new Magazine(series, publisher, number, 
+                numberPerYear, year, month, day));
         }
         else
         {
@@ -62,7 +66,8 @@ public class MagazineStand
         while (!removed && it.hasNext())
         {
             Magazine m = it.next();
-            if ((m.getSeries().equals(magazineSeries)) && (m.getNumber() == magazineNumber))
+            if ((m.getSeries().equals(magazineSeries)) 
+                && (m.getNumber() == magazineNumber))
             {
                 it.remove();
                 removed = true;
@@ -70,7 +75,8 @@ public class MagazineStand
         }
         if (!removed)
         {
-            System.out.println("No magazine by the given series and number found.");
+            System.out.println(
+                "No magazine by the given series and number found.");
         }
     }
     
@@ -81,7 +87,8 @@ public class MagazineStand
      * @param newSeries the new series for the magazine
      * @param newNumber the new number for the magazine
      */
-    public void changeMagazineDetails(String oldSeries, int oldNumber, String newSeries, int newNumber) 
+    public void changeMagazineDetails(String oldSeries, int oldNumber,
+        String newSeries, int newNumber) 
     {
         Magazine foundMagazine = null;
         Iterator<Magazine> it = this.magazineArchive.iterator();
@@ -97,7 +104,8 @@ public class MagazineStand
         }
         if (null == foundMagazine)
         {
-            System.out.println("No magazine by the given series and number found.");
+            System.out.println(
+                "No magazine by the given series and number found.");
         }
     } 
     
@@ -123,7 +131,8 @@ public class MagazineStand
         while ((null == foundMagazine) && (it.hasNext()))
         {
             Magazine m = it.next();
-            if (m.getSeries().equals(magazineSeries) && (m.getNumber() == magazineNumber))
+            if (m.getSeries().equals(magazineSeries) 
+                && (m.getNumber() == magazineNumber))
             {
                 System.out.println(m.getDetailsAsString());
                 foundMagazine = m;
@@ -131,13 +140,15 @@ public class MagazineStand
         }
         if (null == foundMagazine)
         {
-            System.out.println("No magazine by the given series and number found.");
+            System.out.println(
+                "No magazine by the given series and number found.");
         }
         return foundMagazine;
     }
     
     /**
-     * Search the stand for a magazine series by its name, and display all magazines found in the terminal.
+     * Search the stand for a magazine series by its name, 
+     * and display all magazines found in the terminal.
      * @param magazineSeries name of the magazine series to search for 
      */
     public void listMagazineSeries(String magazineSeries)
