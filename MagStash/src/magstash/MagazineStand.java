@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * The class where all the magazines are stored and managed. Constructs and
- * manages an array list of "Magazine"-objects.
+ * The class where all the magazines are stored and managed.
+ * Constructs and manages an array list of "Magazine"-objects.
  *
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 1.0
