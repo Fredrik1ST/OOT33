@@ -30,8 +30,11 @@ public class Magazine {
     public Magazine(String series, String publisher, int releaseNr,
             int releasesPerYear, int year, int month, int day) {
         this.series = series;
-        if (releaseNr < 0) {
+        if (releaseNr < 1) {
             releaseNr = 1;
+        }
+        if (releasesPerYear < releaseNr) {
+            releasesPerYear = releaseNr;
         }
         if (month > 12) {
             month = 12;
@@ -57,9 +60,11 @@ public class Magazine {
      * @return details as string.
      */
     public String getDetailsAsString() {
-        return "-------------------------\n" + this.series + "\nNumber: "
-                + this.releaseNr + "\nRelease date: " + this.year + "/"
-                + this.month + "/" + this.day + "\n-------------------------";
+        return "-------------------------\n" + this.series + "\n by " 
+                + this.publisher + "\nNumber: " + this.releaseNr 
+                + " / " + this.releasesPerYear + "\nRelease date: " 
+                + this.year + "/" + this.month + "/" + this.day 
+                + "\n-------------------------";
     }
 
     /**
