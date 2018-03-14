@@ -13,6 +13,7 @@ import magstash.MagazineStand;
  * @version 0.2
  */
 public class ApplicationUI {
+    private String product = "magazine";
 
     public MagazineStand currentMagStand;
 
@@ -21,9 +22,9 @@ public class ApplicationUI {
     // etc.
     private String[] menuItems
             = {
-                "1. List all magazines",
-                "2. Add new magazine",
-                "3. Find a magazine by name",};
+                "1. List all " + product + "s",
+                "2. Add new " + product + ".",
+                "3. Find a " + product + " by name",};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
@@ -114,7 +115,7 @@ public class ApplicationUI {
      * Lists all the products/literature in the register (MagazineStand).
      */
     private void listAllProducts() {
-        System.out.println("\nListing all products...");
+        System.out.println("\nYou selected \"List all " + product + "s\".");
         System.out.println(currentMagStand.listAllMagazines() + "\n");
     }
 
@@ -132,7 +133,7 @@ public class ApplicationUI {
         int newMonth;
         int newDay;
 
-        System.out.println("\naddNewProduct() was called");
+        System.out.println("\nYou selected \"Add new " + product + "\".");
 
         while (newName.equals("")) {
             System.out.println("Enter name of series: ");
@@ -176,7 +177,7 @@ public class ApplicationUI {
             String seriesName = "";
             int magNumber;
 
-            System.out.println("\nfindProductByName() was called");
+            System.out.println("\nYou selected \"Find " + product + " by name\".");
 
             while (seriesName.equals("")) {
                 System.out.println("Enter name of series: ");
