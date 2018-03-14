@@ -157,7 +157,7 @@ public class ApplicationUI {
 
             // Checks if the magazine is already in the stand. Adds if not.
             if (currentMagStand.isDuplicate(newName, newReleaseNr)) {
-                System.out.println("Magazine already exists in the stand.");
+                System.out.println("\nMagazine already exists in the stand.");
             } else {
                 currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
             }

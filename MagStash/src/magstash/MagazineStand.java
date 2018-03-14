@@ -159,6 +159,9 @@ public class MagazineStand {
      */
     public boolean isDuplicate(String series, int number){
         boolean alreadyInStand = false;
+        if (number < 1) {
+            number = 1;
+        }
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((false == alreadyInStand) && (it.hasNext())) {
             Magazine m = it.next();
