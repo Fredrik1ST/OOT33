@@ -35,7 +35,7 @@ public class MagazineStand {
      */
     public boolean addMagazine(String series, String publisher, int number,
             int numberPerYear, int year, int month, int day) {
-        boolean duplicate = checkIfDuplicate(series, number);
+        boolean duplicate = isDuplicate(series, number);
         if (!duplicate) {
             magazineArchive.add(new Magazine(series, publisher, number,
                     numberPerYear, year, month, day));
@@ -157,7 +157,7 @@ public class MagazineStand {
      * @param number the release number of the magazine in the given series
      * @return TRUE if the magazine already exists in the stand, FALSE if not
      */
-    public boolean checkIfDuplicate(String series, int number){
+    public boolean isDuplicate(String series, int number){
         boolean alreadyInStand = false;
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((false == alreadyInStand) && (it.hasNext())) {

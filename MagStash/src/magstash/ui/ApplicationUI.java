@@ -115,14 +115,14 @@ public class ApplicationUI {
      */
     private void listAllProducts() {
         System.out.println("\nListing all products...");
-        System.out.println(currentMagStand.listAllMagazines() +"\n");
+        System.out.println(currentMagStand.listAllMagazines() + "\n");
     }
 
     /**
      * Add a new magazine to the magazine stand.
      */
     private void addNewProduct() {
-        
+
         Scanner reader = new Scanner(System.in);
         String newName = "";
         String newPublisher = "";
@@ -142,25 +142,25 @@ public class ApplicationUI {
             System.out.println("Enter publisher: ");
             newPublisher = reader.nextLine();
         }
-        
-        try {
-        System.out.println("Enter release number: ");
-        newReleaseNr = reader.nextInt();
-        System.out.println("Enter releases per year: ");
-        newReleasesPerYear = reader.nextInt();
-        System.out.println("Enter year of release (YYYY): ");
-        newYear = reader.nextInt();
-        System.out.println("Enter month of release (MM): ");
-        newMonth = reader.nextInt();
-        System.out.println("Enter day of release (DD): ");
-        newDay = reader.nextInt();
 
-        // Holy hairy moly. FALSE means it's a duplicate, and won't be added.
-        if (!currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay)) {
-            System.out.println("Magazine already exists in the stand.");
-        } //else {
-          //  currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
-          //}
+        try {
+            System.out.println("Enter release number: ");
+            newReleaseNr = reader.nextInt();
+            System.out.println("Enter releases per year: ");
+            newReleasesPerYear = reader.nextInt();
+            System.out.println("Enter year of release (YYYY): ");
+            newYear = reader.nextInt();
+            System.out.println("Enter month of release (MM): ");
+            newMonth = reader.nextInt();
+            System.out.println("Enter day of release (DD): ");
+            newDay = reader.nextInt();
+
+            // Checks if the magazine is already in the stand. Adds if not.
+            if (currentMagStand.isDuplicate(newName, newReleaseNr)) {
+                System.out.println("Magazine already exists in the stand.");
+            } else {
+                currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
+            }
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }
@@ -172,35 +172,34 @@ public class ApplicationUI {
      */
     private void findProductByName() {
         try {
-        Scanner reader = new Scanner(System.in);
-        String seriesName = "";
-        int magNumber;
+            Scanner reader = new Scanner(System.in);
+            String seriesName = "";
+            int magNumber;
 
-        System.out.println("\nfindProductByName() was called");
+            System.out.println("\nfindProductByName() was called");
 
-        while (seriesName.equals("")) {
-            System.out.println("Enter name of series: ");
-            seriesName = reader.nextLine();
-        }
-        System.out.println("Enter release number: ");
-        magNumber = reader.nextInt();
+            while (seriesName.equals("")) {
+                System.out.println("Enter name of series: ");
+                seriesName = reader.nextLine();
+            }
+            System.out.println("Enter release number: ");
+            magNumber = reader.nextInt();
 
-        if (currentMagStand.getMagazine(seriesName, magNumber) == null) {
-            String answer = "";
-            System.out.println("Could not find the magazine."
+            if (currentMagStand.getMagazine(seriesName, magNumber) == null) {
+                String answer = "";
+                System.out.println("Could not find the magazine."
                         + " Do you want to list all magazines instead? (Y/N)");
-            while (answer.equals("")) {
-                answer = reader.nextLine();
+                while (answer.equals("")) {
+                    answer = reader.nextLine();
+                }
+                if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                    System.out.println(currentMagStand.listAllMagazines());
+                } else {
+                    System.out.println("\nReturning to menu...");
+                }
+            } else {
+                currentMagStand.getMagazine(seriesName, magNumber);
             }
-            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                System.out.println(currentMagStand.listAllMagazines());
-            }
-            else {
-                System.out.println("\nReturning to menu...");
-            }
-        } else {
-            currentMagStand.getMagazine(seriesName, magNumber);
-        }
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }
