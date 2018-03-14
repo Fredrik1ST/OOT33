@@ -8,7 +8,7 @@ import java.util.Iterator;
  * Constructs and manages an array list of "Magazine"-objects.
  *
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
- * @version 1.0
+ * @version 0.2
  */
 public class MagazineStand {
 
@@ -46,8 +46,6 @@ public class MagazineStand {
         if (!duplicate) {
             magazineArchive.add(new Magazine(series, publisher, number,
                     numberPerYear, year, month, day));
-        } else {
-            // System.out.println("Magazine already exists in the stand.");
         }
         return !duplicate;
     }

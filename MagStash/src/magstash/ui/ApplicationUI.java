@@ -10,7 +10,7 @@ import magstash.MagazineStand;
  * user.
  *
  * @author asty
- * @version 1.0
+ * @version 0.2
  */
 public class ApplicationUI {
 
@@ -82,7 +82,7 @@ public class ApplicationUI {
      * choice
      */
     private int showMenu() throws InputMismatchException {
-        System.out.println("\n**** Application v0.1 ****\n");
+        System.out.println("\n**** Application v0.2 ****\n");
         // Display the menu
         for (String menuItem : menuItems) {
             System.out.println(menuItem);
@@ -122,7 +122,7 @@ public class ApplicationUI {
      * Add a new magazine to the magazine stand.
      */
     private void addNewProduct() {
-        try {
+        
         Scanner reader = new Scanner(System.in);
         String newName = "";
         String newPublisher = "";
@@ -142,6 +142,8 @@ public class ApplicationUI {
             System.out.println("Enter publisher: ");
             newPublisher = reader.nextLine();
         }
+        
+        try {
         System.out.println("Enter release number: ");
         newReleaseNr = reader.nextInt();
         System.out.println("Enter releases per year: ");
@@ -156,9 +158,9 @@ public class ApplicationUI {
         // Holy hairy moly. FALSE means it's a duplicate, and won't be added.
         if (!currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay)) {
             System.out.println("Magazine already exists in the stand.");
-        } else {
-            currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
-        }
+        } //else {
+          //  currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
+          //}
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }

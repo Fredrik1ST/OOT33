@@ -4,7 +4,7 @@ package magstash;
  * Class that stores all relevant info for a magazine.
  *
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
- * @version 1.0
+ * @version 0.2
  */
 public class Magazine {
 
