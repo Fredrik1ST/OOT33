@@ -114,7 +114,7 @@ public class ApplicationUI {
      * Lists all the products/literature in the register (MagazineStand).
      */
     private void listAllProducts() {
-        System.out.println("\nlistAllProducts() was called");
+        System.out.println("\nListing all products...");
         System.out.println(currentMagStand.listAllMagazines() +"\n");
     }
 

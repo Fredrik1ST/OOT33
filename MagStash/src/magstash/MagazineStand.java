@@ -35,14 +35,7 @@ public class MagazineStand {
      */
     public boolean addMagazine(String series, String publisher, int number,
             int numberPerYear, int year, int month, int day) {
-        boolean duplicate = false;
-        Iterator<Magazine> it = this.magazineArchive.iterator();
-        while ((false == duplicate) && (it.hasNext())) {
-            Magazine m = it.next();
-            if ((m.getSeries().equals(series)) && (m.getNumber() == number)) {
-                duplicate = true;
-            }
-        }
+        boolean duplicate = checkIfDuplicate(series, number);
         if (!duplicate) {
             magazineArchive.add(new Magazine(series, publisher, number,
                     numberPerYear, year, month, day));
@@ -155,5 +148,24 @@ public class MagazineStand {
             magazineList = magazineList + "\n" + m.getDetailsAsString();
         }
         return magazineList;
+    }
+    
+    /**
+     * Checks if a magazine of the given series name and release number already
+     * exists in the magazine stand. 
+     * @param series the name of the magazine series
+     * @param number the release number of the magazine in the given series
+     * @return TRUE if the magazine already exists in the stand, FALSE if not
+     */
+    public boolean checkIfDuplicate(String series, int number){
+        boolean alreadyInStand = false;
+        Iterator<Magazine> it = this.magazineArchive.iterator();
+        while ((false == alreadyInStand) && (it.hasNext())) {
+            Magazine m = it.next();
+            if ((m.getSeries().equals(series)) && (m.getNumber() == number)) {
+                alreadyInStand = true;
+            }
+        }
+        return alreadyInStand;
     }
 }
