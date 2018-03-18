@@ -35,7 +35,7 @@ public class MagazineTest {
     public void testGetSeries() {
         System.out.println("getSeries");
         String expResult = "Name";
-        String result = testMagazine.getSeries();
+        String result = testMagazine.getTitle();
         assertEquals(expResult, result);
     }
 
@@ -47,7 +47,7 @@ public class MagazineTest {
         System.out.println("setSeries");
         String newSeries = "NewSeries";
         Magazine testMagazine = new Magazine("Name", "Publisher", 1, 2, 3, 4, 5);
-        testMagazine.setSeries(newSeries);
+        testMagazine.setTitle(newSeries);
     }
 
     /**

@@ -1,6 +1,6 @@
 package magstash;
 
-import magstash.ui.ApplicationUI;
+import ui.ApplicationUI;
 
 /**
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng

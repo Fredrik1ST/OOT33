@@ -10,7 +10,7 @@ import java.util.Iterator;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 0.2
  */
-public class MagazineStand {
+public class MagazineStand extends Series {
 
     private ArrayList<Magazine> magazineArchive;
 
@@ -54,7 +54,7 @@ public class MagazineStand {
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while (!removed && it.hasNext()) {
             Magazine m = it.next();
-            if ((m.getSeries().equals(magazineSeries))
+            if ((m.getTitle().equals(magazineSeries))
                     && (m.getNumber() == magazineNumber)) {
                 it.remove();
                 removed = true;
@@ -80,9 +80,9 @@ public class MagazineStand {
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((null == foundMagazine) && (it.hasNext())) {
             Magazine m = it.next();
-            if (m.getSeries().equals(oldSeries) && (m.getNumber() == oldNumber)) {
+            if (m.getTitle().equals(oldSeries) && (m.getNumber() == oldNumber)) {
                 foundMagazine = m;
-                m.setSeries(newSeries);
+                m.setTitle(newSeries);
                 m.setNumber(newNumber);
             }
         }
@@ -109,7 +109,7 @@ public class MagazineStand {
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((null == foundMagazine) && (it.hasNext())) {
             Magazine m = it.next();
-            if (m.getSeries().equals(magazineSeries)
+            if (m.getTitle().equals(magazineSeries)
                     && (m.getNumber() == magazineNumber)) {
                 System.out.println(m.getDetailsAsString());
                 foundMagazine = m;
@@ -127,7 +127,7 @@ public class MagazineStand {
     public void listMagazineSeries(String magazineSeries) {
         boolean foundSeries = false;
         for (Magazine m : this.magazineArchive) {
-            if (m.getSeries().equals(magazineSeries)) {
+            if (m.getTitle().equals(magazineSeries)) {
                 System.out.println(m.getDetailsAsString());
                 foundSeries = true;
             }
@@ -165,7 +165,7 @@ public class MagazineStand {
         Iterator<Magazine> it = this.magazineArchive.iterator();
         while ((false == alreadyInStand) && (it.hasNext())) {
             Magazine m = it.next();
-            if ((m.getSeries().equals(series)) && (m.getNumber() == number)) {
+            if ((m.getTitle().equals(series)) && (m.getNumber() == number)) {
                 alreadyInStand = true;
             }
         }

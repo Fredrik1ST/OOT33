@@ -6,30 +6,24 @@ package magstash;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 0.2
  */
-public class Magazine {
+public class Magazine extends Literature {
 
-    private String series;
-    private String publisher;
     private int releaseNr;
     private int releasesPerYear;
-    private int year;
-    private int month;
-    private int day;
-
     /**
      * Constructor for objects of class Magazine.
      *
-     * @param series which series the magazine belongs to
-     * @param publisher The publisher for the magazine
-     * @param releaseNr release number of the magazine
+     * @param title name of the series the magazine belongs to
+     * @param publisher the magazine's publisher
+     * @param releaseNr the magazine's release number
      * @param releasesPerYear number of releases of the magazine per year
      * @param year the year the magazine was released
      * @param month the month the magazine was released
      * @param day the day the magazine was released
      */
-    public Magazine(String series, String publisher, int releaseNr,
+    public Magazine(String title, String publisher, int releaseNr,
             int releasesPerYear, int year, int month, int day) {
-        this.series = series;
+        this.title = title;
         if (releaseNr < 1) {
             releaseNr = 1;
         }
@@ -57,45 +51,41 @@ public class Magazine {
     /**
      * Returns the details of the magazine as a string of text.
      *
-     * @return details as string.
+     * @return details as string
      */
     public String getDetailsAsString() {
-        return "-------------------------\n" + this.series + "\n by " 
-                + this.publisher + "\nNumber: " + this.releaseNr 
-                + " / " + this.releasesPerYear + "\nRelease date: " 
+        return "-------------------------\n " + this.title + "\n by " 
+                + this.publisher + "\n Number: " + this.releaseNr 
+                + " / " + this.releasesPerYear + "\n Release date: " 
                 + this.year + "/" + this.month + "/" + this.day 
                 + "\n-------------------------";
     }
 
     /**
-     * Returns the name of the magazine series.
-     *
-     * @return series
+     * @return the name of the magazine series
      */
-    public String getSeries() {
-        return this.series;
+    public String getTitle() {
+        return this.title;
     }
 
     /**
-     * Changes the series of the magazine.
+     * Changes the name of the magazine series.
      *
-     * @param newSeries new series of the magazine
+     * @param newTitle new series of the magazine
      */
-    public void setSeries(String newSeries) {
-        this.series = newSeries;
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
     }
 
     /**
-     * Gets the publisher of the magazine
-     *
-     * @return publisher of the magazine
+     * @return the name of the magazine's publisher
      */
     public String getPublisher() {
         return this.publisher;
     }
 
     /**
-     * Sets the publisher to something else
+     * Sets the publisher to something else.
      *
      * @param publisher the new publisher of the magazine
      */
@@ -104,27 +94,23 @@ public class Magazine {
     }
 
     /**
-     * Returns the number of the magazine.
-     *
-     * @return magazine number
+     * @return the magazine's release number
      */
     public int getNumber() {
         return this.releaseNr;
     }
 
     /**
-     * Changes the number of the magazine.
+     * Changes the release number of the magazine.
      *
-     * @param newNumber new number of the magazine
+     * @param newNumber the magazine's new release number
      */
     public void setNumber(int newNumber) {
         this.releaseNr = newNumber;
     }
 
     /**
-     * Returns the number of releases per year
-     *
-     * @return The number of releases per year
+     * @return the number of releases per year
      */
     public int getReleasesPerYear() {
         return this.releasesPerYear;
@@ -140,27 +126,21 @@ public class Magazine {
     }
 
     /**
-     * Returns the year of the magazine's release.
-     *
-     * @return year
+     * @return the magazine's year of release
      */
     public int getYear() {
         return this.year;
     }
 
     /**
-     * Returns the month of the magazine's release.
-     *
-     * @return month
+     * @return the magazine's month of release
      */
     public int getMonth() {
         return this.month;
     }
 
     /**
-     * Returns the day of the magazine's release.
-     *
-     * @return day
+     * @return the magazine's day of release
      */
     public int getDay() {
         return this.day;
