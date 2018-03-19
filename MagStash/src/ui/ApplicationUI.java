@@ -2,7 +2,7 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import magstash.MagazineStand;
+import magstash.LiteratureCache;
 
 /**
  * Makes up the user interface (text based) of the application. Responsible for
@@ -15,7 +15,7 @@ import magstash.MagazineStand;
 public class ApplicationUI {
     private String product = "magazine";
 
-    public MagazineStand currentMagStand;
+    public LiteratureCache literatureCache;
 
     // The menu that will be displayed. Please edit/alter the menu
     // to fit your application (i.e. replace "prodct" with "litterature"
@@ -24,7 +24,8 @@ public class ApplicationUI {
             = {
                 "1. List all " + product + "s",
                 "2. Add new " + product + ".",
-                "3. Find a " + product + " by name",};
+                "3. Add new " + product + " series.",
+                "4. Find a " + product + " by name",};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
@@ -50,22 +51,29 @@ public class ApplicationUI {
                         break;
 
                     case 2:
-                        this.addNewProduct();
+                        this.addNewMagazine();
                         break;
 
                     case 3:
+                        this.addNewMagazineSeries();
+                        break;
+                        
+                    case 4:
                         this.findProductByName();
                         break;
 
-                    case 4:
-                        System.out.println("\nThank you for using Application v0.1. Bye!\n");
+                    case 5:
+                        System.out.println(
+                                "\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
                         break;
 
                     default:
                 }
             } catch (InputMismatchException ime) {
-                System.out.println("\nERROR: Please provide a number between 1 and " + this.menuItems.length + "..\n");
+                System.out.println(
+                        "\nERROR: Please provide a number between 1 and " 
+                                + this.menuItems.length + "..\n");
             }
         }
 
@@ -104,7 +112,7 @@ public class ApplicationUI {
     // ------ The methods below this line are "helper"-methods, used from the menu ----
     // ------ All these methods are made private, since they are only used by the menu ---
     /**
-     * Initializes the application. Typically you would create the
+     * Initialises the application. Typically you would create the
      * LiteratureRegistrer-instance here
      */
     private void init() {
@@ -116,39 +124,32 @@ public class ApplicationUI {
      */
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all " + product + "s\".");
-        System.out.println(currentMagStand.listAllMagazines() + "\n");
+        System.out.println(literatureCache.listAllMagazineSeries() + "\n");
     }
 
     /**
      * Add a new magazine to the magazine stand.
      */
-    private void addNewProduct() {
+    private void addNewMagazine() {
 
         Scanner reader = new Scanner(System.in);
-        String newName = "";
-        String newPublisher = "";
+        String seriesName = "";
         int newReleaseNr;
-        int newReleasesPerYear;
         int newYear;
         int newMonth;
         int newDay;
 
         System.out.println("\nYou selected \"Add new " + product + "\".");
 
-        while (newName.equals("")) {
+        while (seriesName.equals("") || 
+                !literatureCache.hasMagazineSeries(seriesName)) {
             System.out.println("Enter name of series: ");
-            newName = reader.nextLine();
-        }
-        while (newPublisher.equals("")) {
-            System.out.println("Enter publisher: ");
-            newPublisher = reader.nextLine();
+            seriesName = reader.nextLine();
         }
 
         try {
             System.out.println("Enter release number: ");
             newReleaseNr = reader.nextInt();
-            System.out.println("Enter releases per year: ");
-            newReleasesPerYear = reader.nextInt();
             System.out.println("Enter year of release (YYYY): ");
             newYear = reader.nextInt();
             System.out.println("Enter month of release (MM): ");
@@ -157,15 +158,50 @@ public class ApplicationUI {
             newDay = reader.nextInt();
 
             // Checks if the magazine is already in the stand. Adds if not.
-            if (currentMagStand.isDuplicate(newName, newReleaseNr)) {
-                System.out.println("\nMagazine already exists in the stand.");
+            
+            if (literatureCache.getMagazineSeries(seriesName).
+                    addMagazine(newYear, newMonth, newDay, newReleaseNr)) {
+                System.out.println("\nThe magazine has been added.");
             } else {
-                currentMagStand.addMagazine(newName, newPublisher, newReleaseNr, newReleasesPerYear, newYear, newMonth, newDay);
+                System.out.println("\nThe magazine already exists");
             }
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }
 
+    }
+    
+    /**
+     * Adds a new MagazineSeries that can then be populated with Magazines.
+     */
+    private void addNewMagazineSeries() {
+        Scanner reader = new Scanner(System.in);
+        String seriesName ="";
+        int releasesPerYear;
+        String publisher="";
+        String genre="";
+        
+        System.out.println("\nYou selected \"Add new " + product + " series\".");
+        
+        while (seriesName.equals("")){
+            System.out.println("Enter name of series: ");
+            seriesName = reader.nextLine();
+        }
+        while (publisher.equals("")){
+            System.out.println("Enter publisher: ");
+            publisher = reader.nextLine();
+        }
+        while (genre.equals("")){
+            System.out.println("Enter genre: ");
+            genre = reader.nextLine();
+        }
+        
+        try {
+            System.out.println("Enter number of releases per year:" );
+            releasesPerYear = reader.nextInt();
+        } catch (InputMismatchException ime) {
+            System.out.println("\nERROR: Expected an integer. Returning to menu...");
+        }
     }
 
     /**
@@ -186,20 +222,23 @@ public class ApplicationUI {
             System.out.println("Enter release number: ");
             magNumber = reader.nextInt();
 
-            if (currentMagStand.getMagazine(seriesName, magNumber) == null) {
+            if (literatureCache.getMagazineSeries(seriesName).
+                    getMagazinesAsString(magNumber) == null) {
                 String answer = "";
                 System.out.println("Could not find the magazine."
                         + " Do you want to list all magazines instead? (Y/N)");
                 while (answer.equals("")) {
                     answer = reader.nextLine();
                 }
-                if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                    System.out.println(currentMagStand.listAllMagazines());
+                if (answer.toLowerCase().startsWith("y")) {
+                    System.out.println(literatureCache.
+                            getMagazineSeries(seriesName).listAllMagazines());
                 } else {
                     System.out.println("\nReturning to menu...");
                 }
             } else {
-                currentMagStand.getMagazine(seriesName, magNumber);
+                System.out.println(literatureCache.getMagazineSeries(seriesName).
+                        getMagazinesAsString(magNumber));
             }
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
