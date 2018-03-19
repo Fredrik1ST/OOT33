@@ -1,3 +1,6 @@
+//TODO Make it so that no Null ever sets foot in here!
+//We're getting nullpointer exceptions from 
+
 package ui;
 
 import java.util.InputMismatchException;

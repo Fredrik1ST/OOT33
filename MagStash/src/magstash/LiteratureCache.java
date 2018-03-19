@@ -1,6 +1,7 @@
 package magstash;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * A container class to hold all literature. 
@@ -16,6 +17,7 @@ public class LiteratureCache {
     private Map<String, MagazineSeries> magazineArchive;
     
     public LiteratureCache(){
+        magazineArchive = new HashMap<>();
         
     }
     

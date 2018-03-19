@@ -1,6 +1,7 @@
 package magstash;
 
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Iterator;
 import java.time.LocalDate;
 
@@ -25,6 +26,7 @@ public class MagazineSeries extends Series{
     public MagazineSeries(String seriesName, int releasesPerYear, 
             String publisher, String genre){
         super(seriesName, publisher, genre);
+        magazines = new TreeSet<>();
         this.releasesPerYear = releasesPerYear;
     }
     
