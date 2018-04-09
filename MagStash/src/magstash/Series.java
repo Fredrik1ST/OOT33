@@ -7,10 +7,11 @@ package magstash;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 2018/03/19
  */
-public class Series {
+public abstract class Series {
     private String seriesName;
     private String publisher;
     private String genre;
+    
     
     /**
      * Initializes the series with all fields filled.
@@ -71,4 +72,6 @@ public class Series {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+    
+    abstract String getProductsAsString();
 }

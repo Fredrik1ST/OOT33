@@ -12,6 +12,12 @@ public class Magazine extends Literature {
 
     private int releaseNr;
     
+    @Override
+    public int compareTo(Literature l) {
+        Magazine m = (Magazine) l;
+        return (this.releaseNr - m.getReleaseNr());
+    }
+    
     /**
      * Creates a new magazine from explicitly given date.
      * @param year the release year of the magazine
@@ -39,6 +45,7 @@ public class Magazine extends Literature {
      * Date format is in YYYY/MM/DD.
      * @return the details as a formatted string.
      */
+    @Override
     public String getDetailsAsString(){
         return "-----------------------\n" 
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay()
@@ -46,7 +53,7 @@ public class Magazine extends Literature {
     }
 
     /**
-     * Gets this release's release number.
+     * Returns this release's release number.
      * @return the releaseNr
      */
     public int getReleaseNr() {
@@ -60,6 +67,17 @@ public class Magazine extends Literature {
     public void setReleaseNr(int releaseNr) {
         this.releaseNr = releaseNr;
     }
-
+    
+    public boolean isDuplicate(int year, int month, int day, int releaseNr) {
+        if (super.getYear() == year &&
+                super.getMonth() == month &&
+                super.getDay() == day &&
+                getReleaseNr() == releaseNr) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     
 }

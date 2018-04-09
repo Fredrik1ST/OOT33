@@ -1,9 +1,8 @@
 package magstash;
 
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.Iterator;
 import java.time.LocalDate;
+import java.util.TreeSet;
 
 /**
  * A container class for magazines. Its purpose is to avoid needing to enter 
@@ -12,9 +11,10 @@ import java.time.LocalDate;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 2018/03/19
  */
-public class MagazineSeries extends Series{
-    private Set<Magazine> magazines;
+public class MagazineSeries extends Series {
+    private TreeSet<Magazine> magazines;
     private int releasesPerYear;
+    
     
     /**
      * Creates a new, empty MagazineSeries with all fields filled. 
@@ -97,11 +97,28 @@ public class MagazineSeries extends Series{
     }
     
     /**
-     * Returns an ArrayList of all magazines with a matching releaseNr.
-     * @param releaseNr number to search for
+     * Returns a list (String) of all magazines in the series.
      * @return ArrayList with all magazines with matching release numbers
      */
-    public String getMagazinesAsString(int releaseNr){
+    @Override
+    public String getProductsAsString(){
+        String foundMagazines = "";
+        Iterator<Magazine> it = this.magazines.iterator();
+        
+        while (it.hasNext()){
+            Magazine nextMag = it.next();
+                foundMagazines += nextMag.getDetailsAsString() + "\n";
+        }
+        
+        return foundMagazines;
+    }
+    
+        /**
+     * Returns a String of magazines with a matching releaseNr.
+     * @param releaseNr number to search for
+     * @return String with all magazines with matching release numbers
+     */
+    public String listByReleaseNr(int releaseNr){
         String foundMagazines = "";
         Iterator<Magazine> it = this.magazines.iterator();
         
@@ -113,7 +130,7 @@ public class MagazineSeries extends Series{
         }
         
         return foundMagazines;
-    }
+}
     
     /**
      * Changes the date of the magazine.

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package magstash;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -13,7 +12,7 @@ import org.junit.runners.Suite;
  * @author Fredrik
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({magstash.SeriesTest.class, magstash.MainTest.class, magstash.MagazineTest.class, magstash.MagazineSeriesTest.class, magstash.LiteratureTest.class, magstash.LiteratureCacheTest.class})
-public class MagstashSuite {
+@Suite.SuiteClasses({magstash.MagstashSuite.class})
+public class RootSuite {
     
 }

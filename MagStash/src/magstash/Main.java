@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         LiteratureCache litCache = new LiteratureCache();
         ApplicationUI appUI = new ApplicationUI();
+        appUI.setProductType("magazine");
         appUI.literatureCache = litCache;
         appUI.start();
     }

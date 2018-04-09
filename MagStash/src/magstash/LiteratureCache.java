@@ -1,7 +1,7 @@
 package magstash;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * A container class to hold all literature. 
@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @version 2018/03/19
  */
 public class LiteratureCache {
-    private Map<String, MagazineSeries> magazineArchive;
+    private HashMap<String, MagazineSeries> magazineArchive;
     
     public LiteratureCache(){
         magazineArchive = new HashMap<>();
@@ -52,6 +52,8 @@ public class LiteratureCache {
         return magazineArchive.get(seriesName);
     }
     
+ 
+    
     /**
      * Gets the name of all MagazineSeries as a formatted string.
      * The format is:
@@ -64,7 +66,7 @@ public class LiteratureCache {
      */
     public String listAllMagazineSeries() {
         String allMagazineSeries = "";
-        for(Map.Entry<String, MagazineSeries> entry : 
+        for(HashMap.Entry<String, MagazineSeries> entry : 
                 magazineArchive.entrySet()){
             allMagazineSeries += entry.getValue().getSeriesName() + "\n"; 
         }

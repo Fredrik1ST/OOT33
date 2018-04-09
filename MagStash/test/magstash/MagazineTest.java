@@ -1,5 +1,7 @@
 /*
- * JUnit test of all methods in the Magazine class.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package magstash;
 
@@ -11,10 +13,8 @@ import static org.junit.Assert.*;
  * @author Fredrik
  */
 public class MagazineTest {
-    Magazine testMagazine;
-
+    
     public MagazineTest() {
-        testMagazine = new Magazine("Name", "Publisher", 1, 2, 3, 4, 5);
     }
 
     /**
@@ -23,128 +23,39 @@ public class MagazineTest {
     @Test
     public void testGetDetailsAsString() {
         System.out.println("getDetailsAsString");
-        String expResult = "-------------------------\nName\nNumber: 1\nRelease date: 3/4/5\n-------------------------";
-        String result = testMagazine.getDetailsAsString();
+        Magazine instance = null;
+        String expResult = "";
+        String result = instance.getDetailsAsString();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getSeries method, of class Magazine.
+     * Test of getReleaseNr method, of class Magazine.
      */
     @Test
-    public void testGetSeries() {
-        System.out.println("getSeries");
-        String expResult = "Name";
-        String result = testMagazine.getTitle();
+    public void testGetReleaseNr() {
+        System.out.println("getReleaseNr");
+        Magazine instance = null;
+        int expResult = 0;
+        int result = instance.getReleaseNr();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setSeries method, of class Magazine.
+     * Test of setReleaseNr method, of class Magazine.
      */
     @Test
-    public void testSetSeries() {
-        System.out.println("setSeries");
-        String newSeries = "NewSeries";
-        Magazine testMagazine = new Magazine("Name", "Publisher", 1, 2, 3, 4, 5);
-        testMagazine.setTitle(newSeries);
+    public void testSetReleaseNr() {
+        System.out.println("setReleaseNr");
+        int releaseNr = 0;
+        Magazine instance = null;
+        instance.setReleaseNr(releaseNr);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of getPublisher method, of class Magazine.
-     */
-    @Test
-    public void testGetPublisher() {
-        System.out.println("getPublisher");
-        String expResult = "Publisher";
-        String result = testMagazine.getPublisher();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of setPublisher method, of class Magazine.
-     */
-    @Test
-    public void testSetPublisher() {
-        System.out.println("setPublisher");
-        String newPublisher = "newPublisher";
-        testMagazine.setPublisher(newPublisher);
-    }
-
-    /**
-     * Test of getNumber method, of class Magazine.
-     */
-    @Test
-    public void testGetNumber() {
-        System.out.println("getNumber");
-        int expResult = 1;
-        int result = testMagazine.getNumber();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of setNumber method, of class Magazine.
-     */
-    @Test
-    public void testSetNumber() {
-        System.out.println("setNumber");
-        int newNumber = 5;
-        testMagazine.setNumber(newNumber);
-        assertEquals(newNumber, testMagazine.getNumber());
-    }
-
-    /**
-     * Test of getReleasesPerYear method, of class Magazine.
-     */
-    @Test
-    public void testGetReleasesPerYear() {
-        System.out.println("getReleasesPerYear");
-        int expResult = 2;
-        int result = testMagazine.getReleasesPerYear();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of setReleasesPerYear method, of class Magazine.
-     */
-    @Test
-    public void testSetReleasesPerYear() {
-        System.out.println("setReleasesPerYear");
-        int releasesPerYear = 0;
-        testMagazine.setReleasesPerYear(releasesPerYear);
-    }
-
-    /**
-     * Test of getYear method, of class Magazine.
-     */
-    @Test
-    public void testGetYear() {
-        System.out.println("getYear");
-        int expResult = 3;
-        int result = testMagazine.getYear();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getMonth method, of class Magazine.
-     */
-    @Test
-    public void testGetMonth() {
-        System.out.println("getMonth");
-        int expResult = 4;
-        int result = testMagazine.getMonth();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getDay method, of class Magazine.
-     */
-    @Test
-    public void testGetDay() {
-        System.out.println("getDay");
-        int expResult = 5;
-        int result = testMagazine.getDay();
-        assertEquals(expResult, result);
-    }
-
+    
 }

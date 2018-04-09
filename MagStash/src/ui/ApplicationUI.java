@@ -16,18 +16,18 @@ import magstash.LiteratureCache;
  * @version 0.2
  */
 public class ApplicationUI {
+    // Name of the currently displayed literature type (eg. book, magazine)
+    // Set with "setProductType()"
     private String product = "magazine";
 
     public LiteratureCache literatureCache;
 
-    // The menu that will be displayed. Please edit/alter the menu
-    // to fit your application (i.e. replace "prodct" with "litterature"
-    // etc.
+    // The menu that will be displayed. 
     private String[] menuItems
             = {
-                "1. List all " + product + "s",
-                "2. Add new " + product + ".",
-                "3. Add new " + product + " series.",
+                "1. List all " + product + " series",
+                "2. Add new " + product + "",
+                "3. Add new " + product + " series",
                 "4. Find a " + product + " by name",};
 
     /**
@@ -54,11 +54,11 @@ public class ApplicationUI {
                         break;
 
                     case 2:
-                        this.addNewMagazine();
+                        this.addNewProduct();
                         break;
 
                     case 3:
-                        this.addNewMagazineSeries();
+                        this.addNewProductSeries();
                         break;
                         
                     case 4:
@@ -131,9 +131,10 @@ public class ApplicationUI {
     }
 
     /**
-     * Add a new magazine to the magazine stand.
+     * Add a new piece of literature to the literature register.
      */
-    private void addNewMagazine() {
+    private void addNewProduct() {
+        boolean running = true;
 
         Scanner reader = new Scanner(System.in);
         String seriesName = "";
@@ -144,11 +145,28 @@ public class ApplicationUI {
 
         System.out.println("\nYou selected \"Add new " + product + "\".");
 
-        while (seriesName.equals("") || 
-                !literatureCache.hasMagazineSeries(seriesName)) {
+        
             System.out.println("Enter name of series: ");
             seriesName = reader.nextLine();
+            while (seriesName.equals("") || !literatureCache.hasMagazineSeries(seriesName)) {
+                if (running) {
+                    String answer;
+                    System.out.println("Series does not exist in the register. "
+                            + "Do you want to add a new series? (Y/N)");
+                    answer = reader.nextLine();
+                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                        addNewProductSeries();
+                    }
+                    else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                        System.out.println("Returning to menu...");
+                        running = false;
+                    
+                }
         }
+                else {
+                    break;
+                }
+            }
 
         try {
             System.out.println("Enter release number: ");
@@ -175,12 +193,12 @@ public class ApplicationUI {
     }
     
     /**
-     * Adds a new MagazineSeries that can then be populated with Magazines.
+     * Adds a new literature series that can then be populated with literature.
      */
-    private void addNewMagazineSeries() {
+    private void addNewProductSeries() {
         Scanner reader = new Scanner(System.in);
         String seriesName ="";
-        int releasesPerYear;
+        int releasesPerYear = 0;
         String publisher="";
         String genre="";
         
@@ -205,16 +223,19 @@ public class ApplicationUI {
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }
+        
+        literatureCache.addMagazineSeries(seriesName, releasesPerYear, publisher, genre);
     }
 
     /**
-     * Find and display a magazine based on its series' name and release number.
+     * Find and display the literature's fields 
+     * based on its series' name and release number.
      */
     private void findProductByName() {
         try {
             Scanner reader = new Scanner(System.in);
             String seriesName = "";
-            int magNumber;
+            int releaseNr;
 
             System.out.println("\nYou selected \"Find " + product + " by name\".");
 
@@ -223,10 +244,9 @@ public class ApplicationUI {
                 seriesName = reader.nextLine();
             }
             System.out.println("Enter release number: ");
-            magNumber = reader.nextInt();
+            releaseNr = reader.nextInt();
 
-            if (literatureCache.getMagazineSeries(seriesName).
-                    getMagazinesAsString(magNumber) == null) {
+            if (literatureCache.getMagazineSeries(seriesName).listByReleaseNr(releaseNr) == null) {
                 String answer = "";
                 System.out.println("Could not find the magazine."
                         + " Do you want to list all magazines instead? (Y/N)");
@@ -240,12 +260,19 @@ public class ApplicationUI {
                     System.out.println("\nReturning to menu...");
                 }
             } else {
-                System.out.println(literatureCache.getMagazineSeries(seriesName).
-                        getMagazinesAsString(magNumber));
+                System.out.println(literatureCache.getMagazineSeries(seriesName).listByReleaseNr(releaseNr));
             }
         } catch (InputMismatchException ime) {
             System.out.println("\nERROR: Expected an integer. Returning to menu...");
         }
+    }
+    
+    /**
+     * Name what type of product the UI is going to display.
+     * @param product the type of literature the UI will display (e.g. books)
+     */
+    public void setProductType (String product) {
+        this.product = product;
     }
 
 }
