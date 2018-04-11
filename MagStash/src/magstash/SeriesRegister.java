@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 2018/03/19
  */
-public class LiteratureCache {
+public class SeriesRegister {
     private HashMap<String, MagazineSeries> magazineArchive;
     
-    public LiteratureCache(){
+    public SeriesRegister(){
         magazineArchive = new HashMap<>();
         
     }

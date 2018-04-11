@@ -10,10 +10,10 @@ import java.time.LocalDate;
  * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
  * @version 2018/03/19
  */
-public abstract class Literature implements Comparable<Literature> {
+public abstract class Literature  {
+    private String title;
+    private String publisher;
     private LocalDate releaseDate;
-    
-    // public abstract int compareTo(Literature l);
     
     /**
      * Initialises Literature from a LocalDate object. 
@@ -23,7 +23,9 @@ public abstract class Literature implements Comparable<Literature> {
      * Throws a DateTimeException if the date is incorrect.
      * @param releaseDate the release date of the piece.
      */
-    public Literature(LocalDate releaseDate){
+    public Literature(String title, String publisher, LocalDate releaseDate){
+        this.title = title;
+        this.publisher = publisher;
         this.releaseDate = releaseDate;
     }
     
@@ -39,7 +41,9 @@ public abstract class Literature implements Comparable<Literature> {
      * @param month the release month (1-12)
      * @param day the release day (1-31)
      */
-    public Literature(int year, int month, int day){
+    public Literature(String title, String publisher, int year, int month, int day){
+        this.title = title;
+        this.publisher = publisher;
         this.setDate(year, month, day);
     }
 
@@ -81,12 +85,24 @@ public abstract class Literature implements Comparable<Literature> {
         }
     }
     
+    /**
+     * Set the date to the system's current date.
+     * @param newDate 
+     */
     public void setDate(LocalDate newDate){
         try{
             releaseDate = newDate;
         } catch(java.time.DateTimeException e){
             //TODO: Add exception catch here
         }
+    }
+    
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public String getPublisher() {
+        return this.publisher;
     }
     
     abstract String getDetailsAsString();

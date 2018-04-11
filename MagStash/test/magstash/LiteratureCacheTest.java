@@ -22,7 +22,7 @@ public class LiteratureCacheTest {
     }
 
     /**
-     * Test of addMagazineSeries method, of class LiteratureCache.
+     * Test of addMagazineSeries method, of class SeriesRegister.
      */
     @Test
     public void testAddMagazineSeries() {
@@ -31,7 +31,7 @@ public class LiteratureCacheTest {
         int releasesPerYear = 0;
         String publisher = "";
         String genre = "";
-        LiteratureCache instance = new LiteratureCache();
+        SeriesRegister instance = new SeriesRegister();
         boolean expResult = false;
         boolean result = instance.addMagazineSeries(seriesName, releasesPerYear, publisher, genre);
         assertEquals(expResult, result);
@@ -40,13 +40,13 @@ public class LiteratureCacheTest {
     }
 
     /**
-     * Test of getMagazineSeries method, of class LiteratureCache.
+     * Test of getMagazineSeries method, of class SeriesRegister.
      */
     @Test
     public void testGetMagazineSeries() {
         System.out.println("getMagazineSeries");
         String seriesName = "";
-        LiteratureCache instance = new LiteratureCache();
+        SeriesRegister instance = new SeriesRegister();
         MagazineSeries expResult = null;
         MagazineSeries result = instance.getMagazineSeries(seriesName);
         assertEquals(expResult, result);
@@ -55,12 +55,12 @@ public class LiteratureCacheTest {
     }
 
     /**
-     * Test of listAllMagazineSeries method, of class LiteratureCache.
+     * Test of listAllMagazineSeries method, of class SeriesRegister.
      */
     @Test
     public void testListAllMagazineSeries() {
         System.out.println("listAllMagazineSeries");
-        LiteratureCache instance = new LiteratureCache();
+        SeriesRegister instance = new SeriesRegister();
         String expResult = "";
         String result = instance.listAllMagazineSeries();
         assertEquals(expResult, result);
@@ -69,12 +69,12 @@ public class LiteratureCacheTest {
     }
 
     /**
-     * Test of hasMagazineSeries method, of class LiteratureCache.
+     * Test of hasMagazineSeries method, of class SeriesRegister.
      */
     @Test
     public void testHasMagazineSeries() {
         System.out.println("Test for hasMagazineSeries:\n");
-        LiteratureCache instance = new LiteratureCache();
+        SeriesRegister instance = new SeriesRegister();
         instance.addMagazineSeries(testSeries, 12, testPublisher, testGenre);
         
         boolean expResult = true;

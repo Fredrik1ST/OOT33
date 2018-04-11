@@ -49,8 +49,9 @@ public class MagazineSeries extends Series {
      * @param releaseNr release number.
      * @return TRUE if magazine added successfully, FALSE otherwise.
      */
-    public boolean addMagazine(int year, int month, int day, int releaseNr){
-        return magazines.add(new Magazine(year, month, day, releaseNr));
+    public boolean addMagazine
+        (String title, String publisher, int year, int month, int day, int releaseNr) {
+        return magazines.add(new Magazine(title, publisher, year, month, day, releaseNr));
     }
     
     /**

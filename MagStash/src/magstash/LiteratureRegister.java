@@ -15,7 +15,7 @@ public class LiteratureRegister {
     }
     
     public void addLiterature(Literature l) {
-        
+        litRegister.add(l);
     }
     
     public Literature getByTitle(String title) {

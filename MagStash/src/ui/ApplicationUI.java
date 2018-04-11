@@ -5,7 +5,7 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import magstash.LiteratureCache;
+import magstash.SeriesRegister;
 
 /**
  * Makes up the user interface (text based) of the application. Responsible for
@@ -20,7 +20,7 @@ public class ApplicationUI {
     // Set with "setProductType()"
     private String product = "magazine";
 
-    public LiteratureCache literatureCache;
+    public SeriesRegister literatureCache;
 
     // The menu that will be displayed. 
     private String[] menuItems
