@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package magstash;
+package literature;
 
 /**
  *
- * @author Fredrik
+ * @author Hans Christian HF, Fredrik ST, Magnus RK
+ * @version 0.3
+ *
  */
 public class Journal extends SerialLiterature {
 
@@ -25,9 +27,9 @@ public class Journal extends SerialLiterature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n"
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay()
-                + "\n Nummer: " + this.getReleaseNr();
+        return "\n-----------------------\n" + this.getTitle()
+                + "\n#" + this.getReleaseNr() + "\n"
+                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
 }

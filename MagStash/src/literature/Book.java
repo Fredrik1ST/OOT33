@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package magstash;
+package literature;
 
 /**
  *
- * @author Fredrik
+ * @author Hans Christian HF, Fredrik ST, Magnus RK
+ * @version 0.3
  */
 public class Book extends Literature {
 
@@ -33,7 +34,7 @@ public class Book extends Literature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n" + this.getTitle()
+        return "\n-----------------------\n" + this.getTitle() + "\n" +
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 

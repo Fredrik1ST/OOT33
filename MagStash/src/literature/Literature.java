@@ -1,4 +1,4 @@
-package magstash;
+package literature;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * of media.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
- * @version 2018/03/19
+ * @version 0.3
  */
 public abstract class Literature {
 
@@ -109,5 +109,5 @@ public abstract class Literature {
      *
      * @return all details of the piece as string.
      */
-    abstract String getDetailsAsString();
+    abstract public String getDetailsAsString();
 }

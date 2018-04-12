@@ -1,12 +1,12 @@
-package magstash;
+package literature;
 
 /**
  * A superclass for series. Its purpose is to keep general information that all
  * series have, whether book series, magazines, or other, in order to keep code
  * cleaner.
  *
- * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
- * @version 2018/03/19
+ * @author Hans Christian HF, Fredrik ST, Magnus RK
+ * @version 0.3
  */
 public abstract class Series {
 

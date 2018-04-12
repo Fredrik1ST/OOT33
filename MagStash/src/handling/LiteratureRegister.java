@@ -1,12 +1,13 @@
-package magstash;
+package handling;
 
+import literature.Literature;
 import java.util.HashSet;
 
 /**
  * A class that holds all literature in a HashSet. Work in progress.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
- * @version 2018/04/12
+ * @version 0.3
  */
 public class LiteratureRegister {
 
@@ -25,13 +26,13 @@ public class LiteratureRegister {
      * @return TRUE if the literature was added, FALSE otherwise
      */
     public final boolean addLiterature(final Literature l) {
-        boolean isAdded = false;
+        boolean wasAdded = false;
         try {
-            isAdded = litRegister.add(l);
+            wasAdded = litRegister.add(l);
         } catch (java.time.DateTimeException dateTimeException) {
             //TODO: Handle the exception
         }
-        return isAdded;
+        return wasAdded;
     }
 
     /**

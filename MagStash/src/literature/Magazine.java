@@ -1,4 +1,4 @@
-package magstash;
+package literature;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Class that stores all relevant info for a magazine.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
- * @version 2018/03/19
+ * @version 0.3
  */
 public class Magazine extends SerialLiterature {
 
@@ -37,16 +37,16 @@ public class Magazine extends SerialLiterature {
     }
 
     /**
-     * Returns a formatted string of the details of this magazine.
+     * Returns a formatted string of the details of this Magazine.
      * Date format is in YYYY/MM/DD.
      *
      * @return the details as a formatted string.
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n"
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay()
-                + "\n Nummer: " + getReleaseNr();
+        return "\n-----------------------\n" + this.getTitle()
+                + "\n#" + this.getReleaseNr() + "\n"
+                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
 }

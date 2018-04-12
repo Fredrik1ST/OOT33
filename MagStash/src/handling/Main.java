@@ -1,10 +1,10 @@
-package magstash;
+package handling;
 
 import ui.ApplicationUI;
 
 /**
- * @author Hans Christian Haugan Finnson, Fredrik Siem Taklo, Magnus Renaa Kjørseng
- * @version 0.2
+ * @author Hans Christian HF, Fredrik ST, Magnus RK
+ * @version 0.3
  */
 public class Main {
 
@@ -12,11 +12,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        LiteratureRegister litCache = new LiteratureRegister();
-        
         ApplicationUI appUI = new ApplicationUI();
         appUI.setProductType("item");
-        appUI.litReg = litCache;
         appUI.start();
     }
 

@@ -3,8 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package magstash;
+package testing;
 
+import handling.LiteratureRegister;
+import literature.Literature;
+import literature.SerialLiterature;
+import literature.Book;
+import literature.Magazine;
+import literature.Journal;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

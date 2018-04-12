@@ -3,14 +3,15 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import magstash.LiteratureRegister;
+import handling.Librarian;
 
 /**
  * Makes up the user interface (text based) of the application. Responsible for
  * all user interaction, like displaying the menu and receiving input from the
  * user.
  *
- * @author asty
+ * @author asty (original creator)
+ * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.2
  */
 public class ApplicationUI {
@@ -19,7 +20,8 @@ public class ApplicationUI {
     // Set with "setProductType()"
     private String product = "item";
 
-    public LiteratureRegister litReg;
+    // The class that will be communicating between the UI and the register.
+    private Librarian librarian;
 
     /**
      * The start menu (Top layer).
@@ -47,12 +49,14 @@ public class ApplicationUI {
                 "2. Add a magazine",
                 "3. Add a journal",
                 "4. Add a newspaper",
-                "5. Make a series of existing " + product + "s",};
+                "5. Add a series",
+                "6. Add existing literature to a series",};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
      */
     public ApplicationUI() {
+        librarian = new Librarian();
     }
 
     /**
@@ -70,67 +74,11 @@ public class ApplicationUI {
                 int menuSelection = this.showMenu(startMenuItems);
                 switch (menuSelection) {
                     case 1:
-
-                        try {
-                            // Display the "view" menu
-                            menuSelection = this.showMenu(viewMenuItems);
-                            switch (menuSelection) {
-                                case 1:
-                                    // "1. List all literature"
-                                    break;
-
-                                case 2:
-                                    // 2. Find by title & publisher
-                                    break;
-
-                                case 3:
-                                    // 3. Find by publisher
-                                    break;
-                            }
-                        } catch (InputMismatchException ime) {
-                            System.out.println(
-                                    "\nERROR: Please provide a number between 1 and "
-                                    + this.viewMenuItems.length + "..\n");
-                        }
-
+                        showViewMenu();
                         break;
 
                     case 2:
-
-                        try {
-                            // Display the "add" menu
-                            menuSelection = this.showMenu(addMenuItems);
-                            switch (menuSelection) {
-                                case 1:
-                                    // Add a book
-                                    break;
-
-                                case 2:
-                                    // Add a magazine
-                                    break;
-
-                                case 3:
-                                    // Add a journal
-                                    break;
-
-                                case 4:
-                                    // Add a newspaper
-                                    break;
-
-                                case 5:
-                                    //Make a series out of existing literature
-                                    break;
-
-                                case 6:
-                                    // Add to an existing series
-                                    break;
-
-                            }
-                        } catch (InputMismatchException ime) {
-                            System.out.println(
-                                    "\nERROR: Please provide a number between 1 and "
-                                    + this.addMenuItems.length + "..\n");
-                        }
+                        showAddMenu();
                         break;
 
                     case 3:
@@ -181,6 +129,80 @@ public class ApplicationUI {
         return menuSelection;
     }
 
+    /**
+     * Shows the "view" menu, where the user chooses what to look for.
+     */
+    private void showViewMenu() {
+        int menuSelection;
+        try {
+            // Display the "view" menu
+            menuSelection = this.showMenu(viewMenuItems);
+            switch (menuSelection) {
+                case 1:
+                    // "1. List all literature"
+                    break;
+
+                case 2:
+                    // 2. Find by title & publisher
+                    break;
+
+                case 3:
+                    // 3. Find by publisher
+                    break;
+            }
+        } catch (InputMismatchException ime) {
+            System.out.println(
+                    "\nERROR:"
+                    + " Please provide a number between 1 and "
+                    + this.viewMenuItems.length + "..\n");
+        }
+
+    }
+
+    /**
+     * Shows the "add" menu, where users can add literature to the register.
+     */
+    private void showAddMenu() {
+        int menuSelection;
+        try {
+            // Display the "add" menu
+            menuSelection = this.showMenu(addMenuItems);
+            switch (menuSelection) {
+
+                case 1: // Add a book
+                    addNewProduct(1);
+                    break;
+
+                case 2: // Add a magazine
+                    addNewProduct(2);
+                    break;
+
+                case 3:
+                    addNewProduct(3);
+                    break;
+
+                case 4: // Add a newspaper
+                    addNewProduct(4);
+                    break;
+
+                case 5:
+                    // Add a series
+                    break;
+
+                case 6:
+                    // Add existing literature to an existing series
+                    break;
+
+            }
+        } catch (InputMismatchException ime) {
+            System.out.println(
+                    "\nERROR:"
+                    + " Please provide a number between 1 and "
+                    + this.addMenuItems.length + "..\n");
+        }
+
+    }
+
     //
     // ************************************************************************
     // The methods below this line are "helper"-methods, used from the menu
@@ -206,18 +228,62 @@ public class ApplicationUI {
     /**
      * Add a new piece of literature to the literature register.
      */
-    private void addNewProduct() {
-        String productType;
+    private void addNewProduct(int literatureTypeNr) {
+        Scanner reader = new Scanner(System.in);
         boolean running = true;
 
-        Scanner reader = new Scanner(System.in);
-        String title = "";
-        int newReleaseNr;
-        int newYear;
-        int newMonth;
-        int newDay;
+        String title;
+        String publisher;
+        int year;
+        int month;
+        int day;
+        int releaseNr = 0;
+        int isSeriesInt = 0;
+        boolean isSeries = false;
 
-        System.out.println("\nYou selected \"Add new " + product + "\".");
+        try {
+            System.out.println("\nYou selected \"Add new " + product + ".\n\n");
+
+            System.out.println("Enter name of literature: ");
+            title = reader.nextLine();
+            System.out.println("Enter name of publisher: ");
+            publisher = reader.nextLine();
+            System.out.println("Choose a literature type number:");
+            System.out.println("1: Book");
+            System.out.println("2: Magazine");
+            System.out.println("3: Journal");
+            literatureTypeNr = reader.nextInt();
+            if (literatureTypeNr < 1) {
+                literatureTypeNr = 1;
+            } else if (literatureTypeNr > 3) {
+                literatureTypeNr = 3;
+            }
+            while (isSeriesInt != 1 && isSeriesInt != 2) {
+                System.out.println("Is the literature a series?");
+                System.out.println("1: No");
+                System.out.println("2: Yes");
+                isSeriesInt = reader.nextInt();
+            }
+            if (isSeriesInt == 1) {
+                isSeries = false;
+            } else if (isSeriesInt == 2) {
+                isSeries = true;
+            }
+
+            System.out.println("Enter year of release (YYYY): ");
+            year = reader.nextInt();
+            System.out.println("Enter month of release (MM): ");
+            month = reader.nextInt();
+            System.out.println("Enter day of release (DD): ");
+            day = reader.nextInt();
+
+            librarian.addLiterature(title, publisher, year, month, day,
+                    releaseNr, literatureTypeNr, isSeries);
+
+        } catch (InputMismatchException ime) {
+            System.out.println(
+                    "\nERROR: Expected an integer;");
+        }
     }
 
     /**
