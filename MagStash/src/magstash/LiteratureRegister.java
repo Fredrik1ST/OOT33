@@ -42,17 +42,23 @@ public class LiteratureRegister {
     public final String getByTitle(final String title) {
         String foundLiterature = "";
         for (Literature l : litRegister) {
-            if (l.getTitle().equals(title)) {
+            if (l.getTitle().contains(title)) {
                 foundLiterature += l.getDetailsAsString();
             }
         }
         return foundLiterature;
     }
 
+    /**
+     * Gives all literatures with a matching publisher. 
+     * Searches through all the magazines stored in the register.
+     * @param publisher Publisher to search for.
+     * @return Formatted string of all literaturees with matching publisher
+     */
     public String getByPublisher(String publisher) {
         String foundLiterature = "";
         for (Literature l : litRegister) {
-            if (l.getPublisher().equals(publisher)) {
+            if (l.getPublisher().contains(publisher)) {
                 foundLiterature += l.getDetailsAsString();
             }
         }
