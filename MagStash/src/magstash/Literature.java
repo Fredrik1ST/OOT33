@@ -13,8 +13,8 @@ import java.time.LocalDate;
  */
 public abstract class Literature {
 
-    private String title;
-    private String publisher;
+    private final String title;
+    private final String publisher;
     private LocalDate releaseDate;
 
     /**
@@ -24,7 +24,6 @@ public abstract class Literature {
      *
      * @param title title of the piece.
      * @param publisher publisher of the piece.
-     * @param releaseDate the release date of the piece.
      * @param releaseDate the release date of the piece.
      * Throws a DateTimeException if the date is incorrect.
      */
@@ -54,7 +53,7 @@ public abstract class Literature {
             final int year, final int month, final int day) {
         this.title = title;
         this.publisher = publisher;
-        this.setDate(year, month, day);
+        this.releaseDate = LocalDate.of(year, month, day);
     }
 
     /**
@@ -85,16 +84,6 @@ public abstract class Literature {
      */
     public final int getDay() {
         return releaseDate.getDayOfMonth();
-    }
-    
-     /** 
-     * If the date is out of range for the month (for example Feb. 31).
-     * @param year new release year
-     * @param month new release month (1-12)
-     * @param day new release date (1-31)
-     */
-    public final void setDate(final int year, final int month, final int day) {
-        releaseDate = LocalDate.of(year, month, day);
     }
 
     /**

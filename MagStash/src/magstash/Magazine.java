@@ -44,7 +44,7 @@ public class Magazine extends SerialLiterature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "-----------------------\n"
+        return "\n-----------------------\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay()
                 + "\n Nummer: " + getReleaseNr();
     }

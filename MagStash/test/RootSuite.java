@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
  * @author Fredrik
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ui.UiSuite.class, magstash.MagstashSuite.class})
+@Suite.SuiteClasses({ui.UiSuite.class})
 public class RootSuite {
     
 }

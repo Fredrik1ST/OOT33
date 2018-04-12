@@ -38,7 +38,7 @@ public class LiteratureRegisterTest {
         String title = "";
         LiteratureRegister instance = new LiteratureRegister();
         Literature expResult = null;
-        Literature result = instance.getByTitle(title);
+        String result = instance.getByTitle(title);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -53,7 +53,7 @@ public class LiteratureRegisterTest {
         String publisher = "";
         LiteratureRegister instance = new LiteratureRegister();
         Literature expResult = null;
-        Literature result = instance.getByPublisher(publisher);
+        String result = instance.getByPublisher(publisher);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
