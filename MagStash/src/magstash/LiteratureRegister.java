@@ -24,7 +24,7 @@ public class LiteratureRegister {
      * @param l the new literature
      * @return TRUE if the literature was added, FALSE otherwise
      */
-    public boolean addLiterature(Literature l) {
+    public final boolean addLiterature(final Literature l) {
         boolean isAdded = false;
         try {
             isAdded = litRegister.add(l);
@@ -32,6 +32,18 @@ public class LiteratureRegister {
             //TODO: Handle the exception
         }
         return isAdded;
+    }
+
+    /**
+     * Gives a formatted string of all literature in the register.
+     * @return formatted string with all literature
+     */
+    public final String getAllLiterature() {
+        String foundLiterature = "";
+        for (Literature l : litRegister) {
+            foundLiterature += l.getDetailsAsString();
+        }
+        return foundLiterature;
     }
     /**
      * Gets all literatures held that match title.
@@ -50,12 +62,12 @@ public class LiteratureRegister {
     }
 
     /**
-     * Gives all literatures with a matching publisher. 
+     * Gives all literatures with a matching publisher.
      * Searches through all the magazines stored in the register.
      * @param publisher Publisher to search for.
      * @return Formatted string of all literaturees with matching publisher
      */
-    public String getByPublisher(String publisher) {
+    public final String getByPublisher(final String publisher) {
         String foundLiterature = "";
         for (Literature l : litRegister) {
             if (l.getPublisher().contains(publisher)) {
