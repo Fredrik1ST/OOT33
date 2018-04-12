@@ -9,13 +9,24 @@ import java.util.HashSet;
  */
 public class LiteratureRegister {
     private HashSet<Literature> litRegister;
-    
+
+    /**
+     * Creates a new literature register.
+     */
     public LiteratureRegister() {
         litRegister = new HashSet<>();
     }
-    
+
+    /**
+     * Adds a new piece of literature to the set.
+     * @param l the new literature
+     */
     public void addLiterature(Literature l) {
-        litRegister.add(l);
+        try {
+            litRegister.add(l);
+        } catch (java.time.DateTimeException dateTimeException) {
+            //TODO: Handle the exception
+        }
     }
     
     public Literature getByTitle(String title) {
