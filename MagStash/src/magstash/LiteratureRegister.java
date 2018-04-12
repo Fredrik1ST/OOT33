@@ -21,20 +21,40 @@ public class LiteratureRegister {
     /**
      * Adds a new piece of literature to the set.
      * @param l the new literature
+     * @return TRUE if the literature was added, FALSE otherwise
      */
-    public void addLiterature(Literature l) {
+    public boolean addLiterature(Literature l) {
+        boolean isAdded = false;
         try {
-            litRegister.add(l);
+            isAdded = litRegister.add(l);
         } catch (java.time.DateTimeException dateTimeException) {
             //TODO: Handle the exception
         }
+        return isAdded;
+    }
+    /**
+     * Gets all literatures held that match title.
+     * The literatures are output as a formatted string.
+     * @param title title to search for
+     * @return formatted string of all literatures matching the search
+     */
+    public final String getByTitle(final String title) {
+        String foundLiterature = "";
+        for (Literature l : litRegister) {
+            if (l.getTitle().equals(title)) {
+                foundLiterature += l.getDetailsAsString();
+            }
+        }
+        return foundLiterature;
     }
 
-    public Literature getByTitle(String title) {
-        return null;
-    }
-
-    public Literature getByPublisher(String publisher) {
-        return null;
+    public String getByPublisher(String publisher) {
+        String foundLiterature = "";
+        for (Literature l : litRegister) {
+            if (l.getPublisher().equals(publisher)) {
+                foundLiterature += l.getDetailsAsString();
+            }
+        }
+        return foundLiterature;
     }
 }
