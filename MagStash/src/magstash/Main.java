@@ -11,8 +11,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         LiteratureRegister litCache = new LiteratureRegister();
+        
         ApplicationUI appUI = new ApplicationUI();
         appUI.setProductType("magazine");
         appUI.litReg = litCache;

@@ -22,11 +22,14 @@ public abstract class Literature {
      * Automatically handles incorrect dates,
      * such as 2005/16/-2 through LocalDate.
      *
-     * Throws a DateTimeException if the date is incorrect.
-     *
+     * @param title title of the piece.
+     * @param publisher publisher of the piece.
      * @param releaseDate the release date of the piece.
+     * @param releaseDate the release date of the piece.
+     * Throws a DateTimeException if the date is incorrect.
      */
-    public Literature(String title, String publisher, LocalDate releaseDate) {
+    public Literature(final String title, final String publisher,
+            final LocalDate releaseDate) {
         this.title = title;
         this.publisher = publisher;
         this.releaseDate = releaseDate;
@@ -41,82 +44,81 @@ public abstract class Literature {
      * For example, if the date entered is 1999/02/31, DateTimeException will
      * be thrown, as February does not have 31 days.
      *
+     * @param title title of the piece.
+     * @param publisher publisher of the piece.
      * @param year the release year
      * @param month the release month (1-12)
      * @param day the release day (1-31)
      */
-    public Literature(String title, String publisher, int year, int month, int day) {
+    public Literature(final String title, final String publisher,
+            final int year, final int month, final int day) {
         this.title = title;
         this.publisher = publisher;
         this.setDate(year, month, day);
     }
 
     /**
-     * Returns the title 
+     * Returns the title
      */
-    
     /**
      * Returns the year of release.
      *
      * @return the year of release
      */
-    public int getYear() {
+    public final int getYear() {
         return releaseDate.getYear();
     }
 
     /**
-     * Returns the month of release
+     * Returns the month of release.
      *
      * @return the month of release
      */
-    public int getMonth() {
+    public final int getMonth() {
         return releaseDate.getMonthValue();
     }
 
     /**
-     * Returns the day of release
+     * Returns the day of release.
      *
      * @return the day of release
      */
-    public int getDay() {
+    public final int getDay() {
         return releaseDate.getDayOfMonth();
     }
-
-    /**
-     * Sets the date to a new date.
-     *
-     * @param year
-     * @param month
-     * @param day
+    
+     /** 
+     * If the date is out of range for the month (for example Feb. 31).
+     * @param year new release year
+     * @param month new release month (1-12)
+     * @param day new release date (1-31)
      */
-    public void setDate(int year, int month, int day) {
-        try {
-            releaseDate = LocalDate.of(year, month, day);
-        } catch (java.time.DateTimeException e) {
-            //TODO: add exception clause here
-        }
+    public final void setDate(final int year, final int month, final int day) {
+        releaseDate = LocalDate.of(year, month, day);
     }
 
     /**
-     * Set the date to the system's current date.
+     * Gets the title.
      *
-     * @param newDate
+     * @return the title
      */
-    public void setDate(LocalDate newDate) {
-        try {
-            releaseDate = newDate;
-        } catch (java.time.DateTimeException e) {
-            //TODO: Add exception catch here
-        }
-    }
-
-    public String getTitle() {
+    public final String getTitle() {
         return this.title;
     }
 
-    public String getPublisher() {
+    /**
+     * Gets the publisher.
+     *
+     * @return the publisher
+     */
+    public final String getPublisher() {
         return this.publisher;
     }
 
+    /**
+     * Abstract class to give out the details of the piece.
+     *
+     * @return all details of the piece as string.
+     */
     abstract String getDetailsAsString();
 }
