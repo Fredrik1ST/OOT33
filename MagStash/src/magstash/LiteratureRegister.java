@@ -6,6 +6,7 @@ import java.util.HashSet;
  * A class that holds all literature in a HashSet. Work in progress.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
+ * @version 2018/04/12
  */
 public class LiteratureRegister {
 
