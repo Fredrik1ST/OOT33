@@ -22,12 +22,7 @@ public class Magazine extends SerialLiterature {
      */
     public Magazine(String title, String publisher,
             int year, int month, int day, int releaseNr) {
-        super(title, publisher, releaseNr, year, month, day);
-    }
-
-    public Magazine(String title, String publisher,
-            int year, int month, int day) {
-        super(title, publisher, year, month, day, 1);
+        super(title, publisher, year, month, day, releaseNr);
     }
 
     /**

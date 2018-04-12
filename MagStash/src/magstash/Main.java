@@ -15,7 +15,7 @@ public class Main {
         LiteratureRegister litCache = new LiteratureRegister();
         
         ApplicationUI appUI = new ApplicationUI();
-        appUI.setProductType("magazine");
+        appUI.setProductType("item");
         appUI.litReg = litCache;
         appUI.start();
     }

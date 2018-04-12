@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package ui;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -12,7 +13,7 @@ import org.junit.runners.Suite;
  * @author Fredrik
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ui.UiSuite.class})
-public class RootSuite {
+@Suite.SuiteClasses({ui.ApplicationUITest.class})
+public class UiSuite {
     
 }
