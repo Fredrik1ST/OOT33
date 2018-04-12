@@ -37,15 +37,17 @@ public class MagazineSeriesTest {
      * Test of addMagazine method, of class MagazineSeries.
      */
     @Test
-    public void testAddMagazine_4args() {
+    public void testAddMagazine_6args() {
         System.out.println("addMagazine");
+        String title = "";
+        String publisher = "";
         int year = 0;
         int month = 0;
         int day = 0;
         int releaseNr = 0;
         MagazineSeries instance = null;
         boolean expResult = false;
-        boolean result = instance.addMagazine(year, month, day, releaseNr);
+        boolean result = instance.addMagazine(title, publisher, year, month, day, releaseNr);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -99,8 +101,22 @@ public class MagazineSeriesTest {
      * Test of getProductsAsString method, of class MagazineSeries.
      */
     @Test
-    public void testGetMagazinesAsString() {
-        System.out.println("getMagazinesAsString");
+    public void testGetProductsAsString() {
+        System.out.println("getProductsAsString");
+        MagazineSeries instance = null;
+        String expResult = "";
+        String result = instance.getProductsAsString();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of listByReleaseNr method, of class MagazineSeries.
+     */
+    @Test
+    public void testListByReleaseNr() {
+        System.out.println("listByReleaseNr");
         int releaseNr = 0;
         MagazineSeries instance = null;
         String expResult = "";

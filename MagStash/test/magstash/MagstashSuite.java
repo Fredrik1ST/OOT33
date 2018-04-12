@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
  * @author Fredrik
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({magstash.SeriesTest.class, magstash.MainTest.class, magstash.MagazineTest.class, magstash.MagazineSeriesTest.class, magstash.LiteratureTest.class, magstash.LiteratureCacheTest.class})
+@Suite.SuiteClasses({magstash.SeriesTest.class, magstash.LiteratureRegisterTest.class, magstash.MainTest.class, magstash.MagazineTest.class, magstash.MagazineSeriesTest.class, magstash.LiteratureTest.class, magstash.SerialLiteratureTest.class, magstash.JournalTest.class, magstash.BookTest.class})
 public class MagstashSuite {
     
 }

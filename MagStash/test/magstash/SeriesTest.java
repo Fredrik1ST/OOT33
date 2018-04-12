@@ -97,5 +97,16 @@ public class SeriesTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    public class SeriesImpl extends Series {
+
+        public SeriesImpl() {
+            super("", "", "");
+        }
+
+        public String getProductsAsString() {
+            return "";
+        }
+    }
     
 }

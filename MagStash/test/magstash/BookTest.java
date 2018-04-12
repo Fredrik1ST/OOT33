@@ -12,18 +12,18 @@ import static org.junit.Assert.*;
  *
  * @author Fredrik
  */
-public class MagazineTest {
+public class BookTest {
     
-    public MagazineTest() {
+    public BookTest() {
     }
 
     /**
-     * Test of getDetailsAsString method, of class Magazine.
+     * Test of getDetailsAsString method, of class Book.
      */
     @Test
     public void testGetDetailsAsString() {
         System.out.println("getDetailsAsString");
-        Magazine instance = null;
+        Book instance = null;
         String expResult = "";
         String result = instance.getDetailsAsString();
         assertEquals(expResult, result);

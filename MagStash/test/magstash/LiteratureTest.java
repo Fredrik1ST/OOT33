@@ -5,7 +5,6 @@
  */
 package magstash;
 
-import java.time.LocalDate;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -64,7 +63,7 @@ public class LiteratureTest {
      * Test of setDate method, of class Literature.
      */
     @Test
-    public void testSetDate_3args() {
+    public void testSetDate() {
         System.out.println("setDate");
         int year = 0;
         int month = 0;
@@ -76,16 +75,42 @@ public class LiteratureTest {
     }
 
     /**
-     * Test of setDate method, of class Literature.
+     * Test of getTitle method, of class Literature.
      */
     @Test
-    public void testSetDate_LocalDate() {
-        System.out.println("setDate");
-        LocalDate newDate = null;
+    public void testGetTitle() {
+        System.out.println("getTitle");
         Literature instance = null;
-        instance.setDate(newDate);
+        String expResult = "";
+        String result = instance.getTitle();
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPublisher method, of class Literature.
+     */
+    @Test
+    public void testGetPublisher() {
+        System.out.println("getPublisher");
+        Literature instance = null;
+        String expResult = "";
+        String result = instance.getPublisher();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    public class LiteratureImpl extends Literature {
+
+        public LiteratureImpl() {
+            super("", "", null);
+        }
+
+        public String getDetailsAsString() {
+            return "";
+        }
     }
     
 }
