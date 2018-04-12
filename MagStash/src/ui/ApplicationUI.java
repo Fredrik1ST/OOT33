@@ -1,11 +1,9 @@
 //TODO Make it so that no Null ever sets foot in here!
-//We're getting nullpointer exceptions from 
-
 package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import magstash.SeriesRegister;
+import magstash.LiteratureRegister;
 
 /**
  * Makes up the user interface (text based) of the application. Responsible for
@@ -16,19 +14,40 @@ import magstash.SeriesRegister;
  * @version 0.2
  */
 public class ApplicationUI {
-    // Name of the currently displayed literature type (eg. book, magazine)
+
+    // Name of the product in the menu (eg. product, book, magazine)
     // Set with "setProductType()"
-    private String product = "magazine";
+    private String product = "item";
 
-    public SeriesRegister literatureCache;
+    public LiteratureRegister litReg;
 
-    // The menu that will be displayed. 
-    private String[] menuItems
+    /**
+     * The start menu (Top layer).
+     */
+    private String[] startMenuItems
             = {
-                "1. List all " + product + " series",
-                "2. Add new " + product + "",
-                "3. Add new " + product + " series",
-                "4. Find a " + product + " by name",};
+                "1. View & search for " + product + "s...",
+                "2. Add " + product + "s...",};
+
+    /**
+     * The "view" menu. Shows what the user can choose to view.
+     */
+    private String[] viewMenuItems
+            = {
+                "1. List all literature",
+                "2. Find literature by title & publisher",
+                "3. Find literature by publisher",};
+
+    /**
+     * The "add" menu. Shows what the user can add to the regiter.
+     */
+    private String[] addMenuItems
+            = {
+                "1. Add a book",
+                "2. Add a magazine",
+                "3. Add a journal",
+                "4. Add a newspaper",
+                "5. Make a series of existing " + product + "s",};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
@@ -47,25 +66,74 @@ public class ApplicationUI {
 
         while (!quit) {
             try {
-                int menuSelection = this.showMenu();
+                // Display the main menu
+                int menuSelection = this.showMenu(startMenuItems);
                 switch (menuSelection) {
                     case 1:
-                        this.listAllProducts();
+
+                        try {
+                            // Display the "view" menu
+                            menuSelection = this.showMenu(viewMenuItems);
+                            switch (menuSelection) {
+                                case 1:
+                                    // "1. List all literature"
+                                    break;
+
+                                case 2:
+                                    // 2. Find by title & publisher
+                                    break;
+
+                                case 3:
+                                    // 3. Find by publisher
+                                    break;
+                            }
+                        } catch (InputMismatchException ime) {
+                            System.out.println(
+                                    "\nERROR: Please provide a number between 1 and "
+                                    + this.viewMenuItems.length + "..\n");
+                        }
+
                         break;
 
                     case 2:
-                        this.addNewProduct();
+
+                        try {
+                            // Display the "add" menu
+                            menuSelection = this.showMenu(addMenuItems);
+                            switch (menuSelection) {
+                                case 1:
+                                    // Add a book
+                                    break;
+
+                                case 2:
+                                    // Add a magazine
+                                    break;
+
+                                case 3:
+                                    // Add a journal
+                                    break;
+
+                                case 4:
+                                    // Add a newspaper
+                                    break;
+
+                                case 5:
+                                    //Make a series out of existing literature
+                                    break;
+
+                                case 6:
+                                    // Add to an existing series
+                                    break;
+
+                            }
+                        } catch (InputMismatchException ime) {
+                            System.out.println(
+                                    "\nERROR: Please provide a number between 1 and "
+                                    + this.addMenuItems.length + "..\n");
+                        }
                         break;
 
                     case 3:
-                        this.addNewProductSeries();
-                        break;
-                        
-                    case 4:
-                        this.findProductByName();
-                        break;
-
-                    case 5:
                         System.out.println(
                                 "\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
@@ -75,8 +143,8 @@ public class ApplicationUI {
                 }
             } catch (InputMismatchException ime) {
                 System.out.println(
-                        "\nERROR: Please provide a number between 1 and " 
-                                + this.menuItems.length + "..\n");
+                        "\nERROR: Please provide a number between 1 and "
+                        + this.startMenuItems.length + "..\n");
             }
         }
 
@@ -88,18 +156,19 @@ public class ApplicationUI {
      * If the user inputs anything else, an InputMismatchException is thrown.
      * The method returns the valid input from the user.
      *
+     * @param currentMenu a String array of the user's choices in the menu
      * @return the menu number (between 1 and max menu item number) provided by
      * the user.
      * @throws InputMismatchException if user enters an invalid number/menu
      * choice
      */
-    private int showMenu() throws InputMismatchException {
+    private int showMenu(String[] currentMenu) throws InputMismatchException {
         System.out.println("\n**** Application v0.2 ****\n");
         // Display the menu
-        for (String menuItem : menuItems) {
+        for (String menuItem : currentMenu) {
             System.out.println(menuItem);
         }
-        int maxMenuItemNumber = menuItems.length + 1;
+        int maxMenuItemNumber = currentMenu.length + 1;
         // Add the "Exit"-choice to the menu
         System.out.println(maxMenuItemNumber + ". Exit\n");
         System.out.println("Please choose menu item (1-" + maxMenuItemNumber + "): ");
@@ -112,8 +181,12 @@ public class ApplicationUI {
         return menuSelection;
     }
 
-    // ------ The methods below this line are "helper"-methods, used from the menu ----
-    // ------ All these methods are made private, since they are only used by the menu ---
+    //
+    // ************************************************************************
+    // The methods below this line are "helper"-methods, used from the menu
+    // All these methods are made private, since they are only used by the menu
+    // ************************************************************************
+    //
     /**
      * Initialises the application. Typically you would create the
      * LiteratureRegistrer-instance here
@@ -127,151 +200,58 @@ public class ApplicationUI {
      */
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all " + product + "s\".");
-        System.out.println(literatureCache.listAllMagazineSeries() + "\n");
+        // TODO: DO SOMETHING!
     }
 
     /**
      * Add a new piece of literature to the literature register.
      */
     private void addNewProduct() {
+        String productType;
         boolean running = true;
 
         Scanner reader = new Scanner(System.in);
-        String seriesName = "";
+        String title = "";
         int newReleaseNr;
         int newYear;
         int newMonth;
         int newDay;
 
         System.out.println("\nYou selected \"Add new " + product + "\".");
-
-        
-            System.out.println("Enter name of series: ");
-            seriesName = reader.nextLine();
-            while (seriesName.equals("") || !literatureCache.hasMagazineSeries(seriesName)) {
-                if (running) {
-                    String answer;
-                    System.out.println("Series does not exist in the register. "
-                            + "Do you want to add a new series? (Y/N)");
-                    answer = reader.nextLine();
-                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                        addNewProductSeries();
-                    }
-                    else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                        System.out.println("Returning to menu...");
-                        running = false;
-                    
-                }
-        }
-                else {
-                    break;
-                }
-            }
-
-        try {
-            System.out.println("Enter release number: ");
-            newReleaseNr = reader.nextInt();
-            System.out.println("Enter year of release (YYYY): ");
-            newYear = reader.nextInt();
-            System.out.println("Enter month of release (MM): ");
-            newMonth = reader.nextInt();
-            System.out.println("Enter day of release (DD): ");
-            newDay = reader.nextInt();
-
-            // Checks if the magazine is already in the stand. Adds if not.
-            
-            if (literatureCache.getMagazineSeries(seriesName).
-                    addMagazine(newYear, newMonth, newDay, newReleaseNr)) {
-                System.out.println("\nThe magazine has been added.");
-            } else {
-                System.out.println("\nThe magazine already exists");
-            }
-        } catch (InputMismatchException ime) {
-            System.out.println("\nERROR: Expected an integer. Returning to menu...");
-        }
-
     }
-    
+
     /**
      * Adds a new literature series that can then be populated with literature.
      */
     private void addNewProductSeries() {
         Scanner reader = new Scanner(System.in);
-        String seriesName ="";
+        String seriesName = "";
         int releasesPerYear = 0;
-        String publisher="";
-        String genre="";
-        
+        String publisher = "";
+        String genre = "";
+
         System.out.println("\nYou selected \"Add new " + product + " series\".");
-        
-        while (seriesName.equals("")){
+
+        while (seriesName.equals("")) {
             System.out.println("Enter name of series: ");
             seriesName = reader.nextLine();
         }
-        while (publisher.equals("")){
+        while (publisher.equals("")) {
             System.out.println("Enter publisher: ");
             publisher = reader.nextLine();
         }
-        while (genre.equals("")){
+        while (genre.equals("")) {
             System.out.println("Enter genre: ");
             genre = reader.nextLine();
         }
-        
-        try {
-            System.out.println("Enter number of releases per year:" );
-            releasesPerYear = reader.nextInt();
-        } catch (InputMismatchException ime) {
-            System.out.println("\nERROR: Expected an integer. Returning to menu...");
-        }
-        
-        literatureCache.addMagazineSeries(seriesName, releasesPerYear, publisher, genre);
     }
 
-    /**
-     * Find and display the literature's fields 
-     * based on its series' name and release number.
-     */
-    private void findProductByName() {
-        try {
-            Scanner reader = new Scanner(System.in);
-            String seriesName = "";
-            int releaseNr;
-
-            System.out.println("\nYou selected \"Find " + product + " by name\".");
-
-            while (seriesName.equals("")) {
-                System.out.println("Enter name of series: ");
-                seriesName = reader.nextLine();
-            }
-            System.out.println("Enter release number: ");
-            releaseNr = reader.nextInt();
-
-            if (literatureCache.getMagazineSeries(seriesName).listByReleaseNr(releaseNr) == null) {
-                String answer = "";
-                System.out.println("Could not find the magazine."
-                        + " Do you want to list all magazines instead? (Y/N)");
-                while (answer.equals("")) {
-                    answer = reader.nextLine();
-                }
-                if (answer.toLowerCase().startsWith("y")) {
-                    System.out.println(literatureCache.
-                            getMagazineSeries(seriesName).listAllMagazines());
-                } else {
-                    System.out.println("\nReturning to menu...");
-                }
-            } else {
-                System.out.println(literatureCache.getMagazineSeries(seriesName).listByReleaseNr(releaseNr));
-            }
-        } catch (InputMismatchException ime) {
-            System.out.println("\nERROR: Expected an integer. Returning to menu...");
-        }
-    }
-    
     /**
      * Name what type of product the UI is going to display.
+     *
      * @param product the type of literature the UI will display (e.g. books)
      */
-    public void setProductType (String product) {
+    public void setProductType(String product) {
         this.product = product;
     }
 

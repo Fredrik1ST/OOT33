@@ -12,10 +12,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SeriesRegister litCache = new SeriesRegister();
+        LiteratureRegister litCache = new LiteratureRegister();
         ApplicationUI appUI = new ApplicationUI();
         appUI.setProductType("magazine");
-        appUI.literatureCache = litCache;
+        appUI.litReg = litCache;
         appUI.start();
     }
 
