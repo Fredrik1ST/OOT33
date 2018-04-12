@@ -20,7 +20,8 @@ public class Book extends Literature {
      * @param month the book's month of release
      * @param day the book's day of release
      */
-    public Book(String title, String publisher, int year, int month, int day) {
+    public Book(final String title, final String publisher,
+            final int year, final int month, final int day) {
         super(title, publisher, year, month, day);
     }
 
@@ -32,9 +33,8 @@ public class Book extends Literature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n"
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay()
-                + "\n Nummer: ";
+        return "\n-----------------------\n" + this.getTitle()
+                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
 }
