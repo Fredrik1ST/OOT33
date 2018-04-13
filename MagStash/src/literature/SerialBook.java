@@ -7,10 +7,9 @@ package literature;
 
 /**
  *
- * @author Hans Christian HF, Fredrik ST, Magnus RK
- * @version 0.3
+ * @author Fredrik
  */
-public class Book extends StandaloneLiterature {
+public class SerialBook extends SerialLiterature {
 
     private String author = "";
 
@@ -23,18 +22,20 @@ public class Book extends StandaloneLiterature {
      * @param month the book's month of release
      * @param day the book's day of release
      * @param author the book's author
+     * @param releaseNr the book's release number
      */
-    public Book(final String title, final String publisher, final String genre,
-            final int year, final int month, final int day, final String author) {
-        super(title, publisher, genre, year, month, day);
+    public SerialBook(String title, String publisher, String genre,
+            final int year, final int month, int day,
+            final int releaseNr, final String author) {
+        super(title, publisher, genre, year, month, day, releaseNr);
         this.author = author;
 
     }
 
-    
     public String getAuthor() {
         return this.author;
     }
+
     /**
      * Returns a formatted string of the details of this book.
      * Date format is in YYYY/MM/DD.
@@ -44,7 +45,8 @@ public class Book extends StandaloneLiterature {
     @Override
     public final String getDetailsAsString() {
 
-        return "\n-----------------------\n" + this.getTitle() 
+        return "\n-----------------------\n'" + this.getTitle()
+                + "#" + this.getReleaseNr()
                 + "\nBook published by " + this.getPublisher() + "\n"
                 + "Written by " + this.getAuthor() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();

@@ -71,4 +71,34 @@ public class Librarian {
             return wasAdded;
         }
     }
+
+    /**
+     * Convert a standalone piece of literature (like a book) to serial format.
+     *
+     * @param l the literature to convert
+     * @param releaseNr the converted literature's new release number
+     * @return the new Serial Literature, or NULL upon error
+     */
+    public SerialLiterature
+            convertToSerial(StandaloneLiterature l, int releaseNr) {
+
+        SerialLiterature newSerial;
+        String title = l.getTitle();
+        String publisher = l.getPublisher();
+        String genre = l.getGenre();
+        int year = l.getYear();
+        int month = l.getMonth();
+        int day = l.getDay();
+        String author;
+
+        if (l instanceof Book) {
+            author = ((Book) l).getAuthor();
+            newSerial = new SerialBook(title, publisher, genre,
+                    year, month, day, releaseNr, author);
+        }
+        else {
+            newSerial = null;
+        }
+        return newSerial;
+    }
 }
