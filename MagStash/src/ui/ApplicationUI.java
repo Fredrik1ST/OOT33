@@ -1,6 +1,7 @@
 //TODO Make it so that no Null ever sets foot in here!
 package ui;
 
+import java.time.DateTimeException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import handling.Librarian;
@@ -149,6 +150,9 @@ public class ApplicationUI {
                 case 3:
                     // 3. Find by publisher
                     break;
+                    
+                default:
+                    break;
             }
         } catch (InputMismatchException ime) {
             System.out.println(
@@ -192,6 +196,9 @@ public class ApplicationUI {
                 case 6:
                     // Add existing literature to an existing series
                     break;
+                    
+                default:
+                    break;
 
             }
         } catch (InputMismatchException ime) {
@@ -234,9 +241,9 @@ public class ApplicationUI {
 
         String title;
         String publisher;
-        int year;
-        int month;
-        int day;
+        int year = 0;
+        int month = 0;
+        int day = 0;
         int releaseNr = 0;
         int isSeriesInt = 0;
         boolean isSeries = false;
@@ -270,6 +277,9 @@ public class ApplicationUI {
                 isSeries = true;
             }
 
+            boolean dateIsValid = false;
+            while (!dateIsValid) {
+         try {
             System.out.println("Enter year of release (YYYY): ");
             year = reader.nextInt();
             System.out.println("Enter month of release (MM): ");
@@ -279,6 +289,14 @@ public class ApplicationUI {
 
             librarian.addLiterature(title, publisher, year, month, day,
                     releaseNr, literatureTypeNr, isSeries);
+            dateIsValid = true;
+         } catch (DateTimeException dte) {
+             dateIsValid = false;
+             System.out.println( "\nERROR: " 
+                     + year + "/" + month + "/" + day 
+                     + " is not a valid date\n");
+         }
+            }
 
         } catch (InputMismatchException ime) {
             System.out.println(

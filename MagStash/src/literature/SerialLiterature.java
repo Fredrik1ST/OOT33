@@ -14,6 +14,7 @@ public abstract class SerialLiterature
         extends Literature
         implements Comparable<SerialLiterature> {
 
+    private LocalDate releaseDate;
     private int releaseNr;
 
     /**
@@ -39,6 +40,7 @@ public abstract class SerialLiterature
      */
     public SerialLiterature(String title, String publisher, int year, int month, int day, int releaseNr) {
         super(title, publisher, year, month, day);
+        this.releaseDate = LocalDate.of(year, month, day);
         this.releaseNr = releaseNr;
     }
 
@@ -51,7 +53,8 @@ public abstract class SerialLiterature
      * @param releaseNr the literature's release number (in a series)
      */
     public SerialLiterature(String title, String publisher, LocalDate releaseDate, int releaseNr) {
-        super(title, publisher, releaseDate);
+        super(title, publisher);
+        this.releaseDate = (releaseDate);
         this.releaseNr = releaseNr;
     }
 
@@ -71,6 +74,36 @@ public abstract class SerialLiterature
      */
     protected void setReleaseNr(int releaseNr) {
         this.releaseNr = releaseNr;
+    }
+    
+     /**
+     * Returns the title
+     */
+    /**
+     * Returns the year of release.
+     *
+     * @return the year of release
+     */
+    public final int getYear() {
+        return releaseDate.getYear();
+    }
+
+    /**
+     * Returns the month of release.
+     *
+     * @return the month of release
+     */
+    public final int getMonth() {
+        return releaseDate.getMonthValue();
+    }
+
+    /**
+     * Returns the day of release.
+     *
+     * @return the day of release
+     */
+    public final int getDay() {
+        return releaseDate.getDayOfMonth();
     }
 
 }

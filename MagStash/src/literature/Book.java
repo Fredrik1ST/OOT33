@@ -10,7 +10,7 @@ package literature;
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public class Book extends Literature {
+public class Book extends StandaloneLiterature {
 
     /**
      * Constructor for Book.

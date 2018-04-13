@@ -1,8 +1,6 @@
 package handling;
 
-import literature.Newspaper;
-import literature.Book;
-import literature.Magazine;
+import literature.*;
 import handling.LiteratureRegister;
 
 /**

@@ -1,7 +1,5 @@
 package literature;
 
-import java.time.LocalDate;
-
 /**
  * A superclass for all literature. Has all the information that is common to
  * all literatures. In reality, Literature only holds date-treating methods, but
@@ -13,9 +11,8 @@ import java.time.LocalDate;
  */
 public abstract class Literature {
 
-    private final String title;
+    private final String title; 
     private final String publisher;
-    private LocalDate releaseDate;
 
     /**
      * Initialises Literature from a LocalDate object.
@@ -27,11 +24,9 @@ public abstract class Literature {
      * @param releaseDate the release date of the piece.
      * Throws a DateTimeException if the date is incorrect.
      */
-    public Literature(final String title, final String publisher,
-            final LocalDate releaseDate) {
+    public Literature(final String title, final String publisher) {
         this.title = title;
         this.publisher = publisher;
-        this.releaseDate = releaseDate;
     }
 
     /**
@@ -53,37 +48,6 @@ public abstract class Literature {
             final int year, final int month, final int day) {
         this.title = title;
         this.publisher = publisher;
-        this.releaseDate = LocalDate.of(year, month, day);
-    }
-
-    /**
-     * Returns the title
-     */
-    /**
-     * Returns the year of release.
-     *
-     * @return the year of release
-     */
-    public final int getYear() {
-        return releaseDate.getYear();
-    }
-
-    /**
-     * Returns the month of release.
-     *
-     * @return the month of release
-     */
-    public final int getMonth() {
-        return releaseDate.getMonthValue();
-    }
-
-    /**
-     * Returns the day of release.
-     *
-     * @return the day of release
-     */
-    public final int getDay() {
-        return releaseDate.getDayOfMonth();
     }
 
     /**
