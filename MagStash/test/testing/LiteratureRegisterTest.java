@@ -29,7 +29,8 @@ public class LiteratureRegisterTest {
     @Test
     public void testAddLiterature() {
         System.out.println("addLiterature");
-        Literature l = new Book("title", "publisher", 1999, 11, 1);
+        Literature l = new Book("title", "publisher", "genre", 
+                1999, 11, 1, "bob");
         LiteratureRegister instance = new LiteratureRegister();
         instance.addLiterature(l);
         fail("The test case is a prototype.");
@@ -46,7 +47,7 @@ public class LiteratureRegisterTest {
         Literature expResult = null;
         String result = instance.getByTitle(title);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        // TODO review the generated test code and remove the default call.
         fail("The test case is a prototype.");
     }
 
@@ -70,8 +71,8 @@ public class LiteratureRegisterTest {
         System.out.println("Compare two types of literature");
         LiteratureRegister testReg = new LiteratureRegister();
 
-        SerialLiterature m = new Magazine("Item", "Pub", 1999, 11, 1, 1);
-        SerialLiterature j = new Journal("Item", "Pub", 1999, 11, 1, 1);
+        SerialLiterature m = new Magazine("Item", "Pub", ":)", 1999, 11, 1, 1);
+        SerialLiterature j = new Journal("Item", "Pub", ":)", 1999, 11, 1, 1);
 
         boolean expResult = false;
         boolean result = (m.equals(j));

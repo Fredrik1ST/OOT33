@@ -38,8 +38,9 @@ public abstract class SerialLiterature
      * @param day day of release
      * @param releaseNr the literature's release number (in a series)
      */
-    public SerialLiterature(String title, String publisher, int year, int month, int day, int releaseNr) {
-        super(title, publisher, year, month, day);
+    public SerialLiterature(String title, String publisher, String genre,
+            int year, int month, int day, int releaseNr) {
+        super(title, publisher, genre);
         this.releaseDate = LocalDate.of(year, month, day);
         this.releaseNr = releaseNr;
     }
@@ -52,8 +53,9 @@ public abstract class SerialLiterature
      * @param releaseDate date of release as a LocalDate object
      * @param releaseNr the literature's release number (in a series)
      */
-    public SerialLiterature(String title, String publisher, LocalDate releaseDate, int releaseNr) {
-        super(title, publisher);
+    public SerialLiterature(String title, String publisher, String genre,
+            LocalDate releaseDate, int releaseNr) {
+        super(title, publisher, genre);
         this.releaseDate = (releaseDate);
         this.releaseNr = releaseNr;
     }

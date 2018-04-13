@@ -5,6 +5,7 @@ import java.time.DateTimeException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import handling.Librarian;
+import handling.ProductTypeNumbers;
 
 /**
  * Makes up the user interface (text based) of the application. Responsible for
@@ -23,6 +24,9 @@ public class ApplicationUI {
 
     // The class that will be communicating between the UI and the register.
     private Librarian librarian;
+
+    // A list of all existing literature types with corresponding index numbers.
+    private ProductTypeNumbers typeList;
 
     /**
      * The start menu (Top layer).
@@ -46,18 +50,16 @@ public class ApplicationUI {
      */
     private String[] addMenuItems
             = {
-                "1. Add a book",
-                "2. Add a magazine",
-                "3. Add a journal",
-                "4. Add a newspaper",
-                "5. Add a series",
-                "6. Add existing literature to a series",};
+                "1. Add a piece of literature",
+                "2. Add a new series",
+                "3. Add existing literature to a series",};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
      */
     public ApplicationUI() {
         librarian = new Librarian();
+        typeList = new ProductTypeNumbers();
     }
 
     /**
@@ -93,7 +95,7 @@ public class ApplicationUI {
             } catch (InputMismatchException ime) {
                 System.out.println(
                         "\nERROR: Please provide a number between 1 and "
-                        + this.startMenuItems.length + "..\n");
+                        + (this.startMenuItems.length + 1) + "..\n");
             }
         }
 
@@ -150,7 +152,7 @@ public class ApplicationUI {
                 case 3:
                     // 3. Find by publisher
                     break;
-                    
+
                 default:
                     break;
             }
@@ -158,7 +160,7 @@ public class ApplicationUI {
             System.out.println(
                     "\nERROR:"
                     + " Please provide a number between 1 and "
-                    + this.viewMenuItems.length + "..\n");
+                    + (this.viewMenuItems.length + 1) + "..\n");
         }
 
     }
@@ -173,30 +175,18 @@ public class ApplicationUI {
             menuSelection = this.showMenu(addMenuItems);
             switch (menuSelection) {
 
-                case 1: // Add a book
-                    addNewProduct(1);
+                case 1: // Add a standalone piece of literature
+                    addNewProduct();
                     break;
 
-                case 2: // Add a magazine
-                    addNewProduct(2);
-                    break;
-
-                case 3:
-                    addNewProduct(3);
-                    break;
-
-                case 4: // Add a newspaper
-                    addNewProduct(4);
-                    break;
-
-                case 5:
+                case 2:
                     // Add a series
                     break;
 
-                case 6:
+                case 3:
                     // Add existing literature to an existing series
                     break;
-                    
+
                 default:
                     break;
 
@@ -205,7 +195,7 @@ public class ApplicationUI {
             System.out.println(
                     "\nERROR:"
                     + " Please provide a number between 1 and "
-                    + this.addMenuItems.length + "..\n");
+                    + (this.addMenuItems.length + 1) + "..\n");
         }
 
     }
@@ -235,72 +225,70 @@ public class ApplicationUI {
     /**
      * Add a new piece of literature to the literature register.
      */
-    private void addNewProduct(int literatureTypeNr) {
+    private void addNewProduct() {
         Scanner reader = new Scanner(System.in);
         boolean running = true;
 
         String title;
         String publisher;
+        String genre;
+        String author = "default";
         int year = 0;
         int month = 0;
         int day = 0;
         int releaseNr = 0;
         int isSeriesInt = 0;
+        int literatureTypeNr = 0;
         boolean isSeries = false;
 
         try {
             System.out.println("\nYou selected \"Add new " + product + ".\n\n");
 
+            // Local scanner to avoid skipping the next .nextLine
+            while (literatureTypeNr < 1
+                    || literatureTypeNr > (typeList.getListLength())) {
+                Scanner intScanner = new Scanner(System.in);
+                System.out.println("Choose a literature type:");
+                System.out.println(typeList.displayTypes());
+                literatureTypeNr = intScanner.nextInt();
+            }
+            
             System.out.println("Enter name of literature: ");
             title = reader.nextLine();
+            System.out.println("Enter genre: ");
+            genre = reader.nextLine();
+            if (typeList.getProductTypes()[literatureTypeNr].equals("book")) {
+                System.out.println("Enter name of author: ");
+                author = reader.nextLine();
+            }
             System.out.println("Enter name of publisher: ");
             publisher = reader.nextLine();
-            System.out.println("Choose a literature type number:");
-            System.out.println("1: Book");
-            System.out.println("2: Magazine");
-            System.out.println("3: Journal");
-            literatureTypeNr = reader.nextInt();
-            if (literatureTypeNr < 1) {
-                literatureTypeNr = 1;
-            } else if (literatureTypeNr > 3) {
-                literatureTypeNr = 3;
-            }
-            while (isSeriesInt != 1 && isSeriesInt != 2) {
-                System.out.println("Is the literature a series?");
-                System.out.println("1: No");
-                System.out.println("2: Yes");
-                isSeriesInt = reader.nextInt();
-            }
-            if (isSeriesInt == 1) {
-                isSeries = false;
-            } else if (isSeriesInt == 2) {
-                isSeries = true;
-            }
 
             boolean dateIsValid = false;
             while (!dateIsValid) {
-         try {
-            System.out.println("Enter year of release (YYYY): ");
-            year = reader.nextInt();
-            System.out.println("Enter month of release (MM): ");
-            month = reader.nextInt();
-            System.out.println("Enter day of release (DD): ");
-            day = reader.nextInt();
+                try {
+                    System.out.println("Enter year of release (YYYY): ");
+                    year = reader.nextInt();
+                    System.out.println("Enter month of release (MM): ");
+                    month = reader.nextInt();
+                    System.out.println("Enter day of release (DD): ");
+                    day = reader.nextInt();
 
-            librarian.addLiterature(title, publisher, year, month, day,
-                    releaseNr, literatureTypeNr, isSeries);
-            dateIsValid = true;
-         } catch (DateTimeException dte) {
-             dateIsValid = false;
-             System.out.println( "\nERROR: " 
-                     + year + "/" + month + "/" + day 
-                     + " is not a valid date\n");
-         }
+                    librarian.addLiterature(title, publisher, genre,
+                            year, month, day,
+                            releaseNr, literatureTypeNr, author);
+                    dateIsValid = true;
+                } catch (DateTimeException dte) {
+                    dateIsValid = false;
+                    System.out.println("\nERROR: "
+                            + year + "/" + month + "/" + day
+                            + " is not a valid date\n");
+                }
             }
 
         } catch (InputMismatchException ime) {
             System.out.println(
-                    "\nERROR: Expected an integer;");
+                    "\nERROR: Expected an integer");
         }
     }
 
@@ -314,7 +302,7 @@ public class ApplicationUI {
         String publisher = "";
         String genre = "";
 
-        System.out.println("\nYou selected \"Add new " + product + " series\".");
+        System.out.println("\nYou selected \"Add new series\".");
 
         while (seriesName.equals("")) {
             System.out.println("Enter name of series: ");

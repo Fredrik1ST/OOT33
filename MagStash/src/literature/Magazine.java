@@ -20,9 +20,9 @@ public class Magazine extends SerialLiterature {
      * @param publisher the publisher of the magazine
      * @param releaseNr the release number of the magazine
      */
-    public Magazine(String title, String publisher,
+    public Magazine(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {
-        super(title, publisher, year, month, day, releaseNr);
+        super(title, publisher, genre, year, month, day, releaseNr);
     }
 
     /**
@@ -31,9 +31,9 @@ public class Magazine extends SerialLiterature {
      * @param releaseDate
      * @param releaseNr
      */
-    public Magazine(String title, String publisher,
+    public Magazine(String title, String publisher, String genre,
             LocalDate releaseDate, int releaseNr) {
-        super(title, publisher, releaseDate, releaseNr);
+        super(title, publisher, genre, releaseDate, releaseNr);
     }
 
     /**

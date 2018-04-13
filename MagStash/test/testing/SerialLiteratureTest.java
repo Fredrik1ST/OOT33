@@ -24,9 +24,12 @@ public class SerialLiteratureTest {
 
     @BeforeClass
     public static void setUpClass() {
-        SerialLiterature m = new Magazine("S&H", "publisher", 1111, 1, 11, 1);
-        SerialLiterature j = new Journal("Time", "publisher", 111, 1, 11, 1);
-        SerialLiterature l = new Newspaper("SMP", "publisher", 1111, 1, 11, 1);
+        SerialLiterature m = new Magazine("S&H", "publisher", "genre", 
+                1111, 1, 11, 1);
+        SerialLiterature j = new Journal("Time", "publisher", "genre", 
+                111, 1, 11, 1);
+        SerialLiterature l = new Newspaper("SMP", "publisher", "genre", 
+                1111, 1, 11, 1);
     }
 
     @AfterClass
@@ -39,7 +42,7 @@ public class SerialLiteratureTest {
     public class SerialLiteratureSubClass extends SerialLiterature {
 
         public SerialLiteratureSubClass() {
-            super("title", "publisher", 1814, 5, 17, 1);
+            super("title", "publisher", "genre", 1814, 5, 17, 1);
         }
 
         public String getDetailsAsString() {

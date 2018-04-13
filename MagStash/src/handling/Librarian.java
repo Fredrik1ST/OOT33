@@ -2,9 +2,10 @@ package handling;
 
 import literature.*;
 import handling.LiteratureRegister;
+import handling.ProductTypeNumbers;
 
 /**
- * Write a description of class Librarian here.
+ * Handles communication between the UI and Literature Register
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
@@ -12,6 +13,7 @@ import handling.LiteratureRegister;
 public class Librarian {
 
     private LiteratureRegister litReg;
+    private ProductTypeNumbers typeList;
 
     /**
      * Designates a number (through array indexing) to each product type.
@@ -38,41 +40,32 @@ public class Librarian {
      * @param y a sample parameter for a method
      * @return the sum of x and y
      */
-    public boolean addLiterature(String title, String publisher,
+    public boolean addLiterature(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr,
-            int literatureTypeNr, boolean isSeries) {
+            int literatureTypeNr, String author) {
         boolean wasAdded = false;
 
         {
             switch (productTypes[literatureTypeNr]) {
 
                 case "magazine": //Magazine
-                    if (isSeries) {
-                        // wasAdded = litReg.addLiterature(new MagazineSeries(title, publisher, year, month, day));
-                    } else {
-                        wasAdded = litReg.addLiterature(
-                                new Magazine(title, publisher, 
-                                        year, month, day, releaseNr));
-                    }
+                    wasAdded = litReg.addLiterature(
+                            new Magazine(title, publisher, genre,
+                                    year, month, day, releaseNr));
+
                     break;
 
                 case "newspaper": //Newspaper
-                    if (isSeries) {
-                        // wasAdded = litReg.add(new NewspaperSeries(title, publisher, year, month, day));
-                    } else {
-                        wasAdded = litReg.addLiterature(
-                                new Newspaper(title, publisher, 
-                                        year, month, day, releaseNr));
-                    }
+                    wasAdded = litReg.addLiterature(
+                            new Newspaper(title, publisher, genre,
+                                    year, month, day, releaseNr));
+
                     break;
 
                 case "book": //Book
-                    if (isSeries) {
-                        // wasAdded = litReg.addLiterature(new BookSeries(title, publisher, year, month, day));
-                    } else {
-                        wasAdded = litReg.addLiterature(
-                                new Book(title, publisher, year, month, day));
-                    }
+                    wasAdded = litReg.addLiterature(
+                            new Book(title, publisher, genre,
+                                    year, month, day, author));
                     break;
             }
             return wasAdded;

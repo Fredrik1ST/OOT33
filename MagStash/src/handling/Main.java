@@ -14,6 +14,7 @@ public class Main {
     public static void main(final String[] args) {
         ApplicationUI appUI = new ApplicationUI();
         appUI.setProductType("item");
+        ProductTypeNumbers typeList = new ProductTypeNumbers();
         appUI.start();
     }
 

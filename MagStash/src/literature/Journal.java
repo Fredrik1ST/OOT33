@@ -14,9 +14,9 @@ package literature;
 public class Journal extends SerialLiterature {
 
     // Constructor for Journal
-    public Journal(String title, String publisher,
+    public Journal(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {
-        super(title, publisher, year, month, day, releaseNr);
+        super(title, publisher, genre, year, month, day, releaseNr);
     }
 
     /**

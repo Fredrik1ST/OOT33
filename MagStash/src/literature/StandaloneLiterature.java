@@ -31,8 +31,8 @@ public abstract class StandaloneLiterature extends Literature{
      * @param day the release day (1-31)
      */
     public StandaloneLiterature(final String title, final String publisher,
-            final int year, final int month, final int day) {
-        super(title, publisher);
+            String genre, final int year, final int month, final int day) {
+        super(title, publisher, genre);
         this.releaseDate = LocalDate.of(year, month, day);
     }
     

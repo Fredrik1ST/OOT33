@@ -12,6 +12,8 @@ package literature;
  */
 public class Book extends StandaloneLiterature {
 
+    private String author = "";
+
     /**
      * Constructor for Book.
      *
@@ -20,10 +22,13 @@ public class Book extends StandaloneLiterature {
      * @param year the book's year of release
      * @param month the book's month of release
      * @param day the book's day of release
+     * @param author the book's author
      */
-    public Book(final String title, final String publisher,
-            final int year, final int month, final int day) {
-        super(title, publisher, year, month, day);
+    public Book(final String title, final String publisher, final String genre,
+            final int year, final int month, final int day, final String author) {
+        super(title, publisher, genre, year, month, day);
+        this.author = author;
+
     }
 
     /**
@@ -34,8 +39,8 @@ public class Book extends StandaloneLiterature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n" + this.getTitle() + "\n" +
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
+        return "\n-----------------------\n" + this.getTitle() + "\n"
+                + +this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
 }

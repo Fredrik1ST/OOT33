@@ -13,6 +13,8 @@ public abstract class Literature {
 
     private final String title; 
     private final String publisher;
+    private String genre;
+    
 
     /**
      * Initialises Literature from a LocalDate object.
@@ -24,30 +26,11 @@ public abstract class Literature {
      * @param releaseDate the release date of the piece.
      * Throws a DateTimeException if the date is incorrect.
      */
-    public Literature(final String title, final String publisher) {
+    public Literature(final String title, 
+            final String publisher, final String genre) {
         this.title = title;
         this.publisher = publisher;
-    }
-
-    /**
-     * Initialises Literature from explicitly given year, month and day.
-     * Throws a java.time.DateTimeException if the month is not between 1-12 or
-     * if the day is not appropriate for the month. Automatically accounts for
-     * leap years.
-     *
-     * For example, if the date entered is 1999/02/31, DateTimeException will
-     * be thrown, as February does not have 31 days.
-     *
-     * @param title title of the piece.
-     * @param publisher publisher of the piece.
-     * @param year the release year
-     * @param month the release month (1-12)
-     * @param day the release day (1-31)
-     */
-    public Literature(final String title, final String publisher,
-            final int year, final int month, final int day) {
-        this.title = title;
-        this.publisher = publisher;
+        this.genre = genre;
     }
 
     /**
@@ -66,6 +49,14 @@ public abstract class Literature {
      */
     public final String getPublisher() {
         return this.publisher;
+    }
+    
+    /**
+     * Gets the genre
+     * @return the genre
+     */
+    public final String getGenre() {
+        return this.genre;
     }
 
     /**
