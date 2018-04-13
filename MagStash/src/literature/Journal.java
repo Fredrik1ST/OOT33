@@ -28,7 +28,8 @@ public class Journal extends SerialLiterature {
     @Override
     public final String getDetailsAsString() {
         return "\n-----------------------\n" + this.getTitle()
-                + "\n#" + this.getReleaseNr() + "\n"
+                + "\n#" + this.getReleaseNr()
+                + "\nPublished by " + this.getPublisher() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 

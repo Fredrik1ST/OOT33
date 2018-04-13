@@ -31,6 +31,10 @@ public class Book extends StandaloneLiterature {
 
     }
 
+    
+    public String getAuthor() {
+        return this.author;
+    }
     /**
      * Returns a formatted string of the details of this book.
      * Date format is in YYYY/MM/DD.
@@ -39,8 +43,11 @@ public class Book extends StandaloneLiterature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n" + this.getTitle() + "\n"
-                + +this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
+
+        return "\n-----------------------\n'" + this.getTitle() 
+                + "\nPublished by " + this.getPublisher() + "\n"
+                + "Written by " + this.getAuthor() + "\n"
+                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
 }
