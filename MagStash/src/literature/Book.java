@@ -34,7 +34,8 @@ public class Book extends StandaloneLiterature {
      */
     @Override
     public final String getDetailsAsString() {
-        return "\n-----------------------\n" + this.getTitle() + "\n" +
+        return "\n-----------------------\n'" + this.getTitle() 
+                + "'\nPublished by " + this.getPublisher() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
