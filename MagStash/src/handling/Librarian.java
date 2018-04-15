@@ -4,6 +4,7 @@ import literature.*;
 import handling.LiteratureRegister;
 import handling.ProductTypeNumbers;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Handles communication between the UI and Literature Register.
@@ -247,7 +248,8 @@ public class Librarian {
      * </ul>
      * 
      * @param seriesName name of the series
-     * @param lit literature to add to the series
+     * @param title Title of the literature
+     * @param publisher Publisher of the literature (not the series)
      * @param literatureTypeNr literature type from ProductTypeNumbers
      * @return TRUE if the operation was a success, FALSE otherwise
      */
@@ -255,11 +257,12 @@ public class Librarian {
             String publisher, int literatureTypeNr) {
         boolean wasAdded = false;
         ArrayList<Literature> serialMatches = litReg.getByTitle(seriesName);
-        for (Literature l : serialMatches)
-        {
+        Iterator<Literature> it = serialMatches.iterator();
+        while (it.hasNext()) {
+            Literature l = it.next();
             if (!(l instanceof Series)) // We only want series here
             {
-                serialMatches.remove(l);
+                it.remove();
             }
         }
         

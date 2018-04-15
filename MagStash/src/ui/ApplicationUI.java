@@ -189,8 +189,7 @@ public class ApplicationUI {
                     break;
 
                 case 3: // Add existing literature to an existing series
-
-
+                    addToSeries();
                     break;
 
                 case 4: // Fill register for testing
@@ -323,7 +322,7 @@ public class ApplicationUI {
                     if (librarian.addLiterature(title, publisher, genre,
                             year, month, day,
                             releaseNr, productTypeNumber, author, edition)) {
-                        System.out.println(title + "was added");
+                        System.out.println(title + " was added");
                     } else {
                         System.out.println("ERROR: " + title
                                 + " already exists");
@@ -497,7 +496,13 @@ public class ApplicationUI {
                     "\nERROR: Expected an integer \nPlease try again");
         }
 
-        librarian.addToSeries(seriesName, title, publisher, productTypeNumber);
+        if (librarian.addToSeries(
+                seriesName, title, publisher, productTypeNumber)) {
+            System.out.println("Success! Your " + product + " was added to " +
+                    seriesName + "\n");
+        } else {
+            // TODO: Add some error.
+        }
     }
 
     /**
