@@ -54,8 +54,8 @@ public class ApplicationUI {
                 "2. Add a new series",
                 "3. Add existing literature to a series",
                 "4. Fill register for testing purposes",
-                "4. Remove literature",
-                "5. Remove series"};
+                "5. Remove literature",
+                "6. Remove series"};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
