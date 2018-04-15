@@ -1,7 +1,10 @@
+//TODO: Move string handling to Librarian. Return collections instead.
+
 package handling;
 
 import literature.Literature;
 import java.util.HashSet;
+import java.util.ArrayList;
 import handling.ProductTypeNumbers;
 
 /**
@@ -31,56 +34,71 @@ public class LiteratureRegister {
         boolean wasAdded = false;
         try {
             wasAdded = litRegister.add(l);
-        } catch (java.time.DateTimeException dateTimeException) {
+        } catch (java.time.DateTimeException dte) {
             //TODO: Handle the exception
         }
         return wasAdded;
     }
-
+    
     /**
-     * Gives a formatted string of all literature in the register.
-     *
-     * @return formatted string with all literature
+     * Removes a piece of literature from the set.
+     * 
+     * @param l the issue to be removed
+     * @return TRUE if the literature was found & removed, FALSE otherwise
      */
-    public final String getAllLiterature() {
-        String foundLiterature = "";
-        for (Literature l : litRegister) {
-            foundLiterature += l.getDetailsAsString();
+    public final boolean removeLiterature(final Literature l) {
+        boolean wasRemoved = false;
+        try {
+            wasRemoved = litRegister.remove(l);
+        } catch (java.time.DateTimeException dte) {
+            //TODO: Handle the exception
+        } catch (NullPointerException npe) {
+            //TODO: Handle the exception
         }
-        return foundLiterature;
+        return wasRemoved;
+    }
+    
+    /**
+     * Returns all Literature in LiteratureRegister as an ArrayList.
+     * @return 
+     */
+    public ArrayList getAllLiterature() {
+        ArrayList<Literature> allLiterature = new ArrayList<>();
+        for (Literature l : litRegister) {
+            allLiterature.add(l);
+        }
+        return allLiterature;
     }
 
     /**
-     * Gets all literatures held that match title.
-     * The literatures are output as a formatted string.
-     *
-     * @param title title to search for
-     * @return formatted string of all literatures matching the search
+     * Return all literature with titles containing the given string.
+     * @param title the title to search for
+     * @return ArrayList of all literature containing title
      */
-    public final String getByTitle(final String title) {
-        String foundLiterature = "";
+    public final ArrayList getByTitle(final String title) {
+        ArrayList<Literature> matches = new ArrayList<>();
         for (Literature l : litRegister) {
             if (l.getTitle().contains(title)) {
-                foundLiterature += l.getDetailsAsString();
+                matches.add(l);
             }
         }
-        return foundLiterature;
+        return matches;
     }
 
     /**
-     * Gives all literatures with a matching publisher.
+     * Return all literatures with a matching publisher.
      * Searches through all the magazines stored in the register.
      *
      * @param publisher Publisher to search for.
      * @return Formatted string of all literaturees with matching publisher
      */
-    public final String getByPublisher(final String publisher) {
-        String foundLiterature = "";
+    public final ArrayList getByPublisher(final String publisher) {
+        ArrayList<Literature> matches = new ArrayList<>();
         for (Literature l : litRegister) {
             if (l.getPublisher().contains(publisher)) {
-                foundLiterature += l.getDetailsAsString();
+                matches.add(l);
             }
         }
-        return foundLiterature;
+        return matches;
     }
 }

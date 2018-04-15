@@ -65,4 +65,12 @@ public abstract class Literature {
      * @return all details of the piece as string.
      */
     abstract public String getDetailsAsString();
+    
+    /**
+     * Overrides the method "equals". Necessary for comparing literature types.
+     * @param b the literature to be compared to
+     * @return TRUE if the objects are equal
+     */
+    @Override
+    abstract public boolean equals(Object b);
 }

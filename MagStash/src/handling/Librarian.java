@@ -3,9 +3,12 @@ package handling;
 import literature.*;
 import handling.LiteratureRegister;
 import handling.ProductTypeNumbers;
+import java.util.ArrayList;
 
 /**
- * Handles communication between the UI and Literature Register
+ * Handles communication between the UI and Literature Register.
+ * Note: typeList, of class ProductTypeNumbers, 
+ * handles which int corresponds to which product type in the switch case.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
@@ -16,22 +19,11 @@ public class Librarian {
     private ProductTypeNumbers typeList;
 
     /**
-     * Designates a number (through array indexing) to each product type.
-     * These numbers are universally used to present the product types.
-     */
-    public final String[] productTypes
-            = {
-                "type error", /*     0 */
-                "book", /*           1 */
-                "magazine", /*       2 */
-                "journal", /*        3 */
-                "newspaper", /*      4 */};
-
-    /**
      * Constructor for objects of class Librarian
      */
     public Librarian() {
         litReg = new LiteratureRegister();
+        typeList = new ProductTypeNumbers();
     }
 
     /**
@@ -46,7 +38,7 @@ public class Librarian {
         boolean wasAdded = false;
 
         {
-            switch (productTypes[literatureTypeNr]) {
+            switch (typeList.getProductTypes()[literatureTypeNr]) {
 
                 case "magazine": //Magazine
                     wasAdded = litReg.addLiterature(
@@ -70,6 +62,58 @@ public class Librarian {
             }
             return wasAdded;
         }
+    }
+    
+        /**
+     * Returns a formatted string of literature found in the provided list.
+     *
+     * @param allLiterature the details of the literature in the list
+     * @return formatted string with all the literature
+     */
+    public final String getDetails(ArrayList<Literature> issues) {
+        String foundLiterature = "";
+        for (Literature l : issues) {
+            foundLiterature += l.getDetailsAsString();
+        }
+        return foundLiterature;
+    }
+    
+    /**
+     * List all literature held that match the given title.
+     * Searches through a provided ArrayList. The output is a formatted string.
+     *
+     * @param issues list of literature to search through
+     * @param title title to search for
+     * @return formatted string of all literatures matching the search
+     */
+    public final String getDetailsByTitle(ArrayList<Literature> issues,
+             String title) {
+        String foundLiterature = "";
+        for (Literature l : issues) {
+            if (l.getTitle().contains(title)) {
+                foundLiterature += l.getDetailsAsString();
+            }
+        }
+        return foundLiterature;
+    }
+    
+        /**
+     * Returns details of all literature with a matching publisher.
+     * Searches through a provided Arraylist.
+     *
+     * @param issues list of literature to search through
+     * @param publisher publisher to search for
+     * @return formatted string of all literaturees with matching publisher
+     */
+    public final String getDetailsByPublisher(ArrayList<Literature> issues,
+            String publisher) {
+        String foundLiterature = "";
+        for (Literature l : issues) {
+            if (l.getPublisher().contains(publisher)) {
+                foundLiterature += l.getDetailsAsString();
+            }
+        }
+        return foundLiterature;
     }
 
     /**

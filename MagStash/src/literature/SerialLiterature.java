@@ -78,9 +78,6 @@ public abstract class SerialLiterature
         this.releaseNr = releaseNr;
     }
     
-     /**
-     * Returns the title
-     */
     /**
      * Returns the year of release.
      *
@@ -108,4 +105,32 @@ public abstract class SerialLiterature
         return releaseDate.getDayOfMonth();
     }
 
+    /**
+     * Compares this object to another to see if they're the same.
+     *
+     * @param o Literature to be compared to
+     * @return TRUE if they're equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        boolean isEqual = false;
+        if (o == this) {
+            isEqual = true;
+        } else if (!(o instanceof SerialLiterature)) {
+            isEqual = false;
+        } else {
+            SerialLiterature l = (SerialLiterature) o;
+
+            // Comparing of fields
+            if (this.getTitle().equalsIgnoreCase(l.getTitle())
+                    && this.getPublisher().equalsIgnoreCase(l.getPublisher())
+                    & this.getYear() == l.getYear()
+                    && this.getMonth() == l.getMonth()
+                    && this.getDay() == l.getDay()
+                    && this.getReleaseNr() == l.getReleaseNr()) {
+                isEqual = true;
+            }
+        }
+        return isEqual;
+    }
 }

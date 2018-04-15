@@ -33,7 +33,7 @@ public class ProductTypeNumbersTest {
     @Test
     public void testDisplayTypes() {
         
-        System.out.println("List length: " + typeList.getProductTypes().length 
+        System.out.println("List length: " + typeList.getListLength()
                 + "\n" + typeList.displayTypes());
 
     }

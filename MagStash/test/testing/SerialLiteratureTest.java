@@ -24,17 +24,14 @@ public class SerialLiteratureTest {
 
     @BeforeClass
     public static void setUpClass() {
-        SerialLiterature m = new Magazine("S&H", "publisher", "genre", 
-                1111, 1, 11, 1);
+        SerialLiterature m = new Magazine("Se og Hør", "publisher", "horror", 
+                111, 1, 11, 1);
         SerialLiterature j = new Journal("Time", "publisher", "genre", 
                 111, 1, 11, 1);
         SerialLiterature l = new Newspaper("SMP", "publisher", "genre", 
                 1111, 1, 11, 1);
     }
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     /**
      * Try implementing SerialLiterature
@@ -45,6 +42,7 @@ public class SerialLiteratureTest {
             super("title", "publisher", "genre", 1814, 5, 17, 1);
         }
 
+        @Override
         public String getDetailsAsString() {
             return "No details, no worries. YOLO!";
         }
