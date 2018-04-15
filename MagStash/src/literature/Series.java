@@ -112,7 +112,7 @@ public abstract class Series extends Literature {
     public String getDetailsAsString() {
         String issuesPerYear = "";
         if (this.releasesPerYear > 0) {
-            issuesPerYear = "Issues per year: " + this.releasesPerYear;
+            issuesPerYear = "\nIssues per year: " + this.releasesPerYear;
         }
         return ("\n***********************\n" + this.getTitle() + "\n"
                 + "Series published by " + this.getPublisher() + "\n"

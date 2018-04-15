@@ -29,14 +29,16 @@ public class ProductTypeNumbers {
 
     /**
      * Returns the product type number array.
+     *
      * @return the productTypeNumber array
      */
     public static String[] getProductTypes() {
         return productTypes;
     }
-    
+
     /**
      * Returns the length of the array - 1, since 0 is never used.
+     *
      * @return the length of the productTypeNumber array - 1.
      */
     public int getListLength() {
@@ -53,7 +55,7 @@ public class ProductTypeNumbers {
 
         for (int i = 1; i < getProductTypes().length; i++) {
             // Capitalises the first letter of each string
-            String type = i + ": " 
+            String type = i + ": "
                     + getProductTypes()[i].substring(0, 1).toUpperCase()
                     + getProductTypes()[i].substring(1);
             typeList = typeList + type + "\n";

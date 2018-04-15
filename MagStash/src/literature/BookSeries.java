@@ -2,6 +2,7 @@ package literature;
 
 /**
  * Series of SerialBooks
+ *
  * @author Fredrik
  */
 public class BookSeries extends Series {
@@ -13,6 +14,7 @@ public class BookSeries extends Series {
 
     /**
      * Add a new issue to the series.
+     *
      * @param issue issue to be added
      * @return boolean confirming that issue has been added to series
      */

@@ -49,21 +49,23 @@ public class Book extends StandaloneLiterature {
     @Override
     public final String getDetailsAsString() {
 
-        return "\n-----------------------\n" + this.getTitle() 
+        return "\n-----------------------\n" + this.getTitle()
+                + " - " + this.getEdition() + ". edition"
                 + "\nBook published by " + this.getPublisher() + "\n"
                 + "Written by " + this.getAuthor() + "\n"
+                + "Genre: " + this.getGenre()
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
     @Override
     public int hashCode() {
-        return (this.getTitle().length()*17
-        + this.getPublisher().length()*31
-        + this.getAuthor().length()*17
-                + this.getGenre().length()*3
-                + this.getYear()*31
-                + this.getMonth()*17
-                + this.getDay()*31
-                + this.getEdition()*17);
+        return (this.getTitle().length() * 17
+                + this.getPublisher().length() * 31
+                + this.getAuthor().length() * 17
+                + this.getGenre().length() * 3
+                + this.getYear() * 31
+                + this.getMonth() * 17
+                + this.getDay() * 31
+                + this.getEdition() * 17);
     }
 }

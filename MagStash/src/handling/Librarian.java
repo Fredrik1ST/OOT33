@@ -427,4 +427,28 @@ public class Librarian {
         }
         return newSerial;
     }
+
+    /**
+     * Fills up the register with various literature. For testing.
+     */
+    public void fillRegister() {
+        litReg.addLiterature(new Book(
+                "A book", "some publisher", "a genre", 1995, 11, 18, "author", 1));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 2));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 3));
+        Series series = new MagazineSeries(
+                "A magazine", "some publisher", "a genre", 3);
+        series.add(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
+        series.add(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 2));
+        series.add(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 3));
+        litReg.addLiterature(series);
+
+    }
 }

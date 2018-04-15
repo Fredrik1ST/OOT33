@@ -2,6 +2,7 @@ package literature;
 
 /**
  * Series of Journals
+ *
  * @author Fredrik
  */
 public class NewspaperSeries extends Series {
@@ -10,9 +11,10 @@ public class NewspaperSeries extends Series {
             int releasesPerYear) {
         super(title, publisher, genre, releasesPerYear);
     }
-    
-        /**
+
+    /**
      * Add a new issue to the series.
+     *
      * @param issue issue to be added
      * @return boolean confirming that issue has been added to series
      */

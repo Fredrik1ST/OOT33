@@ -13,7 +13,7 @@ public class Main {
      */
     public static void main(final String[] args) {
         ApplicationUI appUI = new ApplicationUI();
-        appUI.setProductType("item");
+        appUI.setProductTypeName("item");
         appUI.start();
     }
 

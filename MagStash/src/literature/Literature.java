@@ -11,10 +11,9 @@ package literature;
  */
 public abstract class Literature {
 
-    private final String title; 
+    private final String title;
     private final String publisher;
     private String genre;
-    
 
     /**
      * Initialises Literature from a LocalDate object.
@@ -26,7 +25,7 @@ public abstract class Literature {
      * @param releaseDate the release date of the piece.
      * Throws a DateTimeException if the date is incorrect.
      */
-    public Literature(final String title, 
+    public Literature(final String title,
             final String publisher, final String genre) {
         this.title = title;
         this.publisher = publisher;
@@ -50,9 +49,10 @@ public abstract class Literature {
     public final String getPublisher() {
         return this.publisher;
     }
-    
+
     /**
      * Gets the genre
+     *
      * @return the genre
      */
     public final String getGenre() {
@@ -65,9 +65,10 @@ public abstract class Literature {
      * @return all details of the piece as string.
      */
     abstract public String getDetailsAsString();
-    
+
     /**
      * Overrides the method "equals". Necessary for comparing literature types.
+     *
      * @param b the literature to be compared to
      * @return TRUE if the objects are equal
      */

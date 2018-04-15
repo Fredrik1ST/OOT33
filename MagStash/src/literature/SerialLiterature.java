@@ -77,7 +77,7 @@ public abstract class SerialLiterature
     protected void setReleaseNr(int releaseNr) {
         this.releaseNr = releaseNr;
     }
-    
+
     /**
      * Returns the year of release.
      *

@@ -27,7 +27,7 @@ public class LibrarianTest {
     Literature m;
     Literature j;
     Literature n;
-    
+
     public LibrarianTest() {
         litReg = new LiteratureRegister();
 
@@ -43,9 +43,9 @@ public class LibrarianTest {
 
     @Test
     public void testAddSeries() {
-        
+
     }
-    
+
     @Test
     public void testPrintDetails() {
         ArrayList<Literature> issues = new ArrayList<>();
@@ -66,7 +66,7 @@ public class LibrarianTest {
         assertEquals(true, (b instanceof Literature));
         assertEquals(false, (m instanceof Journal));
     }
-    
+
     @Test
     public void testDeleteIssues() {
         litReg.addLiterature(b);
@@ -79,7 +79,7 @@ public class LibrarianTest {
         System.out.println("\nContents after deletion: ");
         for (Literature l : litReg.getAllLiterature()) {
             System.out.println(l.getDetailsAsString()
-            + ProductTypeNumbers.getProductTypes()[1]);
+                    + ProductTypeNumbers.getProductTypes()[1]);
         }
     }
 }

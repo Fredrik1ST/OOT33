@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * @author Fredrik
  */
 public abstract class StandaloneLiterature extends Literature {
-    
+
     private int edition;
 
     private LocalDate releaseDate;
@@ -69,12 +69,13 @@ public abstract class StandaloneLiterature extends Literature {
 
     /**
      * Return the edition number
+     *
      * @return the edition number
      */
     public int getEdition() {
         return this.edition;
     }
-    
+
     /**
      * Compares this object to another to see if they're the same.
      *
@@ -102,16 +103,16 @@ public abstract class StandaloneLiterature extends Literature {
         }
         return isEqual;
     }
-    
-        @Override
+
+    @Override
     public int hashCode() {
-        return (this.getTitle().length()*17
-        + this.getPublisher().length()*31
-                + this.getGenre().length()*3
-                + this.getYear()*31
-                + this.getMonth()*17
-                + this.getDay()*31
-                + this.getEdition()*17);
+        return (this.getTitle().length() * 17
+                + this.getPublisher().length() * 31
+                + this.getGenre().length() * 3
+                + this.getYear() * 31
+                + this.getMonth() * 17
+                + this.getDay() * 31
+                + this.getEdition() * 17);
     }
 
 }
