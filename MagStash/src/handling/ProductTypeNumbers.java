@@ -13,13 +13,13 @@ public class ProductTypeNumbers {
      * Designates a number (through array indexing) to each product type.
      * These numbers are universally used to present the product types.
      */
-    private String[] productTypes;
+    private static String[] productTypes;
 
     /**
      * Constructor for class ProductTypeNumbers.
      */
     public ProductTypeNumbers() {
-        this.productTypes = new String[]{
+        productTypes = new String[]{
             "type error", /*     0 */
             "book", /*           1 */
             "magazine", /*       2 */
@@ -31,7 +31,7 @@ public class ProductTypeNumbers {
      * Returns the product type number array.
      * @return the productTypeNumber array
      */
-    public String[] getProductTypes() {
+    public static String[] getProductTypes() {
         return productTypes;
     }
     

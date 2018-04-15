@@ -62,7 +62,7 @@ public class LiteratureRegister {
      * Returns all Literature in LiteratureRegister as an ArrayList.
      * @return 
      */
-    public ArrayList getAllLiterature() {
+    public ArrayList<Literature> getAllLiterature() {
         ArrayList<Literature> allLiterature = new ArrayList<>();
         for (Literature l : litRegister) {
             allLiterature.add(l);

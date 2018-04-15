@@ -34,7 +34,7 @@ public class ApplicationUI {
     private String[] startMenuItems
             = {
                 "1. View & search for " + product + "s...",
-                "2. Add " + product + "s...",};
+                "2. Add or remove " + product + "s...",};
 
     /**
      * The "view" menu. Shows what the user can choose to view.
@@ -48,11 +48,13 @@ public class ApplicationUI {
     /**
      * The "add" menu. Shows what the user can add to the regiter.
      */
-    private String[] addMenuItems
+    private String[] editMenuItems
             = {
                 "1. Add a piece of literature",
                 "2. Add a new series",
-                "3. Add existing literature to a series",};
+                "3. Add existing literature to a series",
+                "4. Remove literature",
+                "5. Remove series"};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
@@ -81,7 +83,7 @@ public class ApplicationUI {
                         break;
 
                     case 2:
-                        showAddMenu();
+                        showEditMenu();
                         break;
 
                     case 3:
@@ -141,8 +143,9 @@ public class ApplicationUI {
             // Display the "view" menu
             menuSelection = this.showMenu(viewMenuItems);
             switch (menuSelection) {
-                case 1:
-                    // "1. List all literature"
+
+                case 1: // List all literature
+                    listAllProducts();
                     break;
 
                 case 2:
@@ -166,21 +169,21 @@ public class ApplicationUI {
     }
 
     /**
-     * Shows the "add" menu, where users can add literature to the register.
+     * Shows the "edit" menu, where users can add/remove literature.
      */
-    private void showAddMenu() {
+    private void showEditMenu() {
         int menuSelection;
         try {
             // Display the "add" menu
-            menuSelection = this.showMenu(addMenuItems);
+            menuSelection = this.showMenu(editMenuItems);
             switch (menuSelection) {
 
                 case 1: // Add a standalone piece of literature
                     addNewProduct();
                     break;
 
-                case 2:
-                    // Add a series
+                case 2: // Add a series
+                    addNewSeries();
                     break;
 
                 case 3:
@@ -192,10 +195,9 @@ public class ApplicationUI {
 
             }
         } catch (InputMismatchException ime) {
-            System.out.println(
-                    "\nERROR:"
+            System.out.println("\nERROR:"
                     + " Please provide a number between 1 and "
-                    + (this.addMenuItems.length + 1) + "..\n");
+                    + (this.editMenuItems.length + 1) + "..\n");
         }
 
     }
@@ -219,7 +221,7 @@ public class ApplicationUI {
      */
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all " + product + "s\".");
-        // TODO: DO SOMETHING!
+        System.out.println(librarian.getDetails(librarian.getRegister()));
     }
 
     /**
@@ -237,32 +239,36 @@ public class ApplicationUI {
         int month = 0;
         int day = 0;
         int releaseNr = 0;
+        int edition = 1;
         int isSeriesInt = 0;
-        int literatureTypeNr = 0;
+        int productTypeNumber = 0;
         boolean isSeries = false;
 
         try {
             System.out.println("\nYou selected \"Add new " + product + ".\n\n");
 
-            // Local scanner to avoid skipping the next .nextLine
-            while (literatureTypeNr < 1
-                    || literatureTypeNr > (typeList.getListLength())) {
-                Scanner intScanner = new Scanner(System.in);
+            while (productTypeNumber < 1
+                    || productTypeNumber > (typeList.getListLength())) {
                 System.out.println("Choose a literature type:");
                 System.out.println(typeList.displayTypes());
-                literatureTypeNr = intScanner.nextInt();
+                productTypeNumber = reader.nextInt();
+                reader.nextLine();
             }
-            
-            System.out.println("Enter name of literature: ");
+
+            System.out.println("Enter title of literature: ");
             title = reader.nextLine();
-            System.out.println("Enter genre: ");
-            genre = reader.nextLine();
-            if (typeList.getProductTypes()[literatureTypeNr].equals("book")) {
-                System.out.println("Enter name of author: ");
-                author = reader.nextLine();
-            }
             System.out.println("Enter name of publisher: ");
             publisher = reader.nextLine();
+            System.out.println("Enter genre: ");
+            genre = reader.nextLine();
+            if (typeList.getProductTypes()[productTypeNumber].equals("book")) {
+                System.out.println("Enter name of author: ");
+                author = reader.nextLine();
+                System.out.println("Enter edition number: ");
+                edition = reader.nextInt();
+                reader.nextLine();
+
+            }
 
             boolean dateIsValid = false;
             while (!dateIsValid) {
@@ -274,9 +280,14 @@ public class ApplicationUI {
                     System.out.println("Enter day of release (DD): ");
                     day = reader.nextInt();
 
-                    librarian.addLiterature(title, publisher, genre,
+                    if (librarian.addLiterature(title, publisher, genre,
                             year, month, day,
-                            releaseNr, literatureTypeNr, author);
+                            releaseNr, productTypeNumber, author, edition)) {
+                        System.out.println(title + "was added");
+                    } else {
+                        System.out.println("ERROR: " + title
+                                + " already exists");
+                    }
                     dateIsValid = true;
                 } catch (DateTimeException dte) {
                     dateIsValid = false;
@@ -288,34 +299,47 @@ public class ApplicationUI {
 
         } catch (InputMismatchException ime) {
             System.out.println(
-                    "\nERROR: Expected an integer");
+                    "\nERROR: Expected an integer \nPlease try again");
         }
     }
 
     /**
-     * Adds a new literature series that can then be populated with literature.
+     * Adds a new literature series.
      */
-    private void addNewProductSeries() {
+    private void addNewSeries() {
         Scanner reader = new Scanner(System.in);
-        String seriesName = "";
+        String title = "";
         int releasesPerYear = 0;
+        int productTypeNr = 0;
         String publisher = "";
         String genre = "";
 
         System.out.println("\nYou selected \"Add new series\".");
 
-        while (seriesName.equals("")) {
-            System.out.println("Enter name of series: ");
-            seriesName = reader.nextLine();
+        while (productTypeNr < 1
+                || productTypeNr > (typeList.getListLength())) {
+            System.out.println("Choose a literature type:");
+            System.out.println(typeList.displayTypes());
+            productTypeNr = reader.nextInt();
+            reader.nextLine();
         }
-        while (publisher.equals("")) {
-            System.out.println("Enter publisher: ");
-            publisher = reader.nextLine();
+
+        System.out.println("Enter name of series: ");
+        title = reader.nextLine();
+
+        System.out.println("Enter publisher: ");
+        publisher = reader.nextLine();
+
+        System.out.println("Enter genre: ");
+        genre = reader.nextLine();
+
+        if (librarian.addSeries(title, publisher, genre,
+                releasesPerYear, productTypeNr)) {
+            System.out.println("Series " + title + " was added");
+        } else {
+            System.out.println("Series already exists");
         }
-        while (genre.equals("")) {
-            System.out.println("Enter genre: ");
-            genre = reader.nextLine();
-        }
+
     }
 
     /**

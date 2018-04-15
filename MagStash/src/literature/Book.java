@@ -25,16 +25,21 @@ public class Book extends StandaloneLiterature {
      * @param author the book's author
      */
     public Book(final String title, final String publisher, final String genre,
-            final int year, final int month, final int day, final String author) {
-        super(title, publisher, genre, year, month, day);
+            final int year, final int month, final int day, 
+            final String author, final int edition) {
+        super(title, publisher, genre, year, month, day, edition);
         this.author = author;
 
     }
 
-    
+    /**
+     * Returns the author of the book
+     * @return the author of the book
+     */
     public String getAuthor() {
         return this.author;
     }
+    
     /**
      * Returns a formatted string of the details of this book.
      * Date format is in YYYY/MM/DD.
@@ -50,4 +55,15 @@ public class Book extends StandaloneLiterature {
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
+    @Override
+    public int hashCode() {
+        return (this.getTitle().length()*17
+        + this.getPublisher().length()*31
+        + this.getAuthor().length()*17
+                + this.getGenre().length()*3
+                + this.getYear()*31
+                + this.getMonth()*17
+                + this.getDay()*31
+                + this.getEdition()*17);
+    }
 }

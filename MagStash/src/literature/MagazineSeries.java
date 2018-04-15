@@ -6,8 +6,9 @@ package literature;
  */
 public class MagazineSeries extends Series {
 
-    public MagazineSeries(String title, String publisher, String genre) {
-        super(title, publisher, genre);
+    public MagazineSeries(String title, String publisher, String genre,
+            int releasesPerYear) {
+        super(title, publisher, genre, releasesPerYear);
     }
     
         /**

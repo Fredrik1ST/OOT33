@@ -32,7 +32,7 @@ public class LiteratureRegisterTest {
 
     public LiteratureRegisterTest() {
         b = new Book("Book", "publisher", "genre",
-                1999, 11, 1, "author");
+                1999, 11, 1, "author", 1);
         m = new Magazine("Magazine", "publisher", "horror",
                 111, 1, 11, 1);
         j = new Journal("Journal", "publisher", "genre",

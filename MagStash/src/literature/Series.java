@@ -13,17 +13,21 @@ import java.util.TreeMap;
  */
 public abstract class Series extends Literature {
 
+    private int releasesPerYear;
     private TreeMap<Integer, SerialLiterature> issues;
 
     /**
-     * Initializes the series with all fields filled.
+     * Initialises the series with all fields filled.
      *
      * @param title the name of the series
      * @param publisher the publisher of the series
      * @param genre the genre of the series
+     * @param releasesPerYear number of releases per year
      */
-    public Series(String title, String publisher, String genre) {
+    public Series(String title, String publisher, String genre,
+            int releasesPerYear) {
         super(title, publisher, genre);
+        this.releasesPerYear = releasesPerYear;
         issues = new TreeMap<>();
     }
 
@@ -36,7 +40,7 @@ public abstract class Series extends Literature {
     abstract public boolean add(SerialLiterature sl);
 
     /**
-     * Add an issue of serial literature to the series.
+     * Adds an issue of serial literature to the series.
      *
      * @param sl SerialLiterature to be added
      * @return a boolean confirming that the issue was added
@@ -54,7 +58,7 @@ public abstract class Series extends Literature {
     }
 
     /**
-     * Remove an issue of serial literature from the series.
+     * Removes an issue of serial literature from the series.
      *
      * @param sl SerialLiterature to be removed
      * @return a boolean confirming that the issue was removed
@@ -68,8 +72,22 @@ public abstract class Series extends Literature {
         }
     }
 
+    /**
+     * Returns releases per year.
+     *
+     * @return releases per year
+     */
+    public int getReleasesPerYear() {
+        return this.releasesPerYear;
+    }
+
+    /**
+     * Returns the number of issues in the series.
+     *
+     * @return the number of issues in the series
+     */
     public int getSize() {
-        return issues.size();
+        return this.issues.size();
     }
 
     /**
@@ -92,9 +110,14 @@ public abstract class Series extends Literature {
      */
     @Override
     public String getDetailsAsString() {
-        return ("\n***********************\n" + this.getTitle()
+        String issuesPerYear = "";
+        if (this.releasesPerYear > 0) {
+            issuesPerYear = "Issues per year: " + this.releasesPerYear;
+        }
+        return ("\n***********************\n" + this.getTitle() + "\n"
                 + "Series published by " + this.getPublisher() + "\n"
-                + "# of issues: " + issues.size());
+                + "# of issues: " + issues.size()
+                + issuesPerYear);
     }
 
     /**
@@ -108,8 +131,7 @@ public abstract class Series extends Literature {
         boolean isEqual = false;
         if (o == this) {
             isEqual = true;
-        }
-        else if (!(o instanceof Series)) {
+        } else if (!(o instanceof Series)) {
             isEqual = false;
         } else {
             Series s = (Series) o;
@@ -122,5 +144,13 @@ public abstract class Series extends Literature {
             }
         }
         return isEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.getTitle().length() * 17
+                + this.getPublisher().length() * 31
+                + this.getGenre().length() * 17
+                + this.getReleasesPerYear() * 31);
     }
 }

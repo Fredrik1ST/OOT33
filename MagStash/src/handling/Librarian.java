@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Handles communication between the UI and Literature Register.
- * Note: typeList, of class ProductTypeNumbers, 
+ * Note: typeList, of class ProductTypeNumbers,
  * handles which int corresponds to which product type in the switch case.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
@@ -27,18 +27,33 @@ public class Librarian {
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * Adds a piece of literature to the register.
      *
-     * @param y a sample parameter for a method
-     * @return the sum of x and y
+     * @param title title of literature
+     * @param publisher publisher of literature
+     * @param genre genre of literature
+     * @param year year of release
+     * @param month month of release
+     * @param day day of release
+     * @param releaseNr release number in a series
+     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param author author of literature
+     * @param edition edition number of literature
+     * @return TRUE if literature was added
      */
     public boolean addLiterature(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr,
-            int literatureTypeNr, String author) {
+            int literatureTypeNr, String author, int edition) {
         boolean wasAdded = false;
 
         {
             switch (typeList.getProductTypes()[literatureTypeNr]) {
+
+                case "book": //Book
+                    wasAdded = litReg.addLiterature(
+                            new Book(title, publisher, genre,
+                                    year, month, day, author, edition));
+                    break;
 
                 case "magazine": //Magazine
                     wasAdded = litReg.addLiterature(
@@ -47,24 +62,198 @@ public class Librarian {
 
                     break;
 
+                case "journal": //Journal
+                    wasAdded = litReg.addLiterature(
+                            new Journal(title, publisher, genre,
+                                    year, month, day, releaseNr));
+                    break;
+
                 case "newspaper": //Newspaper
                     wasAdded = litReg.addLiterature(
                             new Newspaper(title, publisher, genre,
                                     year, month, day, releaseNr));
-
                     break;
 
-                case "book": //Book
-                    wasAdded = litReg.addLiterature(
-                            new Book(title, publisher, genre,
-                                    year, month, day, author));
+                default:
                     break;
             }
             return wasAdded;
         }
     }
-    
-        /**
+
+    /**
+     * Remove a piece of literature to the register.
+     *
+     * @param title title of literature
+     * @param publisher publisher of literature
+     * @param genre genre of literature
+     * @param year year of release
+     * @param month month of release
+     * @param day day of release
+     * @param releaseNr release number in a series
+     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param author author of literature
+     * @param edition edition number of literature
+     * @return TRUE if literature was added
+     */
+    public boolean removeLiterature(String title, String publisher, String genre,
+            int year, int month, int day, int releaseNr,
+            int literatureTypeNr, String author, int edition) {
+        boolean wasRemoved = false;
+
+        {
+            switch (typeList.getProductTypes()[literatureTypeNr]) {
+
+                case "book": //Book
+                    wasRemoved = litReg.removeLiterature(
+                            new Book(title, publisher, genre,
+                                    year, month, day, author, edition));
+                    break;
+
+                case "magazine": //Magazine
+                    wasRemoved = litReg.removeLiterature(
+                            new Magazine(title, publisher, genre,
+                                    year, month, day, releaseNr));
+
+                    break;
+
+                case "journal": //Journal
+                    wasRemoved = litReg.removeLiterature(
+                            new Journal(title, publisher, genre,
+                                    year, month, day, releaseNr));
+                    break;
+
+                case "newspaper": //Newspaper
+                    wasRemoved = litReg.removeLiterature(
+                            new Newspaper(title, publisher, genre,
+                                    year, month, day, releaseNr));
+                    break;
+
+                default:
+                    break;
+            }
+            return wasRemoved;
+        }
+    }
+
+    /**
+     * Creates a new series (ArrayList) and adds it to the register.
+     *
+     * @param title title of series
+     * @param publisher publisher of series
+     * @param genre genre of series
+     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @return TRUE if the series was added
+     */
+    public boolean addSeries(String title, String publisher, String genre,
+            int releasesPerYear, int literatureTypeNr) {
+        {
+            boolean wasAdded = false;
+
+            {
+                switch (typeList.getProductTypes()[literatureTypeNr]) {
+
+                    case "book": //Book
+                        wasAdded = litReg.addLiterature(
+                                new BookSeries(title, publisher,
+                                        genre, releasesPerYear));
+                        break;
+
+                    case "magazine": //Magazine
+                        wasAdded = litReg.addLiterature(
+                                new MagazineSeries(title, publisher,
+                                        genre, releasesPerYear));
+
+                        break;
+
+                    case "journal": //Journal
+                        wasAdded = litReg.addLiterature(
+                                new JournalSeries(title, publisher,
+                                        genre, releasesPerYear));
+                        break;
+
+                    case "newspaper": //Newspaper
+                        wasAdded = litReg.addLiterature(
+                                new NewspaperSeries(title, publisher, genre,
+                                        releasesPerYear));
+                        break;
+
+                    default:
+                        break;
+                }
+                return wasAdded;
+            }
+        }
+    }
+
+    /**
+     * Removes a series from the register.
+     *
+     * @param title title of series
+     * @param publisher publisher of series
+     * @param genre genre of series
+     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @return TRUE if the series was added
+     */
+    public boolean removeSeries(String title, String publisher, String genre,
+            int releasesPerYear, int literatureTypeNr) {
+        {
+            boolean wasRemoved = false;
+
+            {
+                switch (typeList.getProductTypes()[literatureTypeNr]) {
+
+                    case "book": //Book
+                        wasRemoved = litReg.removeLiterature(
+                                new BookSeries(title, publisher,
+                                        genre, releasesPerYear));
+                        break;
+
+                    case "magazine": //Magazine
+                        wasRemoved = litReg.removeLiterature(
+                                new MagazineSeries(title, publisher,
+                                        genre, releasesPerYear));
+
+                        break;
+
+                    case "journal": //Journal
+                        wasRemoved = litReg.removeLiterature(
+                                new JournalSeries(title, publisher,
+                                        genre, releasesPerYear));
+                        break;
+
+                    case "newspaper": //Newspaper
+                        wasRemoved = litReg.removeLiterature(
+                                new NewspaperSeries(title, publisher, genre,
+                                        releasesPerYear));
+                        break;
+
+                    default:
+                        break;
+                }
+                return wasRemoved;
+            }
+        }
+    }
+
+    public boolean addToSeries() {
+        ArrayList<Literature> allLiterature = getRegister();
+        boolean wasAdded = false;
+        
+        
+return wasAdded;
+    }
+
+    /**
+     * Fetches all content in the literature register as an ArrayList.
+     *
+     * @return ArrayList of all Literature in the register
+     */
+    public final ArrayList<Literature> getRegister() {
+        return litReg.getAllLiterature();
+    }
+
+    /**
      * Returns a formatted string of literature found in the provided list.
      *
      * @param allLiterature the details of the literature in the list
@@ -77,7 +266,7 @@ public class Librarian {
         }
         return foundLiterature;
     }
-    
+
     /**
      * List all literature held that match the given title.
      * Searches through a provided ArrayList. The output is a formatted string.
@@ -87,7 +276,7 @@ public class Librarian {
      * @return formatted string of all literatures matching the search
      */
     public final String getDetailsByTitle(ArrayList<Literature> issues,
-             String title) {
+            String title) {
         String foundLiterature = "";
         for (Literature l : issues) {
             if (l.getTitle().contains(title)) {
@@ -96,8 +285,8 @@ public class Librarian {
         }
         return foundLiterature;
     }
-    
-        /**
+
+    /**
      * Returns details of all literature with a matching publisher.
      * Searches through a provided Arraylist.
      *
@@ -139,8 +328,7 @@ public class Librarian {
             author = ((Book) l).getAuthor();
             newSerial = new SerialBook(title, publisher, genre,
                     year, month, day, releaseNr, author);
-        }
-        else {
+        } else {
             newSerial = null;
         }
         return newSerial;

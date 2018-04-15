@@ -6,8 +6,9 @@ package literature;
  */
 public class JournalSeries extends Series {
 
-    public JournalSeries(String title, String publisher, String genre) {
-        super(title, publisher, genre);
+    public JournalSeries(String title, String publisher, String genre,
+    int releasesPerYear) {
+        super(title, publisher, genre, releasesPerYear);
     }
     
         /**

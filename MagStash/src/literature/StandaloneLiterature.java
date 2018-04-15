@@ -12,6 +12,8 @@ import java.time.LocalDate;
  * @author Fredrik
  */
 public abstract class StandaloneLiterature extends Literature {
+    
+    private int edition;
 
     private LocalDate releaseDate;
 
@@ -31,8 +33,10 @@ public abstract class StandaloneLiterature extends Literature {
      * @param day the release day (1-31)
      */
     public StandaloneLiterature(final String title, final String publisher,
-            String genre, final int year, final int month, final int day) {
+            String genre, final int year, final int month, final int day,
+            final int edition) {
         super(title, publisher, genre);
+        this.edition = edition;
         this.releaseDate = LocalDate.of(year, month, day);
     }
 
@@ -64,6 +68,14 @@ public abstract class StandaloneLiterature extends Literature {
     }
 
     /**
+     * Return the edition number
+     * @return the edition number
+     */
+    public int getEdition() {
+        return this.edition;
+    }
+    
+    /**
      * Compares this object to another to see if they're the same.
      *
      * @param o Literature to be compared to
@@ -89,6 +101,17 @@ public abstract class StandaloneLiterature extends Literature {
             }
         }
         return isEqual;
+    }
+    
+        @Override
+    public int hashCode() {
+        return (this.getTitle().length()*17
+        + this.getPublisher().length()*31
+                + this.getGenre().length()*3
+                + this.getYear()*31
+                + this.getMonth()*17
+                + this.getDay()*31
+                + this.getEdition()*17);
     }
 
 }
