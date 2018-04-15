@@ -53,7 +53,7 @@ public class Book extends StandaloneLiterature {
                 + " - " + this.getEdition() + ". edition"
                 + "\nBook published by " + this.getPublisher() + "\n"
                 + "Written by " + this.getAuthor() + "\n"
-                + "Genre: " + this.getGenre()
+                + "Genre: " + this.getGenre() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 

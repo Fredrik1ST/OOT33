@@ -27,7 +27,7 @@ public class Newspaper extends SerialLiterature {
         return "\n-----------------------\n" + this.getTitle()
                 + "\n#" + this.getReleaseNr()
                 + "\nNewspaper published by " + this.getPublisher() + "\n"
-                + "Genre: " + this.getGenre()
+                + "Genre: " + this.getGenre() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 }
