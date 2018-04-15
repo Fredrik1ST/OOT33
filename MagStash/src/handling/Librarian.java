@@ -196,7 +196,7 @@ public class Librarian {
      * @return TRUE if the series was added
      */
     public boolean removeSeries(String title, String publisher, String genre,
-            int releasesPerYear, int literatureTypeNr) {
+            int releasesPerYear, int literatureTypeNr) 
         {
             boolean wasRemoved = false;
 
@@ -234,14 +234,108 @@ public class Librarian {
                 return wasRemoved;
             }
         }
-    }
 
-    public boolean addToSeries() {
-        ArrayList<Literature> allLiterature = getRegister();
+    /**
+     * Finds an existing literature and moves it to an existing series.
+     * What actually happens is as follows
+     * <ul>
+     *      <li> The correct series is found
+     *      <li> The correct piece of literature is found
+     *      <li> The literature is removed from its original place
+     *      <li> The literature and found series are checked for compatibility
+     *      <li> The literature is added to the series
+     * </ul>
+     * 
+     * @param seriesName name of the series
+     * @param lit literature to add to the series
+     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @return TRUE if the operation was a success, FALSE otherwise
+     */
+    public boolean addToSeries(String seriesName, String title, 
+            String publisher, int literatureTypeNr) {
         boolean wasAdded = false;
+        ArrayList<Literature> serialMatches = litReg.getByTitle(seriesName);
+        for (Literature l : serialMatches)
+        {
+            if (!(l instanceof Series)) // We only want series here
+            {
+                serialMatches.remove(l);
+            }
+        }
         
+        // This should give only one match, but we check to be sure
+        ArrayList<Literature> titleMatches = litReg.getByTitle(title);
+        Literature titleMatch = null;
+        if (titleMatches.size() == 1) {
+            titleMatch = titleMatches.get(0);
+        }
         
-return wasAdded;
+        // This should also return only one match, but check still
+        ArrayList<Literature> publisherMatches = 
+                litReg.getByPublisher(publisher);
+        Literature publisherMatch = null;
+        if (publisherMatches.size() == 1) {
+            publisherMatch = publisherMatches.get(0);
+        }
+        
+        // If both the title and the publishers match, we assume this is the 
+        // right piece of literature and we take it.
+        Literature lit = null;
+        if (titleMatch != null && publisherMatch != null) {
+            if (titleMatch == publisherMatch) {
+                lit = titleMatch;
+                litReg.removeLiterature(titleMatch);
+            }    
+        } else {
+            // TODO: add some error message, the search wasn't precise enough
+        }
+        
+        // We only want to add stuff if we're sure we have the right series
+        // Therefore, if there are more than one match, we don't have enough
+        // specificity in our search
+        if (serialMatches.size() == 1 && lit != null) {
+            switch (typeList.getProductTypes()[literatureTypeNr]) {
+
+                case "book": { //Book 
+                    if (serialMatches.get(0) instanceof BookSeries && 
+                            lit instanceof SerialBook) {
+                        BookSeries bs = (BookSeries)serialMatches.get(0);
+                        wasAdded = bs.add((SerialBook)lit);
+                    }
+                    break;
+                }
+                case "magazine": //Magazine
+                    if (serialMatches.get(0) instanceof MagazineSeries &&
+                            lit instanceof Magazine) {
+                        MagazineSeries ms = (MagazineSeries)serialMatches.get(0);
+                        wasAdded = ms.add((Magazine) lit);
+                    }
+                    break;
+
+                case "journal": //Journal
+                    if (serialMatches.get(0) instanceof JournalSeries &&
+                            lit instanceof Journal) {
+                        JournalSeries js = (JournalSeries)serialMatches.get(0);
+                        wasAdded = js.add((Journal) lit);
+                    }
+                    break;
+
+                case "newspaper": //Newspaper
+                    if (serialMatches.get(0) instanceof NewspaperSeries &&
+                            lit instanceof Newspaper) {
+                        NewspaperSeries nps = (NewspaperSeries)serialMatches.get(0);
+                        wasAdded = nps.add((Newspaper) lit);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        } else {
+            //TODO: make a message that the search term isn't specific enough
+        }
+        
+        return wasAdded; 
     }
 
     /**

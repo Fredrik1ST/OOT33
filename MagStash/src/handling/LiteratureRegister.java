@@ -57,6 +57,7 @@ public class LiteratureRegister {
         }
         return wasRemoved;
     }
+
     
     /**
      * Returns all Literature in LiteratureRegister as an ArrayList.
@@ -90,7 +91,7 @@ public class LiteratureRegister {
      * Searches through all the magazines stored in the register.
      *
      * @param publisher Publisher to search for.
-     * @return Formatted string of all literaturees with matching publisher
+     * @return Formatted string of all literatures with matching publisher
      */
     public final ArrayList getByPublisher(final String publisher) {
         ArrayList<Literature> matches = new ArrayList<>();

@@ -148,12 +148,12 @@ public class ApplicationUI {
                     listAllProducts();
                     break;
 
-                case 2:
-                    // 2. Find by title & publisher
+                case 2: // 2. Find by title & publisher
+                    
                     break;
 
-                case 3:
-                    // 3. Find by publisher
+                case 3: // 3. Find by publisher
+                    
                     break;
 
                 default:
@@ -186,8 +186,8 @@ public class ApplicationUI {
                     addNewSeries();
                     break;
 
-                case 3:
-                    // Add existing literature to an existing series
+                case 3: // Add existing literature to an existing series
+                    
                     break;
 
                 default:
@@ -339,7 +339,44 @@ public class ApplicationUI {
         } else {
             System.out.println("Series already exists");
         }
+    }
+    
+    /*
+     * Adds an already existing piece of literature to a new series.
+     * 
+     * 
+     */
+    private void addToSeries() {
+        Scanner reader = new Scanner(System.in);
+        String seriesName = "";
+        String title = "";
+        String publisher = "";
+        int productTypeNumber = 0;
+        
+        try {
+            System.out.println("\nYou selected \"Add existing " + product + 
+                    " to a series.\n\n");
 
+            while (productTypeNumber < 1
+                    || productTypeNumber > (typeList.getListLength())) {
+                System.out.println("Choose a literature type:");
+                System.out.println(typeList.displayTypes());
+                productTypeNumber = reader.nextInt();
+                reader.nextLine();
+            }
+
+            System.out.println("Enter name of series: ");
+            seriesName = reader.nextLine();
+            System.out.println("Enter title of literature: ");
+            title = reader.nextLine();
+            System.out.println("Enter name of publisher: ");
+            publisher = reader.nextLine();
+        } catch (InputMismatchException ime) {
+            System.out.println(
+                    "\nERROR: Expected an integer \nPlease try again");
+        }
+
+        librarian.addToSeries(seriesName, title, publisher, productTypeNumber);
     }
 
     /**
