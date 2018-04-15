@@ -1,5 +1,4 @@
 //TODO: Move string handling to Librarian. Return collections instead.
-
 package handling;
 
 import literature.Literature;
@@ -39,11 +38,11 @@ public class LiteratureRegister {
         }
         return wasAdded;
     }
-    
+
     /**
-     * Removes a piece of literature from the set.
-     * 
-     * @param l the issue to be removed
+     * Removes a piece of literature from the set
+     *
+     * @param l the same issue, or an issue equal to the one you want removed
      * @return TRUE if the literature was found & removed, FALSE otherwise
      */
     public final boolean removeLiterature(final Literature l) {
@@ -57,10 +56,11 @@ public class LiteratureRegister {
         }
         return wasRemoved;
     }
-    
+
     /**
      * Returns all Literature in LiteratureRegister as an ArrayList.
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Literature> getAllLiterature() {
         ArrayList<Literature> allLiterature = new ArrayList<>();
@@ -72,6 +72,7 @@ public class LiteratureRegister {
 
     /**
      * Return all literature with titles containing the given string.
+     *
      * @param title the title to search for
      * @return ArrayList of all literature containing title
      */

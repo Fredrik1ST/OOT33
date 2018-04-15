@@ -25,8 +25,8 @@ public class Newspaper extends SerialLiterature {
     @Override
     public final String getDetailsAsString() {
         return "\n-----------------------\n" + this.getTitle()
-                + "\n#" + this.getReleaseNr() 
-                + "\nNewspaper published by " + this.getPublisher() + "\n" 
+                + "\n#" + this.getReleaseNr()
+                + "\nNewspaper published by " + this.getPublisher() + "\n"
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 }
