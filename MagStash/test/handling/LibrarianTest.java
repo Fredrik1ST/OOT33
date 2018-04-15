@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
  */
 public class LibrarianTest {
 
+    ProductTypeNumbers typeList;
     LiteratureRegister litReg;
     Literature b;
     Literature m;
@@ -30,6 +31,7 @@ public class LibrarianTest {
 
     public LibrarianTest() {
         litReg = new LiteratureRegister();
+        typeList = new ProductTypeNumbers();
 
         b = new Book("Markens Grøde", "publisher", "genre",
                 1999, 11, 1, "author", 1);
@@ -39,11 +41,6 @@ public class LibrarianTest {
                 111, 1, 11, 1);
         n = new Newspaper("Sunnmørsposten", "publisher", "genre",
                 1111, 1, 11, 1);
-    }
-
-    @Test
-    public void testAddSeries() {
-
     }
 
     @Test
@@ -82,4 +79,14 @@ public class LibrarianTest {
                     + ProductTypeNumbers.getProductTypes()[1]);
         }
     }
+
+    @Test
+    public void testAddToSeries() {
+        Librarian librarian = new Librarian();
+        librarian.fillRegister();
+        assertEquals(true,
+                librarian.addToSeries(
+                        "A magazine series", "A magazine", "some publisher", 2));
+    }
+
 }

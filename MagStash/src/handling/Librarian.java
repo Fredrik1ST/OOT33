@@ -441,13 +441,9 @@ public class Librarian {
         litReg.addLiterature(new Magazine(
                 "A magazine", "some publisher", "a genre", 1995, 11, 18, 3));
         Series series = new MagazineSeries(
-                "A magazine", "some publisher", "a genre", 3);
+                "A magazine series", "some publisher", "a genre", 3);
         series.add(new Magazine(
                 "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
-        series.add(new Magazine(
-                "A magazine", "some publisher", "a genre", 1995, 11, 18, 2));
-        series.add(new Magazine(
-                "A magazine", "some publisher", "a genre", 1995, 11, 18, 3));
         litReg.addLiterature(series);
 
     }
