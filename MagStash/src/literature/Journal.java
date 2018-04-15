@@ -30,6 +30,7 @@ public class Journal extends SerialLiterature {
         return "\n-----------------------\n" + this.getTitle()
                 + "\n#" + this.getReleaseNr()
                 + "\nJournal published by " + this.getPublisher() + "\n"
+                + "Genre: " + this.getGenre()
                 + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
     }
 
