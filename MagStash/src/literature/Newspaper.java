@@ -9,7 +9,7 @@ package literature;
  *
  * @author Fredrik
  */
-public class Newspaper extends SerialLiterature {
+public class Newspaper extends Literature {
 
     public Newspaper(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {

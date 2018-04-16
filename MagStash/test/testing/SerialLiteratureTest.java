@@ -19,19 +19,19 @@ public class SerialLiteratureTest {
 
     @BeforeClass
     public static void setUpClass() {
-        SerialLiterature m = new Magazine("Se og Hør", "publisher", "horror", 
+        Literature m = new Magazine("Se og Hør", "publisher", "horror", 
                 111, 1, 11, 1);
-        SerialLiterature j = new Journal("Time", "publisher", "genre", 
+        Literature j = new Journal("Time", "publisher", "genre", 
                 111, 1, 11, 1);
-        SerialLiterature l = new Newspaper("SMP", "publisher", "genre", 
+        Literature l = new Newspaper("SMP", "publisher", "genre", 
                 1111, 1, 11, 1);
     }
 
 
     /**
-     * Try implementing SerialLiterature
+     * Try implementing Literature
      */
-    public class SerialLiteratureSubClass extends SerialLiterature {
+    public class SerialLiteratureSubClass extends Literature {
 
         public SerialLiteratureSubClass() {
             super("title", "publisher", "genre", 1814, 5, 17, 1);

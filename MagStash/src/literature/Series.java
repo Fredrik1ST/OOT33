@@ -11,10 +11,10 @@ import java.util.TreeMap;
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public abstract class Series extends Literature {
+public abstract class Series extends Entries {
 
     private int releasesPerYear;
-    private TreeMap<Integer, SerialLiterature> issues;
+    private TreeMap<Integer, Literature> issues;
 
     /**
      * Initialises the series with all fields filled.
@@ -37,15 +37,15 @@ public abstract class Series extends Literature {
      *
      * @return a boolean confirming that the issue was added
      */
-    abstract public boolean add(SerialLiterature sl);
+    abstract public boolean add(Literature sl);
 
     /**
      * Adds an issue of serial literature to the series.
      *
-     * @param sl SerialLiterature to be added
+     * @param sl Literature to be added
      * @return a boolean confirming that the issue was added
      */
-    protected boolean addIssue(SerialLiterature sl) {
+    protected boolean addIssue(Literature sl) {
         try {
             boolean wasAdded = false;
 
@@ -64,15 +64,15 @@ public abstract class Series extends Literature {
      * @param sl
      * @return TRUE if the issue was removed
      */
-    abstract public boolean remove(SerialLiterature sl);
+    abstract public boolean remove(Literature sl);
     
     /**
      * Removes an issue of serial literature from the series.
      *
-     * @param sl SerialLiterature to be removed
+     * @param sl Literature to be removed
      * @return a boolean confirming that the issue was removed
      */
-    protected boolean removeIssue(SerialLiterature sl) {
+    protected boolean removeIssue(Literature sl) {
         try {
             if (issues.containsValue(sl)) {
             issues.remove(sl.getReleaseNr());
@@ -108,7 +108,7 @@ public abstract class Series extends Literature {
      */
     public String getAllDetailsAsString() {
         String seriesList = "";
-        for (Map.Entry<Integer, SerialLiterature> entry : issues.entrySet()) {
+        for (Map.Entry<Integer, Literature> entry : issues.entrySet()) {
             seriesList = seriesList + entry.getValue().getDetailsAsString();
         }
         return seriesList;
@@ -134,7 +134,7 @@ public abstract class Series extends Literature {
     /**
      * Compares this object to another to see if they're the same.
      *
-     * @param o Literature to be compared to
+     * @param o Entries to be compared to
      * @return TRUE if they're equal
      */
     @Override

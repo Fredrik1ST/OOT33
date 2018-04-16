@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public class Magazine extends SerialLiterature {
+public class Magazine extends Literature {
 
     /**
      * Creates a new magazine from explicitly given date.

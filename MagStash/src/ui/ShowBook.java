@@ -4,7 +4,7 @@ import literature.Book;
 
 /**
  * A display method for Book objects. Requires Book class to function.
- * Exists to increase cohesion and decrease coupling.
+ Exists to increase cohesion and decrease coupling.
  *
  * @author Magnus
  */
@@ -15,7 +15,7 @@ public class ShowBook {
      * @param book the book to get information from
      * @return formatted string with information about book
      */
-    public final String getDetailsAsString(final Book book) {
+    public final String getDetailsAsString(Book book) {
         return "\n-----------------------\n" + book.getTitle()
                 + " - " + book.getEdition() + ". edition"
                 + "\nBook published by " + book.getPublisher() + "\n"

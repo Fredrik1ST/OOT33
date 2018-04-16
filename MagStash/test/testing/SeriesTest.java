@@ -16,7 +16,7 @@ public class SeriesTest {
     @Test
     public void addTest() {
         Series books = new BookSeries("series", "publisher", "genre", 0);
-        SerialLiterature book = new SerialBook("book", "publisher", "genre",
+        Literature book = new Book("book", "publisher", "genre",
                 1111, 11, 11, 1, "author");
         boolean success = books.add(book);
         System.out.println(books.getDetailsAsString());
@@ -26,7 +26,7 @@ public class SeriesTest {
     @Test
     public void removeTest() {
         Series books = new BookSeries("series", "publisher", "genre", 0);
-        SerialLiterature book = new SerialBook("book", "publisher", "genre",
+        Literature book = new Book("book", "publisher", "genre",
                 1111, 11, 11, 1, "author");
         books.add(book);
         boolean success = books.remove(book);

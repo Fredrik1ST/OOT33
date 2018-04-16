@@ -1,8 +1,8 @@
 package testing;
 
 import handling.LiteratureRegister;
+import literature.Entries;
 import literature.Literature;
-import literature.SerialLiterature;
 import literature.Book;
 import literature.Magazine;
 import literature.Journal;
@@ -20,14 +20,14 @@ import literature.Newspaper;
 public class LiteratureRegisterTest {
 
     LiteratureRegister litReg;
-    Literature b;
-    Literature m;
-    Literature j;
-    Literature n;
+    Entries b;
+    Entries m;
+    Entries j;
+    Entries n;
 
     public LiteratureRegisterTest() {
         b = new Book("Book", "publisher", "genre",
-                1999, 11, 1, "author", 1);
+                1999, 11, 1, 1, "author", 1);
         m = new Magazine("Magazine", "publisher", "horror",
                 111, 1, 11, 1);
         j = new Journal("Journal", "publisher", "genre",
@@ -58,9 +58,9 @@ public class LiteratureRegisterTest {
         System.out.println("Compare two types of literature");
         LiteratureRegister testReg = new LiteratureRegister();
 
-        SerialLiterature m = new Magazine("Item", "Pub", ":)", 1999, 11, 1, 1);
-        SerialLiterature j = new Journal("Item", "Pub", ":)", 1999, 11, 1, 1);
-        SerialLiterature m2 = new Magazine("Item", "Pub", ":)", 1999, 11, 1, 1);
+        Literature m = new Magazine("Item", "Pub", ":)", 1999, 11, 1, 1);
+        Literature j = new Journal("Item", "Pub", ":)", 1999, 11, 1, 1);
+        Literature m2 = new Magazine("Item", "Pub", ":)", 1999, 11, 1, 1);
 
         boolean expResult = true;
         boolean result = (m.equals(m2));
