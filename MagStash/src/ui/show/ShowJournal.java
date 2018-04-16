@@ -1,4 +1,4 @@
-package ui;
+package ui.show;
 
 import literature.Journal;
 /**
@@ -14,7 +14,7 @@ public class ShowJournal {
      * @param journal the journal to get information from
      * @return formatted string with information about journal
      */
-    public final String getDetailsAsString(final Journal journal) {
+    public static String getDetailsAsString(Journal journal) {
         return "\n-----------------------\n" + journal.getTitle()
                 + "\n#" + journal.getReleaseNr()
                 + "\nJournal published by " + journal.getPublisher() + "\n"

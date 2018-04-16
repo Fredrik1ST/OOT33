@@ -41,7 +41,7 @@ public class ProductTypeNumbers {
      *
      * @return the length of the productTypeNumber array - 1.
      */
-    public int getListLength() {
+    public static int getListLength() {
         return (getProductTypes().length - 1);
     }
 
@@ -50,7 +50,7 @@ public class ProductTypeNumbers {
      *
      * @return a numbered list of existing literature types
      */
-    public String displayTypes() {
+    public static String displayTypes() {
         String typeList = "";
 
         for (int i = 1; i < getProductTypes().length; i++) {

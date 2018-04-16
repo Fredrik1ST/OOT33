@@ -2,6 +2,7 @@
 package handling;
 
 import literature.Literature;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
 import handling.ProductTypeNumbers;
@@ -29,7 +30,7 @@ public class LiteratureRegister {
      * @param l the new literature
      * @return TRUE if the literature was added, FALSE otherwise
      */
-    public final boolean addLiterature(final Literature l) {
+    public  boolean addLiterature( Literature l) {
         boolean wasAdded = false;
         try {
             wasAdded = litRegister.add(l);
@@ -45,7 +46,7 @@ public class LiteratureRegister {
      * @param l the same issue, or an issue equal to the one you want removed
      * @return TRUE if the literature was found & removed, FALSE otherwise
      */
-    public final boolean removeLiterature(final Literature l) {
+    public  boolean removeLiterature( Literature l) {
         boolean wasRemoved = false;
         try {
             wasRemoved = litRegister.remove(l);
@@ -77,7 +78,7 @@ public class LiteratureRegister {
      * @param title the title to search for
      * @return ArrayList of all literature containing title
      */
-    public final ArrayList<Literature> getByTitle(final String title) {
+    public  ArrayList<Literature> getByTitle( String title) {
         ArrayList<Literature> matches = new ArrayList<>();
         for (Literature l : litRegister) {
             if (l.getTitle().contains(title)) {
@@ -94,7 +95,7 @@ public class LiteratureRegister {
      * @param publisher Publisher to search for.
      * @return Formatted string of all literatures with matching publisher
      */
-    public final ArrayList getByPublisher(final String publisher) {
+    public  ArrayList getByPublisher( String publisher) {
         ArrayList<Literature> matches = new ArrayList<>();
         for (Literature l : litRegister) {
             if (l.getPublisher().contains(publisher)) {
@@ -102,5 +103,14 @@ public class LiteratureRegister {
             }
         }
         return matches;
+    }
+    
+    /**
+     * Returns a copy of the HashSet as Set.
+     * @return a copy of the register (HashSet) as Set
+     */
+    public Set<Literature> getSet() {
+        Set<Literature> litSet = this.litRegister;
+        return litSet;
     }
 }

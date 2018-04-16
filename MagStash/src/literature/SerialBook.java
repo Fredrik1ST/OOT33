@@ -36,21 +36,5 @@ public class SerialBook extends SerialLiterature {
         return this.author;
     }
 
-    /**
-     * Returns a formatted string of the details of this book.
-     * Date format is in YYYY/MM/DD.
-     *
-     * @return the details as a formatted string.
-     */
-    @Override
-    public final String getDetailsAsString() {
-
-        return "\n-----------------------\n'" + this.getTitle()
-                + "#" + this.getReleaseNr()
-                + "\nBook published by " + this.getPublisher() + "\n"
-                + "Written by " + this.getAuthor() + "\n"
-                + "Genre: " + this.getGenre() + "\n"
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
-    }
 
 }

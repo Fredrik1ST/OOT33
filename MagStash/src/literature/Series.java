@@ -7,6 +7,8 @@ import java.util.TreeMap;
  * A superclass for series. Its purpose is to keep general information that all
  * series have, whether book series, magazines, or other, in order to keep code
  * cleaner.
+ * 
+ * TreeMap sorted by SerialLiterature's release numbers in ascending order.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
@@ -84,6 +86,15 @@ public abstract class Series extends Literature {
     }
 
     /**
+     * Returns the objects in the series in a TreeMap
+     * @return the contents of the series in a TreeMap
+     */
+    public TreeMap<Integer, SerialLiterature> getIssues() {
+        TreeMap<Integer, SerialLiterature> foundIssues = issues;
+        return foundIssues;
+    }
+    
+    /**
      * Returns releases per year.
      *
      * @return releases per year
@@ -99,36 +110,6 @@ public abstract class Series extends Literature {
      */
     public int getSize() {
         return this.issues.size();
-    }
-
-    /**
-     * Returns a list (String) of all literature in the series
-     *
-     * @return a list-String of all literature in the series
-     */
-    public String getAllDetailsAsString() {
-        String seriesList = "";
-        for (Map.Entry<Integer, SerialLiterature> entry : issues.entrySet()) {
-            seriesList = seriesList + entry.getValue().getDetailsAsString();
-        }
-        return seriesList;
-    }
-
-    /**
-     * Returns a short description of the series and its content in list format.
-     *
-     * @return a short description of the series
-     */
-    @Override
-    public String getDetailsAsString() {
-        String issuesPerYear = "";
-        if (this.releasesPerYear > 0) {
-            issuesPerYear = "\nIssues per year: " + this.releasesPerYear;
-        }
-        return ("\n***********************\n" + this.getTitle() + "\n"
-                + "Series published by " + this.getPublisher() + "\n"
-                + "# of issues: " + issues.size()
-                + issuesPerYear);
     }
 
     /**

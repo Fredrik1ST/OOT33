@@ -1,4 +1,4 @@
-package ui;
+package ui.show;
 
 import literature.Book;
 
@@ -15,7 +15,7 @@ public class ShowBook {
      * @param book the book to get information from
      * @return formatted string with information about book
      */
-    public final String getDetailsAsString(final Book book) {
+    public static String getDetailsAsString(Book book) {
         return "\n-----------------------\n" + book.getTitle()
                 + " - " + book.getEdition() + ". edition"
                 + "\nBook published by " + book.getPublisher() + "\n"

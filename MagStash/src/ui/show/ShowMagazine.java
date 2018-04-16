@@ -1,4 +1,4 @@
-package ui;
+package ui.show;
 
 import literature.Magazine;
 
@@ -14,7 +14,7 @@ public class ShowMagazine {
      * @param magazine the magazine to get information from
      * @return formatted string with information about magazine
      */
-    public final String getDetailsAsString(final Magazine magazine) {
+    public static String getDetailsAsString(Magazine magazine) {
         return "\n-----------------------\n" + magazine.getTitle()
                 + "\n#" + magazine.getReleaseNr()
                 + "\nMagazine published by " + magazine.getPublisher() + "\n"

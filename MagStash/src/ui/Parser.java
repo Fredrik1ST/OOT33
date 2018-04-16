@@ -34,15 +34,22 @@ public class Parser {
      * @return the integer entered by the user
      */
     public int nextInt() {
-        parser = new Scanner(System.in);
+        boolean isInt = false;
         int input = -1;
-        try {
-            while (input < 0) {
-                input = parser.nextInt();
+
+        while (!isInt) {
+            parser = new Scanner(System.in);
+
+            try {
+                while (input < 0) {
+                    input = parser.nextInt();
+                }
+                isInt = true;
+
+            } catch (InputMismatchException ime) {
+                System.out.println("\nPlease enter an integer\n");
+                nextInt();
             }
-        } catch (InputMismatchException ime) {
-            System.out.println("\nPlease enter an integer\n");
-            nextInt();
         }
         return input;
     }

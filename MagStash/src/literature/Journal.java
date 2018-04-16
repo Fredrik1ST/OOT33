@@ -19,19 +19,5 @@ public class Journal extends SerialLiterature {
         super(title, publisher, genre, year, month, day, releaseNr);
     }
 
-    /**
-     * Returns a formatted string of the details of this Journal.
-     * Date format is in YYYY/MM/DD.
-     *
-     * @return the details as a formatted string.
-     */
-    @Override
-    public final String getDetailsAsString() {
-        return "\n-----------------------\n" + this.getTitle()
-                + "\n#" + this.getReleaseNr()
-                + "\nJournal published by " + this.getPublisher() + "\n"
-                + "Genre: " + this.getGenre() + "\n"
-                + this.getYear() + "/" + this.getMonth() + "/" + this.getDay();
-    }
 
 }

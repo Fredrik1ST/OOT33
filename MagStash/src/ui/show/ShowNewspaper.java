@@ -1,4 +1,4 @@
-package ui;
+package ui.show;
 
 import literature.Newspaper;
 /**
@@ -12,7 +12,7 @@ public class ShowNewspaper {
      * @param newspaper the newspaper to get information from
      * @return formatted string with information about newspaper
      */
-    public final String getDetailsAsString(final Newspaper newspaper) {
+    public static String getDetailsAsString(Newspaper newspaper) {
         return "\n-----------------------\n" + newspaper.getTitle()
                 + "\n#" + newspaper.getReleaseNr()
                 + "\nNewspaper published by " + newspaper.getPublisher() + "\n"

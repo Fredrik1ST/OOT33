@@ -60,13 +60,6 @@ public abstract class Literature {
     }
 
     /**
-     * Abstract class to give out the details of the piece.
-     *
-     * @return all details of the piece as string.
-     */
-    abstract public String getDetailsAsString();
-
-    /**
      * Overrides the method "equals". Necessary for comparing literature types.
      *
      * @param b the literature to be compared to
