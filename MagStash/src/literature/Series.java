@@ -48,9 +48,10 @@ public abstract class Series extends Literature {
     protected boolean addIssue(SerialLiterature sl) {
         try {
             boolean wasAdded = false;
-            if (issues.put(sl.getReleaseNr(), sl) != null) {
-                wasAdded = true;
-            }
+
+            issues.put(sl.getReleaseNr(), sl);
+            wasAdded = true;
+             
             return wasAdded;
         } catch (NullPointerException npe) {
             return false;

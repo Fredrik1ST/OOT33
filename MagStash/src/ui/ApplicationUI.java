@@ -1,4 +1,3 @@
-//TODO Make it so that no Null ever sets foot in here!
 package ui;
 
 import java.time.DateTimeException;
@@ -24,6 +23,9 @@ public class ApplicationUI {
 
     // The class that will be communicating between the UI and the register.
     private Librarian librarian;
+
+    // A Scanner that reads input from the user.
+    private Parser parser;
 
     // A list of all existing literature types with corresponding index numbers.
     private ProductTypeNumbers typeList;
@@ -62,6 +64,7 @@ public class ApplicationUI {
      */
     public ApplicationUI() {
         librarian = new Librarian();
+        parser = new Parser();
         typeList = new ProductTypeNumbers();
     }
 
@@ -128,8 +131,7 @@ public class ApplicationUI {
         System.out.println(
                 "Please choose menu item (1-" + maxMenuItemNumber + "): ");
         // Read input from user
-        Scanner reader = new Scanner(System.in);
-        int menuSelection = reader.nextInt();
+        int menuSelection = parser.nextInt();
         if ((menuSelection < 1) || (menuSelection > maxMenuItemNumber)) {
             throw new InputMismatchException();
         }
@@ -200,6 +202,9 @@ public class ApplicationUI {
                 case 5: // Remove single literature
                     removeProduct();
                     break;
+
+                case 6: // Remove a series
+                    removeSeries();
                 default:
                     break;
 
@@ -239,10 +244,9 @@ public class ApplicationUI {
      */
     private void listByTitle() {
         String searchString;
-        Scanner reader = new Scanner(System.in);
         System.out.println("\nYou selected \"Find literature by title\"");
         System.out.println("Enter title to search for: ");
-        searchString = reader.nextLine();
+        searchString = parser.nextLine();
 
         System.out.println(librarian.getDetailsByTitle(
                 librarian.getRegister(), searchString));
@@ -253,10 +257,9 @@ public class ApplicationUI {
      */
     private void listByPublisher() {
         String searchString;
-        Scanner reader = new Scanner(System.in);
         System.out.println("\nYou selected \"Find literature by publisher\"");
         System.out.println("Enter publisher to search for: ");
-        searchString = reader.nextLine();
+        searchString = parser.nextLine();
 
         System.out.println(librarian.getDetailsByPublisher(
                 librarian.getRegister(), searchString));
@@ -266,7 +269,6 @@ public class ApplicationUI {
      * Add a new piece of literature to the literature register.
      */
     private void addNewProduct() {
-        Scanner reader = new Scanner(System.in);
         boolean running = true;
 
         String title;
@@ -284,28 +286,26 @@ public class ApplicationUI {
 
         try {
             System.out.println(
-            "\nYou selected \"Add a piece of literature\".\n\n");
+                    "\nYou selected \"Add a piece of literature\".\n");
 
             while (productTypeNumber < 1
                     || productTypeNumber > (typeList.getListLength())) {
                 System.out.println("Choose a literature type:");
                 System.out.println(typeList.displayTypes());
-                productTypeNumber = reader.nextInt();
-                reader.nextLine();
+                productTypeNumber = parser.nextInt();
             }
 
             System.out.println("Enter title of literature: ");
-            title = reader.nextLine();
+            title = parser.nextLine();
             System.out.println("Enter name of publisher: ");
-            publisher = reader.nextLine();
+            publisher = parser.nextLine();
             System.out.println("Enter genre: ");
-            genre = reader.nextLine();
+            genre = parser.nextLine();
             if (typeList.getProductTypes()[productTypeNumber].equals("book")) {
                 System.out.println("Enter name of author: ");
-                author = reader.nextLine();
+                author = parser.nextLine();
                 System.out.println("Enter edition number: ");
-                edition = reader.nextInt();
-                reader.nextLine();
+                edition = parser.nextInt();
 
             }
 
@@ -313,11 +313,11 @@ public class ApplicationUI {
             while (!dateIsValid) {
                 try {
                     System.out.println("Enter year of release (YYYY): ");
-                    year = reader.nextInt();
+                    year = parser.nextInt();
                     System.out.println("Enter month of release (MM): ");
-                    month = reader.nextInt();
+                    month = parser.nextInt();
                     System.out.println("Enter day of release (DD): ");
-                    day = reader.nextInt();
+                    day = parser.nextInt();
 
                     if (librarian.addLiterature(title, publisher, genre,
                             year, month, day,
@@ -346,7 +346,6 @@ public class ApplicationUI {
      * Removes a piece of literature from the literature register.
      */
     private void removeProduct() {
-        Scanner reader = new Scanner(System.in);
         boolean running = true;
 
         String title;
@@ -362,64 +361,57 @@ public class ApplicationUI {
         int productTypeNumber = 0;
         boolean isSeries = false;
 
-        try {
-            System.out.println(
-                    "\nYou selected \"Remove literature\".\n\n");
+        System.out.println(
+                "\nYou selected \"Remove literature\".\n\n");
 
-            while (productTypeNumber < 1
-                    || productTypeNumber > (typeList.getListLength())) {
-                System.out.println("Choose a literature type:");
-                System.out.println(typeList.displayTypes());
-                productTypeNumber = reader.nextInt();
-                reader.nextLine();
-            }
+        while (productTypeNumber < 1
+                || productTypeNumber > (typeList.getListLength())) {
+            System.out.println("Choose a literature type:");
+            System.out.println(typeList.displayTypes());
+            productTypeNumber = parser.nextInt();
+        }
 
-            System.out.println("Enter title of literature: ");
-            title = reader.nextLine();
-            System.out.println("Enter name of publisher: ");
-            publisher = reader.nextLine();
-            System.out.println("Enter genre: ");
-            genre = reader.nextLine();
-            if (typeList.getProductTypes()[productTypeNumber].equals("book")) {
-                System.out.println("Enter name of author: ");
-                author = reader.nextLine();
-                System.out.println("Enter edition number: ");
-                edition = reader.nextInt();
-                reader.nextLine();
+        System.out.println("Enter title of literature: ");
+        title = parser.nextLine();
+        System.out.println("Enter name of publisher: ");
+        publisher = parser.nextLine();
+        System.out.println("Enter genre: ");
+        genre = parser.nextLine();
+        if (typeList.getProductTypes()[productTypeNumber].equals("book")) {
+            System.out.println("Enter name of author: ");
+            author = parser.nextLine();
+            System.out.println("Enter edition number: ");
+            edition = parser.nextInt();
 
-            }
+        }
 
-            boolean dateIsValid = false;
-            while (!dateIsValid) {
-                try {
-                    System.out.println("Enter year of release (YYYY): ");
-                    year = reader.nextInt();
-                    System.out.println("Enter month of release (MM): ");
-                    month = reader.nextInt();
-                    System.out.println("Enter day of release (DD): ");
-                    day = reader.nextInt();
+        boolean dateIsValid = false;
+        while (!dateIsValid) {
+            try {
+                System.out.println("Enter year of release (YYYY): ");
+                year = parser.nextInt();
+                System.out.println("Enter month of release (MM): ");
+                month = parser.nextInt();
+                System.out.println("Enter day of release (DD): ");
+                day = parser.nextInt();
 
-                    if (librarian.removeLiterature(title, publisher, genre,
-                            year, month, day,
-                            releaseNr, productTypeNumber, author, edition)) {
-                        System.out.println(title + "was removed");
-                    } else {
-                        System.out.println("ERROR: " + title
-                                + " does not exist,"
-                                + "or parameters may be wrong");
-                    }
-                    dateIsValid = true;
-                } catch (DateTimeException dte) {
-                    dateIsValid = false;
-                    System.out.println("\nERROR: "
-                            + year + "/" + month + "/" + day
-                            + " is not a valid date\n");
+                if (librarian.removeLiterature(title, publisher, genre,
+                        year, month, day,
+                        releaseNr, productTypeNumber, author, edition)) {
+                    System.out.println(title + "was removed");
+                } else {
+                    System.out.println("ERROR: " + title
+                            + " does not exist,"
+                            + "or parameters may be wrong");
                 }
-            }
+                dateIsValid = true;
+            } catch (DateTimeException dte) {
+                dateIsValid = false;
+                System.out.println("\nERROR: "
+                        + year + "/" + month + "/" + day
+                        + " is not a valid date\n");
 
-        } catch (InputMismatchException ime) {
-            System.out.println(
-                    "\nERROR: Expected an integer \nPlease try again");
+            }
         }
     }
 
@@ -427,7 +419,6 @@ public class ApplicationUI {
      * Adds a new literature series.
      */
     private void addNewSeries() {
-        Scanner reader = new Scanner(System.in);
         String title = "";
         int releasesPerYear = 0;
         int productTypeNr = 0;
@@ -436,61 +427,63 @@ public class ApplicationUI {
 
         System.out.println("\nYou selected \"Add new series\".\n\n");
 
-        while (productTypeNr < 1
-                || productTypeNr > (typeList.getListLength())) {
-            System.out.println("Choose a literature type:");
-            System.out.println(typeList.displayTypes());
-            productTypeNr = reader.nextInt();
-            reader.nextLine();
-        }
+        try {
+            while (productTypeNr < 1
+                    || productTypeNr > (typeList.getListLength())) {
+                System.out.println("Choose a literature type:");
+                System.out.println(typeList.displayTypes());
+                productTypeNr = parser.nextInt();
+            }
 
-        System.out.println("Enter name of series: ");
-        title = reader.nextLine();
+            System.out.println("Enter name of series: ");
+            title = parser.nextLine();
 
-        System.out.println("Enter publisher: ");
-        publisher = reader.nextLine();
+            System.out.println("Enter publisher: ");
+            publisher = parser.nextLine();
 
-        System.out.println("Enter genre: ");
-        genre = reader.nextLine();
+            System.out.println("Enter genre: ");
+            genre = parser.nextLine();
 
-        if (librarian.addSeries(title, publisher, genre,
-                releasesPerYear, productTypeNr)) {
-            System.out.println("Series " + title + " was added");
-        } else {
-            System.out.println("Series already exists");
+            System.out.println("Enter releases per year (or 0 if unknown): ");
+            releasesPerYear = parser.nextInt();
+
+            if (librarian.addSeries(title, publisher, genre,
+                    releasesPerYear, productTypeNr)) {
+                System.out.println("Series " + title + " was added");
+            } else {
+                System.out.println("Series already exists");
+            }
+        } catch (InputMismatchException ime) {
+            System.out.println("ERROR: expected an integer");
         }
     }
-    
+
     /*
      * Adds an already existing piece of literature to a new series.
-     * 
-     * 
      */
     private void addToSeries() {
-        Scanner reader = new Scanner(System.in);
         String seriesName = "";
         String title = "";
         String publisher = "";
         int productTypeNumber = 0;
-        
+
         try {
-            System.out.println("\nYou selected \"Add existing " + product + 
-                    " to a series.\n\n");
+            System.out.println("\nYou selected \"Add existing " + product
+                    + " to a series.\n\n");
 
             while (productTypeNumber < 1
                     || productTypeNumber > (typeList.getListLength())) {
                 System.out.println("Choose a literature type:");
                 System.out.println(typeList.displayTypes());
-                productTypeNumber = reader.nextInt();
-                reader.nextLine();
+                productTypeNumber = parser.nextInt();
             }
 
             System.out.println("Enter name of series: ");
-            seriesName = reader.nextLine();
+            seriesName = parser.nextLine();
             System.out.println("Enter title of literature: ");
-            title = reader.nextLine();
+            title = parser.nextLine();
             System.out.println("Enter name of publisher: ");
-            publisher = reader.nextLine();
+            publisher = parser.nextLine();
         } catch (InputMismatchException ime) {
             System.out.println(
                     "\nERROR: Expected an integer \nPlease try again");
@@ -498,8 +491,8 @@ public class ApplicationUI {
 
         if (librarian.addToSeries(
                 seriesName, title, publisher, productTypeNumber)) {
-            System.out.println("Success! Your " + product + " was added to " +
-                    seriesName + "\n");
+            System.out.println("Success! Your " + product + " was added to "
+                    + seriesName + "\n");
         } else {
             // TODO: Add some error.
         }

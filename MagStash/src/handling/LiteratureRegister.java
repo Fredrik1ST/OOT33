@@ -77,7 +77,7 @@ public class LiteratureRegister {
      * @param title the title to search for
      * @return ArrayList of all literature containing title
      */
-    public final ArrayList getByTitle(final String title) {
+    public final ArrayList<Literature> getByTitle(final String title) {
         ArrayList<Literature> matches = new ArrayList<>();
         for (Literature l : litRegister) {
             if (l.getTitle().contains(title)) {
