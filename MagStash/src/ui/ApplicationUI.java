@@ -3,6 +3,7 @@ package ui;
 
 import ui.*;
 import ui.show.*; // Static methods for displaying literature
+import entries.*;
 import handling.LiteratureRegister;
 import handling.ProductNumbers;
 import java.util.Scanner;
@@ -238,8 +239,8 @@ public class ApplicationUI {
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all literature\"");
 
-        TreeSet<Literature> litSet = (TreeSet<Literature>) litReg.getSet();
-        for (Literature l : litSet) {
+        TreeSet<Entries> litSet = (TreeSet<Entries>) litReg.getSet();
+        for (Entries l : litSet) {
             printDetails(l);
         }
     }
@@ -248,9 +249,9 @@ public class ApplicationUI {
      * Lists all series in the register.
      */
     private void listSeries() {
-        ArrayList<Literature> litList = litReg.getAllLiterature();
+        ArrayList<Entries> litList = litReg.getAllLiterature();
         for (int i = 0; i == litList.size(); i++) {
-            Literature l = litList.get(i);
+            Entries l = litList.get(i);
             if (l instanceof Series) {
                 System.out.println("#" + (+1) + ":");
                 printDetails(litList.get(i));
@@ -270,9 +271,9 @@ public class ApplicationUI {
         System.out.println("Enter title to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Literature> litList = litReg.getByTitle(searchString);
+        ArrayList<Entries> litList = litReg.getByTitle(searchString);
         for (int i = 0; i == litList.size(); i++) {
-            Literature l = litList.get(i);
+            Entries l = litList.get(i);
             System.out.println("#" + (i + 1) + ":");
             printDetails(litList.get(i));
         }
@@ -288,7 +289,7 @@ public class ApplicationUI {
         System.out.println("Enter publisher to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Literature> litList = litReg.getByPublisher(searchString);
+        ArrayList<Entries> litList = litReg.getByPublisher(searchString);
         for (int i = 0; i == litList.size(); i++) {
             System.out.println("#" + (i + 1) + ":");
             printDetails(litList.get(i));
@@ -375,7 +376,7 @@ public class ApplicationUI {
             case "book": //Book
                 wasAdded = litReg.addLiterature(
                         new Book(title, publisher, genre,
-                                year, month, day, author, edition));
+                                year, month, day, releaseNr, author, edition));
                 break;
 
             case "magazine": //Magazine
@@ -592,7 +593,7 @@ public class ApplicationUI {
     /**
      * Prints details of given Literature
      */
-    public void printDetails(Literature l) {
+    public void printDetails(Entries l) {
         if (l instanceof Series) {
             Series s = (Series) l;
             System.out.print(ShowSeries.getDetailsAsString(s));

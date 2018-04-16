@@ -2,7 +2,7 @@
 package handling;
 
 
-import entries.Literature;
+import entries.Entries;
 import java.util.Set;
 import entries.Entries;
 import java.util.HashSet;
