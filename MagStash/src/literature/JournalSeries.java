@@ -29,4 +29,22 @@ public class JournalSeries extends Series {
         return wasAdded;
 
     }
+    
+    /**
+     * Removes an issue from the series.
+     *
+     * @param issue issue to be removed
+     * @return TRUE if the issue was removed
+     */
+    @Override
+    public boolean remove(SerialLiterature issue) {
+        boolean wasRemoved = false;
+
+        if (issue instanceof Journal) {
+            wasRemoved = removeIssue(issue);
+        }
+
+        return wasRemoved;
+
+    }
 }

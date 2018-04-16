@@ -16,7 +16,7 @@ public class BookSeries extends Series {
      * Add a new issue to the series.
      *
      * @param issue issue to be added
-     * @return boolean confirming that issue has been added to series
+     * @return TRUE if the issue was added
      */
     @Override
     public boolean add(SerialLiterature issue) {
@@ -27,6 +27,24 @@ public class BookSeries extends Series {
         }
 
         return wasAdded;
+
+    }
+
+    /**
+     * Removes an issue from the series.
+     *
+     * @param issue issue to be removed
+     * @return TRUE if the issue was removed
+     */
+    @Override
+    public boolean remove(SerialLiterature issue) {
+        boolean wasRemoved = false;
+
+        if (issue instanceof SerialBook) {
+            wasRemoved = removeIssue(issue);
+        }
+
+        return wasRemoved;
 
     }
 }

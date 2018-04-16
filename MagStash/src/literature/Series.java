@@ -59,6 +59,14 @@ public abstract class Series extends Literature {
     }
 
     /**
+     * For subclasses:
+     * Used to remove an issue (using removeIssue) after confirming correct type
+     * @param sl
+     * @return TRUE if the issue was removed
+     */
+    abstract public boolean remove(SerialLiterature sl);
+    
+    /**
      * Removes an issue of serial literature from the series.
      *
      * @param sl SerialLiterature to be removed
@@ -66,7 +74,9 @@ public abstract class Series extends Literature {
      */
     protected boolean removeIssue(SerialLiterature sl) {
         try {
-            issues.remove(sl.getReleaseNr(), sl);
+            if (issues.containsValue(sl)) {
+            issues.remove(sl.getReleaseNr());
+            }
             return true;
         } catch (NullPointerException npe) {
             return false;
