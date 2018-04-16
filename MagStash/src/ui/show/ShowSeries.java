@@ -1,6 +1,6 @@
 package ui.show;
 
-import literature.Series;
+import entries.Series;
 
 /**
  *

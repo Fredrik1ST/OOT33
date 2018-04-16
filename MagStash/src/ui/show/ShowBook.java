@@ -1,10 +1,10 @@
 package ui.show;
 
-import literature.Book;
+import entries.Book;
 
 /**
  * A display method for Book objects. Requires Book class to function.
- * Exists to increase cohesion and decrease coupling.
+ Exists to increase cohesion and decrease coupling.
  *
  * @author Magnus
  */
@@ -15,6 +15,7 @@ public class ShowBook {
      * @param book the book to get information from
      * @return formatted string with information about book
      */
+
     public static String getDetailsAsString(Book book) {
         return "\n-----------------------\n" + book.getTitle()
                 + " - " + book.getEdition() + ". edition"

@@ -5,10 +5,13 @@
  */
 package handling;
 
+import entries.Newspaper;
+import entries.Magazine;
+import entries.Journal;
+import entries.Entries;
+import entries.Book;
 import java.util.ArrayList;
-import literature.*;
-import literature.SerialLiterature;
-import literature.StandaloneLiterature;
+import entries.Literature;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,19 +25,19 @@ import static org.junit.Assert.*;
  */
 public class LibrarianTest {
 
-    ProductTypeNumbers typeList;
+    ProductNumbers typeList;
     LiteratureRegister litReg;
-    Literature b;
-    Literature m;
-    Literature j;
-    Literature n;
+    Entries b;
+    Entries m;
+    Entries j;
+    Entries n;
 
     public LibrarianTest() {
         litReg = new LiteratureRegister();
-        typeList = new ProductTypeNumbers();
+        typeList = new ProductNumbers();
 
         b = new Book("Markens Grøde", "publisher", "genre",
-                1999, 11, 1, "author", 1);
+                1999, 11, 1, 1, "author", 1);
         m = new Magazine("A-magasinet", "publisher", "horror",
                 111, 1, 11, 1);
         j = new Journal("A-magasinet", "publisher", "genre",
@@ -45,14 +48,14 @@ public class LibrarianTest {
 
     @Test
     public void testPrintDetails() {
-        ArrayList<Literature> issues = new ArrayList<>();
+        ArrayList<Entries> issues = new ArrayList<>();
         issues.add(b);
         issues.add(m);
         issues.add(j);
         issues.add(n);
 
         String foundLiterature = "";
-        for (Literature l : issues) {
+        for (Entries l : issues) {
             foundLiterature += l.getDetailsAsString();
         }
         System.out.println(foundLiterature);
@@ -60,7 +63,7 @@ public class LibrarianTest {
 
     @Test
     public void testCompareClasses() {
-        assertEquals(true, (b instanceof Literature));
+        assertEquals(true, (b instanceof Entries));
         assertEquals(false, (m instanceof Journal));
     }
 
@@ -68,15 +71,15 @@ public class LibrarianTest {
     public void testDeleteIssues() {
         litReg.addLiterature(b);
         System.out.println("\nContents before deletion: ");
-        for (Literature l : litReg.getAllLiterature()) {
+        for (Entries l : litReg.getAllLiterature()) {
             System.out.println(l.getDetailsAsString());
         }
         litReg.removeLiterature(new Book("Markens Grøde", "publisher", "genre",
-                1999, 11, 1, "author", 1));
+                1999, 11, 1, 1, "author", 1));
         System.out.println("\nContents after deletion: ");
-        for (Literature l : litReg.getAllLiterature()) {
+        for (Entries l : litReg.getAllLiterature()) {
             System.out.println(l.getDetailsAsString()
-                    + ProductTypeNumbers.getProductTypes()[1]);
+                    + ProductNumbers.getProductTypes()[1]);
         }
     }
 

@@ -1,10 +1,10 @@
 package ui;
 
+
 import ui.*;
 import ui.show.*; // Static methods for displaying literature
-import literature.*;
 import handling.LiteratureRegister;
-import handling.ProductTypeNumbers;
+import handling.ProductNumbers;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.ArrayList;
@@ -318,9 +318,9 @@ public class ApplicationUI {
                 "\nYou selected \"Add a piece of literature\".\n");
 
         while (productTypeNumber < 1
-                || productTypeNumber > (ProductTypeNumbers.getListLength())) {
+                || productTypeNumber > (ProductNumbers.getListLength())) {
             System.out.println("Choose a literature type:");
-            System.out.println(ProductTypeNumbers.displayTypes());
+            System.out.println(ProductNumbers.displayTypes());
             productTypeNumber = parser.nextInt();
         }
 
@@ -330,7 +330,7 @@ public class ApplicationUI {
         publisher = parser.nextLine();
         System.out.println("Enter genre: ");
         genre = parser.nextLine();
-        if (ProductTypeNumbers.getProductTypes()[productTypeNumber].equals("book")) {
+        if (ProductNumbers.getProductTypes()[productTypeNumber].equals("book")) {
             System.out.println("Enter name of author: ");
             author = parser.nextLine();
             System.out.println("Enter edition number: ");
@@ -338,7 +338,7 @@ public class ApplicationUI {
         }
 
         System.out.println("Does the "
-                + ProductTypeNumbers.getProductTypes()[productTypeNumber]
+                + ProductNumbers.getProductTypes()[productTypeNumber]
                 + "have a release number? "
                 + "\n 1. Yes"
                 + "\n 2. No");
@@ -370,7 +370,7 @@ public class ApplicationUI {
             }
         }
 
-        switch (ProductTypeNumbers.getProductTypes()[productTypeNumber]) {
+        switch (ProductNumbers.getProductTypes()[productTypeNumber]) {
 
             case "book": //Book
                 wasAdded = litReg.addLiterature(
@@ -427,9 +427,9 @@ public class ApplicationUI {
                 "\nYou selected \"Remove literature\".\n\n");
 
         while (productTypeNumber < 1
-                || productTypeNumber > (ProductTypeNumbers.getListLength())) {
+                || productTypeNumber > (ProductNumbers.getListLength())) {
             System.out.println("Choose a literature type:");
-            System.out.println(ProductTypeNumbers.displayTypes());
+            System.out.println(ProductNumbers.displayTypes());
             productTypeNumber = parser.nextInt();
         }
 
@@ -439,7 +439,7 @@ public class ApplicationUI {
         publisher = parser.nextLine();
         System.out.println("Enter genre: ");
         genre = parser.nextLine();
-        if (ProductTypeNumbers.getProductTypes()[productTypeNumber].equals("book")) {
+        if (ProductNumbers.getProductTypes()[productTypeNumber].equals("book")) {
             System.out.println("Enter name of author: ");
             author = parser.nextLine();
             System.out.println("Enter edition number: ");
@@ -491,9 +491,9 @@ public class ApplicationUI {
 
         try {
             while (productTypeNr < 1
-                    || productTypeNr > (ProductTypeNumbers.getListLength())) {
+                    || productTypeNr > (ProductNumbers.getListLength())) {
                 System.out.println("Choose a literature type:");
-                System.out.println(ProductTypeNumbers.displayTypes());
+                System.out.println(ProductNumbers.displayTypes());
                 productTypeNr = parser.nextInt();
             }
 

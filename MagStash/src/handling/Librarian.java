@@ -1,15 +1,25 @@
 package handling;
 
-import literature.*;
+import entries.Series;
+import entries.Newspaper;
+import entries.JournalSeries;
+import entries.Literature;
+import entries.Book;
+import entries.Entries;
+import entries.Journal;
+import entries.NewspaperSeries;
+import entries.BookSeries;
+import entries.Magazine;
+import entries.MagazineSeries;
 import handling.LiteratureRegister;
-import handling.ProductTypeNumbers;
+import handling.ProductNumbers;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Handles communication between the UI and Literature Register.
- * Note: typeList, of class ProductTypeNumbers,
- * handles which int corresponds to which product type in the switch case.
+ * Handles communication between the UI and Entries Register.
+ * Note: typeList, of class ProductNumbers,
+ handles which int corresponds to which product type in the switch case.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
@@ -17,14 +27,14 @@ import java.util.Iterator;
 public class Librarian {
 
     private LiteratureRegister litReg;
-    private ProductTypeNumbers typeList;
+    private ProductNumbers typeList;
 
     /**
      * Constructor for objects of class Librarian
      */
     public Librarian() {
         litReg = new LiteratureRegister();
-        typeList = new ProductTypeNumbers();
+        typeList = new ProductNumbers();
     }
 
     /**
@@ -37,7 +47,7 @@ public class Librarian {
      * @param month month of release
      * @param day day of release
      * @param releaseNr release number in a series
-     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param literatureTypeNr literature type from ProductNumbers
      * @param author author of literature
      * @param edition edition number of literature
      * @return TRUE if literature was added
@@ -53,7 +63,7 @@ public class Librarian {
                 case "book": //Book
                     wasAdded = litReg.addLiterature(
                             new Book(title, publisher, genre,
-                                    year, month, day, author, edition));
+                                    year, month, day, releaseNr, author, edition));
                     break;
 
                 case "magazine": //Magazine
@@ -92,7 +102,7 @@ public class Librarian {
      * @param month month of release
      * @param day day of release
      * @param releaseNr release number in a series
-     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param literatureTypeNr literature type from ProductNumbers
      * @param author author of literature
      * @param edition edition number of literature
      * @return TRUE if literature was added
@@ -108,7 +118,7 @@ public class Librarian {
                 case "book": //Book
                     wasRemoved = litReg.removeLiterature(
                             new Book(title, publisher, genre,
-                                    year, month, day, author, edition));
+                                    year, month, day, releaseNr, author, edition));
                     break;
 
                 case "magazine": //Magazine
@@ -143,7 +153,7 @@ public class Librarian {
      * @param title title of series
      * @param publisher publisher of series
      * @param genre genre of series
-     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param literatureTypeNr literature type from ProductNumbers
      * @return TRUE if the series was added
      */
     public boolean addSeries(String title, String publisher, String genre,
@@ -193,7 +203,7 @@ public class Librarian {
      * @param title title of series
      * @param publisher publisher of series
      * @param genre genre of series
-     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param literatureTypeNr literature type from ProductNumbers
      * @return TRUE if the series was added
      */
     public boolean removeSeries(String title, String publisher, String genre,
@@ -249,16 +259,16 @@ public class Librarian {
      * @param seriesName name of the series
      * @param title Title of the literature
      * @param publisher Publisher of the literature (not the series)
-     * @param literatureTypeNr literature type from ProductTypeNumbers
+     * @param literatureTypeNr literature type from ProductNumbers
      * @return TRUE if the operation was a success, FALSE otherwise
      */
     public boolean addToSeries(String seriesName, String title,
             String publisher, int literatureTypeNr) {
         boolean wasAdded = false;
-        ArrayList<Literature> serialMatches = litReg.getByTitle(seriesName);
-        Iterator<Literature> it = serialMatches.iterator();
+        ArrayList<Entries> serialMatches = litReg.getByTitle(seriesName);
+        Iterator<Entries> it = serialMatches.iterator();
         while (it.hasNext()) {
-            Literature l = it.next();
+            Entries l = it.next();
             if (!(l instanceof Series)) // We only want series here
             {
                 it.remove();
@@ -266,23 +276,23 @@ public class Librarian {
         }
 
         // This should give only one match, but we check to be sure
-        ArrayList<Literature> titleMatches = litReg.getByTitle(title);
-        Literature titleMatch = null;
+        ArrayList<Entries> titleMatches = litReg.getByTitle(title);
+        Entries titleMatch = null;
         if (titleMatches.size() == 1) {
             titleMatch = titleMatches.get(0);
         }
 
         // This should also return only one match, but check still
-        ArrayList<Literature> publisherMatches
+        ArrayList<Entries> publisherMatches
                 = litReg.getByPublisher(publisher);
-        Literature publisherMatch = null;
+        Entries publisherMatch = null;
         if (publisherMatches.size() == 1) {
             publisherMatch = publisherMatches.get(0);
         }
 
         // If both the title and the publishers match, we assume this is the 
         // right piece of literature and we take it.
-        Literature lit = null;
+        Entries lit = null;
         if (titleMatch != null && publisherMatch != null) {
             if (titleMatch == publisherMatch) {
                 lit = titleMatch;
@@ -300,9 +310,9 @@ public class Librarian {
 
                 case "book": { //Book 
                     if (serialMatches.get(0) instanceof BookSeries
-                            && lit instanceof SerialBook) {
+                            && lit instanceof Book) {
                         BookSeries bs = (BookSeries) serialMatches.get(0);
-                        wasAdded = bs.add((SerialBook) lit);
+                        wasAdded = bs.add((Book) lit);
                     }
                     break;
                 }
@@ -343,9 +353,9 @@ public class Librarian {
     /**
      * Fetches all content in the literature register as an ArrayList.
      *
-     * @return ArrayList of all Literature in the register
+     * @return ArrayList of all Entries in the register
      */
-    public final ArrayList<Literature> getRegister() {
+    public final ArrayList<Entries> getRegister() {
         return litReg.getAllLiterature();
     }
 
@@ -355,9 +365,9 @@ public class Librarian {
      * @param allLiterature the details of the literature in the list
      * @return formatted string with all the literature
      */
-    public final String getDetails(ArrayList<Literature> issues) {
+    public final String getDetails(ArrayList<Entries> issues) {
         String foundLiterature = "";
-        for (Literature l : issues) {
+        for (Entries l : issues) {
             foundLiterature += l.getDetailsAsString();
         }
         return foundLiterature;
@@ -371,10 +381,10 @@ public class Librarian {
      * @param title title to search for
      * @return formatted string of all literatures matching the search
      */
-    public final String getDetailsByTitle(ArrayList<Literature> issues,
+    public final String getDetailsByTitle(ArrayList<Entries> issues,
             String title) {
         String foundLiterature = "";
-        for (Literature l : issues) {
+        for (Entries l : issues) {
             if (l.getTitle().contains(title)) {
                 foundLiterature += l.getDetailsAsString();
             }
@@ -390,10 +400,10 @@ public class Librarian {
      * @param publisher publisher to search for
      * @return formatted string of all literaturees with matching publisher
      */
-    public final String getDetailsByPublisher(ArrayList<Literature> issues,
+    public final String getDetailsByPublisher(ArrayList<Entries> issues,
             String publisher) {
         String foundLiterature = "";
-        for (Literature l : issues) {
+        for (Entries l : issues) {
             if (l.getPublisher().contains(publisher)) {
                 foundLiterature += l.getDetailsAsString();
             }
@@ -406,12 +416,12 @@ public class Librarian {
      *
      * @param l the literature to convert
      * @param releaseNr the converted literature's new release number
-     * @return the new Serial Literature, or NULL upon error
+     * @return the new Serial Entries, or NULL upon error
      */
-    public SerialLiterature
-            convertToSerial(StandaloneLiterature l, int releaseNr) {
+    public Literature
+            convertToSerial(Literature l, int releaseNr) {
 
-        SerialLiterature newSerial;
+        Literature newSerial;
         String title = l.getTitle();
         String publisher = l.getPublisher();
         String genre = l.getGenre();
@@ -419,11 +429,13 @@ public class Librarian {
         int month = l.getMonth();
         int day = l.getDay();
         String author;
+        int edition;
 
         if (l instanceof Book) {
             author = ((Book) l).getAuthor();
-            newSerial = new SerialBook(title, publisher, genre,
-                    year, month, day, releaseNr, author);
+            edition = ((Book) l).getEdition();
+            newSerial = new Book(title, publisher, genre,
+                    year, month, day, releaseNr, author, edition);
         } else {
             newSerial = null;
         }
@@ -435,7 +447,7 @@ public class Librarian {
      */
     public void fillRegister() {
         litReg.addLiterature(new Book(
-                "A book", "some publisher", "a genre", 1995, 11, 18, "author", 1));
+                "A book", "some publisher", "a genre", 1995, 11, 18, 1, "author", 1));
         litReg.addLiterature(new Magazine(
                 "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
         litReg.addLiterature(new Magazine(

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package literature;
+package entries;
 
 /**
  *
@@ -11,7 +11,7 @@ package literature;
  * @version 0.3
  *
  */
-public class Journal extends SerialLiterature {
+public class Journal extends Literature {
 
     // Constructor for Journal
     public Journal(String title, String publisher, String genre,

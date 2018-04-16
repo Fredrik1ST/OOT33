@@ -6,7 +6,7 @@ package handling;
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  */
-public class ProductTypeNumbers {
+public class ProductNumbers {
 
     /**
      * @field productTypes
@@ -18,7 +18,7 @@ public class ProductTypeNumbers {
     /**
      * Constructor for class ProductTypeNumbers.
      */
-    public ProductTypeNumbers() {
+    public ProductNumbers() {
         productTypes = new String[]{
             "type error", /*     0 */
             "book", /*           1 */

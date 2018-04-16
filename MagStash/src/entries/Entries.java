@@ -1,19 +1,19 @@
-package literature;
+package entries;
 
 /**
  * A superclass for all literature. Has all the information that is common to
- * all literatures. In reality, Literature only holds date-treating methods, but
- * we believe it's worth it to avoid rewriting them whenever creating new forms
- * of media.
+ all literatures. In reality, Entries only holds date-treating methods, but
+ we believe it's worth it to avoid rewriting them whenever creating new forms
+ of media.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public abstract class Literature {
+public abstract class Entries {
 
     private final String title;
     private final String publisher;
-    private String genre;
+    private final String genre;
 
     /**
      * Initialises Literature from a LocalDate object.
@@ -22,11 +22,10 @@ public abstract class Literature {
      *
      * @param title title of the piece.
      * @param publisher publisher of the piece.
-     * @param releaseDate the release date of the piece.
-     * Throws a DateTimeException if the date is incorrect.
+     * @param genre genre of the piece
      */
-    public Literature(final String title,
-            final String publisher, final String genre) {
+    public Entries(String title,
+            String publisher, String genre) {
         this.title = title;
         this.publisher = publisher;
         this.genre = genre;
@@ -37,7 +36,7 @@ public abstract class Literature {
      *
      * @return the title
      */
-    public final String getTitle() {
+    public String getTitle() {
         return this.title;
     }
 

@@ -1,4 +1,4 @@
-package literature;
+package entries;
 
 import java.time.LocalDate;
 
@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public class Magazine extends SerialLiterature {
+public class Magazine extends Literature {
 
     /**
      * Creates a new magazine from explicitly given date.
@@ -23,17 +23,6 @@ public class Magazine extends SerialLiterature {
     public Magazine(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {
         super(title, publisher, genre, year, month, day, releaseNr);
-    }
-
-    /**
-     * Creates a new magazine from LocalDate.
-     *
-     * @param releaseDate
-     * @param releaseNr
-     */
-    public Magazine(String title, String publisher, String genre,
-            LocalDate releaseDate, int releaseNr) {
-        super(title, publisher, genre, releaseDate, releaseNr);
     }
 
 }

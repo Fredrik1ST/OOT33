@@ -1,13 +1,13 @@
-package literature;
+package entries;
 
 /**
  * Series of Journals
  *
  * @author Fredrik
  */
-public class JournalSeries extends Series {
+public class NewspaperSeries extends Series {
 
-    public JournalSeries(String title, String publisher, String genre,
+    public NewspaperSeries(String title, String publisher, String genre,
             int releasesPerYear) {
         super(title, publisher, genre, releasesPerYear);
     }
@@ -19,10 +19,10 @@ public class JournalSeries extends Series {
      * @return boolean confirming that issue has been added to series
      */
     @Override
-    public boolean add(SerialLiterature issue) {
+    public boolean add(Literature issue) {
         boolean wasAdded = false;
 
-        if (issue instanceof Journal) {
+        if (issue instanceof Newspaper) {
             wasAdded = addIssue(issue);
         }
 
@@ -37,10 +37,10 @@ public class JournalSeries extends Series {
      * @return TRUE if the issue was removed
      */
     @Override
-    public boolean remove(SerialLiterature issue) {
+    public boolean remove(Literature issue) {
         boolean wasRemoved = false;
 
-        if (issue instanceof Journal) {
+        if (issue instanceof Newspaper) {
             wasRemoved = removeIssue(issue);
         }
 

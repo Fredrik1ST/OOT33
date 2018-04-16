@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package literature;
+package entries;
 
 /**
  *
  * @author Fredrik
  */
-public class Newspaper extends SerialLiterature {
+public class Newspaper extends Literature {
 
     public Newspaper(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {

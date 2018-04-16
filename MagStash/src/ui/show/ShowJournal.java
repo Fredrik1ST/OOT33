@@ -1,6 +1,6 @@
 package ui.show;
 
-import literature.Journal;
+import entries.Journal;
 /**
  * Display class for Journal objects.
  * Requires Journal class to function.

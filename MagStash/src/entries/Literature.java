@@ -1,18 +1,18 @@
-package literature;
+package entries;
 
 import java.time.LocalDate;
 
 /**
  * Superclass of all literature that is part of a series.
- * It simply extends the Literature superclass and pins on a release number
- * for storing and sorting in series.
+ * It simply extends the Entries superclass and pins on a release number
+ for storing and sorting in series.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public abstract class SerialLiterature
-        extends Literature
-        implements Comparable<SerialLiterature> {
+public abstract class Literature
+        extends Entries
+        implements Comparable<Literature> {
 
     private LocalDate releaseDate;
     private int releaseNr;
@@ -24,21 +24,22 @@ public abstract class SerialLiterature
      * @return an integer to determine sorting order in collections
      */
     @Override
-    public int compareTo(SerialLiterature sl) {
+    public int compareTo(Literature sl) {
         return (getReleaseNr() - sl.getReleaseNr());
     }
 
     /**
-     * Constructor for use in the SerialLiterature subclasses.
+     * Constructor for use in the Literature subclasses.
      *
      * @param title the literature's title
      * @param publisher the literature's publisher
+     * @param genre
      * @param year year of release
      * @param month month of release
      * @param day day of release
      * @param releaseNr the literature's release number (in a series)
      */
-    public SerialLiterature(String title, String publisher, String genre,
+    public Literature(String title, String publisher, String genre,
             int year, int month, int day, int releaseNr) {
         super(title, publisher, genre);
         this.releaseDate = LocalDate.of(year, month, day);
@@ -46,22 +47,7 @@ public abstract class SerialLiterature
     }
 
     /**
-     * Constructor for use in the SerialLiterature subclasses with LocalDate.
-     *
-     * @param title the literature's title
-     * @param publisher the literature's publisher
-     * @param releaseDate date of release as a LocalDate object
-     * @param releaseNr the literature's release number (in a series)
-     */
-    public SerialLiterature(String title, String publisher, String genre,
-            LocalDate releaseDate, int releaseNr) {
-        super(title, publisher, genre);
-        this.releaseDate = (releaseDate);
-        this.releaseNr = releaseNr;
-    }
-
-    /**
-     * Returns the release number of a particular instance of serial literature.
+     * Returns the release number this literature
      *
      * @return the literature's release number (in a series)
      */
@@ -70,9 +56,9 @@ public abstract class SerialLiterature
     }
 
     /**
-     * Set or change the literature's release number.
+     * Set the literature's release number.
      *
-     * @param releaseNr the literature's release number (in a series)
+     * @param releaseNr the literature's release number in series, 0 for not in series
      */
     protected void setReleaseNr(int releaseNr) {
         this.releaseNr = releaseNr;
@@ -108,7 +94,7 @@ public abstract class SerialLiterature
     /**
      * Compares this object to another to see if they're the same.
      *
-     * @param o Literature to be compared to
+     * @param o Entries to be compared to
      * @return TRUE if they're equal
      */
     @Override
@@ -116,10 +102,10 @@ public abstract class SerialLiterature
         boolean isEqual = false;
         if (o == this) {
             isEqual = true;
-        } else if (!(o instanceof SerialLiterature)) {
+        } else if (!(o instanceof Literature)) {
             isEqual = false;
         } else {
-            SerialLiterature l = (SerialLiterature) o;
+            Literature l = (Literature) o;
 
             // Comparing of fields
             if (this.getTitle().equalsIgnoreCase(l.getTitle())
@@ -132,5 +118,15 @@ public abstract class SerialLiterature
             }
         }
         return isEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.getTitle().length() * 17
+                + this.getPublisher().length() * 31
+                + this.getGenre().length() * 3
+                + this.getYear() * 31
+                + this.getMonth() * 17
+                + this.getDay() * 31);
     }
 }

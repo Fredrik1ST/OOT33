@@ -1,6 +1,6 @@
 package ui.show;
 
-import literature.Magazine;
+import entries.Magazine;
 
 /**
  * Display class for Magazines. Requires Magazine class to function.

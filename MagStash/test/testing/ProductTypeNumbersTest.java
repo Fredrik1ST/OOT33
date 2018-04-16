@@ -1,6 +1,6 @@
 package testing;
 
-import handling.ProductTypeNumbers;
+import handling.ProductNumbers;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -11,19 +11,19 @@ import org.junit.BeforeClass;
  */
 public class ProductTypeNumbersTest {
     
-    ProductTypeNumbers typeList = new ProductTypeNumbers();
+    ProductNumbers typeList = new ProductNumbers();
     
     public ProductTypeNumbersTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
-        ProductTypeNumbers typeList = new ProductTypeNumbers();
+        ProductNumbers typeList = new ProductNumbers();
         
     }
 
     /**
-     * Test of display method, of class ProductTypeNumbers.
+     * Test of display method, of class ProductNumbers.
      */
     @Test
     public void testDisplayTypes() {

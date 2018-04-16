@@ -1,6 +1,6 @@
 package ui.show;
 
-import literature.Newspaper;
+import entries.Newspaper;
 /**
  *
  * @author Muzzhum

@@ -1,4 +1,4 @@
-package literature;
+package entries;
 
 /**
  * Series of SerialBooks
@@ -19,10 +19,10 @@ public class BookSeries extends Series {
      * @return TRUE if the issue was added
      */
     @Override
-    public boolean add(SerialLiterature issue) {
+    public boolean add(Literature issue) {
         boolean wasAdded = false;
 
-        if (issue instanceof SerialBook) {
+        if (issue instanceof Book) {
             wasAdded = addIssue(issue);
         }
 
@@ -37,10 +37,10 @@ public class BookSeries extends Series {
      * @return TRUE if the issue was removed
      */
     @Override
-    public boolean remove(SerialLiterature issue) {
+    public boolean remove(Literature issue) {
         boolean wasRemoved = false;
 
-        if (issue instanceof SerialBook) {
+        if (issue instanceof Book) {
             wasRemoved = removeIssue(issue);
         }
 
