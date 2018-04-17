@@ -1,17 +1,9 @@
 package testing;
 
+import entries.*;
 import handling.LiteratureRegister;
-import entries.Entries;
-import entries.Literature;
-import entries.Book;
-import entries.Magazine;
-import entries.Journal;
 import org.junit.Test;
-import org.junit.BeforeClass;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import entries.Newspaper;
 
 /**
  *
@@ -20,10 +12,10 @@ import entries.Newspaper;
 public class LiteratureRegisterTest {
 
     LiteratureRegister litReg;
-    Entries b;
-    Entries m;
-    Entries j;
-    Entries n;
+    Entry b;
+    Entry m;
+    Entry j;
+    Entry n;
 
     public LiteratureRegisterTest() {
         b = new Book("Book", "publisher", "genre",

@@ -13,7 +13,7 @@ import java.util.TreeMap;
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public abstract class Series extends Entries {
+public abstract class Series extends Entry {
 
     private int releasesPerYear;
     private TreeMap<Integer, Literature> issues;
@@ -115,7 +115,7 @@ public abstract class Series extends Entries {
     /**
      * Compares this object to another to see if they're the same.
      *
-     * @param o Entries to be compared to
+     * @param o Entry to be compared to
      * @return TRUE if they're equal
      */
     @Override

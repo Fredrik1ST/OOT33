@@ -20,9 +20,8 @@ public class SeriesTest {
     public void addTest() {
         Series books = new BookSeries("series", "publisher", "genre", 0);
         Literature book = new Book("book", "publisher", "genre",
-                1111, 11, 11, 1, "author");
+                1111, 11, 11, 1, "author", 0);
         boolean success = books.add(book);
-        System.out.println(books.getDetailsAsString());
         assertEquals(true, success);
     }
     
@@ -30,10 +29,9 @@ public class SeriesTest {
     public void removeTest() {
         Series books = new BookSeries("series", "publisher", "genre", 0);
         Literature book = new Book("book", "publisher", "genre",
-                1111, 11, 11, 1, "author");
+                1111, 11, 11, 1, "author", 0);
         books.add(book);
         boolean success = books.remove(book);
-        System.out.println(books.getDetailsAsString());
         assertEquals(true, success);
     }
 }

@@ -4,28 +4,28 @@ import java.time.LocalDate;
 
 /**
  * Superclass of all literature that is part of a series.
- * It simply extends the Entries superclass and pins on a release number
- for storing and sorting in series.
+ * It simply extends the Entry superclass and pins on a release number
+ * for storing and sorting in series.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
 public abstract class Literature
-        extends Entries
+        extends Entry
         implements Comparable<Literature> {
 
     private LocalDate releaseDate;
     private int releaseNr;
 
     /**
-     * Sorts serial literature by release number in collections.
+     * Sorts literature by release number in collections.
      *
      * @param sl the literature to which this one is to be compared to
      * @return an integer to determine sorting order in collections
      */
     @Override
     public int compareTo(Literature sl) {
-        return (getReleaseNr() - sl.getReleaseNr());
+        return (this.getReleaseNr() - sl.getReleaseNr());
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class Literature
     /**
      * Compares this object to another to see if they're the same.
      *
-     * @param o Entries to be compared to
+     * @param o Entry to be compared to
      * @return TRUE if they're equal
      */
     @Override

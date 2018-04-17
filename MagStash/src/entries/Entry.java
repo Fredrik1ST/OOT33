@@ -2,18 +2,19 @@ package entries;
 
 /**
  * A superclass for all literature. Has all the information that is common to
- all literatures. In reality, Entries only holds date-treating methods, but
- we believe it's worth it to avoid rewriting them whenever creating new forms
- of media.
+ * all literatures. In reality, Entry only holds date-treating methods, but
+ * we believe it's worth it to avoid rewriting them whenever creating new forms
+ * of media.
  *
  * @author Hans Christian HF, Fredrik ST, Magnus RK
  * @version 0.3
  */
-public abstract class Entries {
+public abstract class Entry {
 
     private final String title;
     private final String publisher;
     private final String genre;
+
 
     /**
      * Initialises Literature from a LocalDate object.
@@ -24,7 +25,7 @@ public abstract class Entries {
      * @param publisher publisher of the piece.
      * @param genre genre of the piece
      */
-    public Entries(String title,
+    public Entry(String title,
             String publisher, String genre) {
         this.title = title;
         this.publisher = publisher;

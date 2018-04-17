@@ -1,10 +1,8 @@
 //TODO: Move string handling to Librarian. Return collections instead.
 package handling;
 
-
-import entries.Entries;
+import entries.Entry;
 import java.util.Set;
-import entries.Entries;
 import java.util.HashSet;
 import java.util.ArrayList;
 
@@ -16,8 +14,8 @@ import java.util.ArrayList;
  */
 public class LiteratureRegister {
 
-    private HashSet<Entries> litRegister;
-
+    private HashSet<Entry> litRegister;
+    
     /**
      * Creates a new literature register.
      */
@@ -31,8 +29,7 @@ public class LiteratureRegister {
      * @param l the new literature
      * @return TRUE if the literature was added, FALSE otherwise
      */
-
-    public boolean addLiterature(Entries l) {
+    public boolean addLiterature(Entry l) {
         boolean wasAdded = false;
         try {
             wasAdded = litRegister.add(l);
@@ -48,8 +45,7 @@ public class LiteratureRegister {
      * @param l the same issue, or an issue equal to the one you want removed
      * @return TRUE if the literature was found & removed, FALSE otherwise
      */
-
-    public  boolean removeLiterature( Entries l) {
+    public boolean removeLiterature(Entry l) {
         boolean wasRemoved = false;
         try {
             wasRemoved = litRegister.remove(l);
@@ -61,15 +57,14 @@ public class LiteratureRegister {
         return wasRemoved;
     }
 
-
     /**
-     * Returns all Entries in LiteratureRegister as an ArrayList.
+     * Returns all Entry in LiteratureRegister as an ArrayList.
      *
      * @return
      */
-    public ArrayList<Entries> getAllLiterature() {
-        ArrayList<Entries> allLiterature = new ArrayList<>();
-        for (Entries l : litRegister) {
+    public ArrayList<Entry> getAllLiterature() {
+        ArrayList<Entry> allLiterature = new ArrayList<>();
+        for (Entry l : litRegister) {
             allLiterature.add(l);
         }
         return allLiterature;
@@ -81,9 +76,9 @@ public class LiteratureRegister {
      * @param title the title to search for
      * @return ArrayList of all literature containing title
      */
-    public  ArrayList<Entries> getByTitle( String title) {
-        ArrayList<Entries> matches = new ArrayList<>();
-        for (Entries l : litRegister) {
+    public ArrayList<Entry> getByTitle(String title) {
+        ArrayList<Entry> matches = new ArrayList<>();
+        for (Entry l : litRegister) {
 
             if (l.getTitle().contains(title)) {
                 matches.add(l);
@@ -99,23 +94,23 @@ public class LiteratureRegister {
      * @param publisher Publisher to search for.
      * @return Formatted string of all literatures with matching publisher
      */
-
     public final ArrayList getByPublisher(final String publisher) {
-        ArrayList<Entries> matches = new ArrayList<>();
-        for (Entries l : litRegister) {
+        ArrayList<Entry> matches = new ArrayList<>();
+        for (Entry l : litRegister) {
             if (l.getPublisher().contains(publisher)) {
                 matches.add(l);
             }
         }
         return matches;
     }
-    
+
     /**
      * Returns a copy of the HashSet as Set.
+     *
      * @return a copy of the register (HashSet) as Set
      */
-    public Set<Entries> getSet() {
-        Set<Entries> litSet = this.litRegister;
+    public Set<Entry> getSet() {
+        Set<Entry> litSet = this.litRegister;
         return litSet;
     }
 }

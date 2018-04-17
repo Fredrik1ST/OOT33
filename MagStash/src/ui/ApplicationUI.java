@@ -1,6 +1,5 @@
 package ui;
 
-
 import ui.*;
 import ui.show.*; // Static methods for displaying literature
 import entries.*;
@@ -9,7 +8,9 @@ import handling.ProductNumbers;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.InputMismatchException;
+import java.lang.NullPointerException;
 import java.time.DateTimeException;
 
 /**
@@ -193,7 +194,7 @@ public class ApplicationUI {
                     break;
 
                 case 3: // Add existing literature to an existing series
-                    addToSeries();
+                    System.out.println("WORK IN PROGRESS!!!");
                     break;
 
                 case 4: // Fill register for testing
@@ -206,7 +207,7 @@ public class ApplicationUI {
                     break;
 
                 case 6: // Remove a series
-                    removeSeries();
+                    System.out.println("WORK IN PROGRESS!!!");
                 default:
                     break;
 
@@ -239,8 +240,8 @@ public class ApplicationUI {
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all literature\"");
 
-        TreeSet<Entries> litSet = (TreeSet<Entries>) litReg.getSet();
-        for (Entries l : litSet) {
+        TreeSet<Entry> litSet = (TreeSet<Entry>) litReg.getSet();
+        for (Entry l : litSet) {
             printDetails(l);
         }
     }
@@ -249,9 +250,9 @@ public class ApplicationUI {
      * Lists all series in the register.
      */
     private void listSeries() {
-        ArrayList<Entries> litList = litReg.getAllLiterature();
+        ArrayList<Entry> litList = litReg.getAllLiterature();
         for (int i = 0; i == litList.size(); i++) {
-            Entries l = litList.get(i);
+            Entry l = litList.get(i);
             if (l instanceof Series) {
                 System.out.println("#" + (+1) + ":");
                 printDetails(litList.get(i));
@@ -271,9 +272,9 @@ public class ApplicationUI {
         System.out.println("Enter title to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Entries> litList = litReg.getByTitle(searchString);
+        ArrayList<Entry> litList = litReg.getByTitle(searchString);
         for (int i = 0; i == litList.size(); i++) {
-            Entries l = litList.get(i);
+            Entry l = litList.get(i);
             System.out.println("#" + (i + 1) + ":");
             printDetails(litList.get(i));
         }
@@ -289,7 +290,7 @@ public class ApplicationUI {
         System.out.println("Enter publisher to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Entries> litList = litReg.getByPublisher(searchString);
+        ArrayList<Entry> litList = litReg.getByPublisher(searchString);
         for (int i = 0; i == litList.size(); i++) {
             System.out.println("#" + (i + 1) + ":");
             printDetails(litList.get(i));
@@ -403,13 +404,19 @@ public class ApplicationUI {
 
         }
 
+        if (!wasAdded) {
+            System.out.println("The "
+                    + ProductNumbers.getProductTypes()[productTypeNumber]
+                    + " could not be added. An identical entry exists.");
+        }
+
     }
 
     /**
      * Removes a piece of literature from the literature register.
      */
     private void removeProduct() {
-        boolean running = true;
+        boolean wasRemoved = false;
 
         String title;
         String publisher;
@@ -422,10 +429,26 @@ public class ApplicationUI {
         int edition = 1;
         int isSeriesInt = 0;
         int productTypeNumber = 0;
-        boolean isSeries = false;
 
-        System.out.println(
-                "\nYou selected \"Remove literature\".\n\n");
+        if (!wasRemoved) {
+            System.out.println("ERROR: The "
+                    + ProductNumbers.getProductTypes()[productTypeNumber]
+                    + " could not be removed.");
+        }
+    }
+
+    /**
+     * Adds a new literature series.
+     */
+    private void addNewSeries() {
+        boolean wasAdded = false;
+        String title = "";
+        int releasesPerYear = 0;
+        int productTypeNumber = 0;
+        String publisher = "";
+        String genre = "";
+
+        System.out.println("\nYou selected \"Add new series\".\n\n");
 
         while (productTypeNumber < 1
                 || productTypeNumber > (ProductNumbers.getListLength())) {
@@ -434,132 +457,53 @@ public class ApplicationUI {
             productTypeNumber = parser.nextInt();
         }
 
-        System.out.println("Enter title of literature: ");
-        title = parser.nextLine();
-        System.out.println("Enter name of publisher: ");
-        publisher = parser.nextLine();
-        System.out.println("Enter genre: ");
-        genre = parser.nextLine();
-        if (ProductNumbers.getProductTypes()[productTypeNumber].equals("book")) {
-            System.out.println("Enter name of author: ");
-            author = parser.nextLine();
-            System.out.println("Enter edition number: ");
-            edition = parser.nextInt();
-
-        }
-
-        boolean dateIsValid = false;
-        while (!dateIsValid) {
-            try {
-                System.out.println("Enter year of release (YYYY): ");
-                year = parser.nextInt();
-                System.out.println("Enter month of release (MM): ");
-                month = parser.nextInt();
-                System.out.println("Enter day of release (DD): ");
-                day = parser.nextInt();
-
-                if (librarian.removeLiterature(title, publisher, genre,
-                        year, month, day,
-                        releaseNr, productTypeNumber, author, edition)) {
-                    System.out.println(title + "was removed");
-                } else {
-                    System.out.println("ERROR: " + title
-                            + " does not exist,"
-                            + "or parameters may be wrong");
-                }
-                dateIsValid = true;
-            } catch (DateTimeException dte) {
-                dateIsValid = false;
-                System.out.println("\nERROR: "
-                        + year + "/" + month + "/" + day
-                        + " is not a valid date\n");
-
-            }
-        }
-    }
-
-    /**
-     * Adds a new literature series.
-     */
-    private void addNewSeries() {
-        String title = "";
-        int releasesPerYear = 0;
-        int productTypeNr = 0;
-        String publisher = "";
-        String genre = "";
-
-        System.out.println("\nYou selected \"Add new series\".\n\n");
-
-        try {
-            while (productTypeNr < 1
-                    || productTypeNr > (ProductNumbers.getListLength())) {
-                System.out.println("Choose a literature type:");
-                System.out.println(ProductNumbers.displayTypes());
-                productTypeNr = parser.nextInt();
-            }
-
-            System.out.println("Enter name of series: ");
-            title = parser.nextLine();
-
-            System.out.println("Enter publisher: ");
-            publisher = parser.nextLine();
-
-            System.out.println("Enter genre: ");
-            genre = parser.nextLine();
-
-            System.out.println("Enter releases per year (or 0 if unknown): ");
-            releasesPerYear = parser.nextInt();
-
-            if (librarian.addSeries(title, publisher, genre,
-                    releasesPerYear, productTypeNr)) {
-                System.out.println("Series " + title + " was added");
-            } else {
-                System.out.println("Series already exists");
-            }
-        } catch (InputMismatchException ime) {
-            System.out.println("ERROR: expected an integer");
-        }
-    }
-
-    /**
-     * Adds a new literature series.
-     */
-    private void removeSeries() {
-        Scanner reader = new Scanner(System.in);
-        String title = "";
-        int releasesPerYear = 0;
-        int productTypeNr = 0;
-        String publisher = "";
-        String genre = "";
-
-        System.out.println("\nYou selected \"Remove series\".\n\n");
-
-        while (productTypeNr < 1
-                || productTypeNr > (typeList.getListLength())) {
-            System.out.println("Choose a literature type:");
-            System.out.println(typeList.displayTypes());
-            productTypeNr = reader.nextInt();
-            reader.nextLine();
-        }
-
         System.out.println("Enter name of series: ");
-        title = reader.nextLine();
+        title = parser.nextLine();
 
         System.out.println("Enter publisher: ");
-        publisher = reader.nextLine();
+        publisher = parser.nextLine();
 
         System.out.println("Enter genre: ");
-        genre = reader.nextLine();
+        genre = parser.nextLine();
 
-        if (librarian.addSeries(title, publisher, genre,
-                releasesPerYear, productTypeNr)) {
-            TreeSet litReg
-            .getSet()
-        } else {
-            System.out.println("ERROR: Series "
-                    + title + " does not exist, or parameters may be wrong");
+        System.out.println("Enter releases per year (or 0 if unknown): ");
+        releasesPerYear = parser.nextInt();
+
+        switch (ProductNumbers.getProductTypes()[productTypeNumber]) {
+
+            case "book": //Book
+                wasAdded = litReg.addLiterature(
+                        new BookSeries(title, publisher,
+                                genre, releasesPerYear));
+                break;
+
+            case "magazine": //Magazine
+                wasAdded = litReg.addLiterature(
+                        new MagazineSeries(title, publisher,
+                                genre, releasesPerYear));
+
+                break;
+
+            case "journal": //Journal
+                wasAdded = litReg.addLiterature(
+                        new JournalSeries(title, publisher,
+                                genre, releasesPerYear));
+                break;
+
+            case "newspaper": //Newspaper
+                wasAdded = litReg.addLiterature(
+                        new NewspaperSeries(title, publisher, genre,
+                                releasesPerYear));
+                break;
+
+            default:
+                break;
         }
-
+        if (!wasAdded) {
+            System.out.println("The "
+                    + ProductNumbers.getProductTypes()[productTypeNumber]
+                    + " series could not be added. An identical entry exists.");
+        }
     }
 
     /**
@@ -576,7 +520,7 @@ public class ApplicationUI {
      */
     public void fillRegister() {
         litReg.addLiterature(new Book(
-                "A book", "some publisher", "a genre", 1995, 11, 18, "author", 1));
+                "A book", "some publisher", "a genre", 1995, 11, 18, 0, "author", 1));
         litReg.addLiterature(new Magazine(
                 "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
         litReg.addLiterature(new Magazine(
@@ -593,7 +537,7 @@ public class ApplicationUI {
     /**
      * Prints details of given Literature
      */
-    public void printDetails(Entries l) {
+    public void printDetails(Entry l) {
         if (l instanceof Series) {
             Series s = (Series) l;
             System.out.print(ShowSeries.getDetailsAsString(s));
@@ -612,4 +556,78 @@ public class ApplicationUI {
         }
     }
 
+    /**
+     * Makes an indexed list of Literature that the user can choose from.
+     * Literature and indexes are made from whatever ArrayList is provided.
+     * Literature chosen by the user can be used to e.g. delete issues.
+     *
+     * @return the Literature chosen by the user
+     */
+    public Entry chooseLiteratureMenu(ArrayList<Entry> entries) {
+
+        ArrayList<Literature> litList = null;
+        int userChoice = -1;
+        Entry chosenEntry = null;
+
+        try {
+            for (Entry e : entries) {
+                if (e instanceof Literature) {
+                    Literature l = (Literature) e;
+                    litList.add(l);
+                }
+            }
+            System.out.println("Here are your choices:\n");
+
+            // Achtung! The printed list starts at 1 instead of 0!
+            for (int i = 0; i == litList.size(); i++) {
+                Entry l = litList.get(i);
+                System.out.println("#" + (i + 1) + ":");
+                printDetails(litList.get(i));
+            }
+            System.out.println("Please select an item\n");
+            userChoice = parser.nextInt();
+            chosenEntry = litList.get((userChoice - 1));
+
+        } catch (NullPointerException npe) {
+            System.out.print("ERROR: Nothing found!");
+        }
+        return chosenEntry;
+    }
+
+    /**
+     * Makes an indexed list of Entries that the user can choose from.
+     * Entries and indexes are made from whatever ArrayList is provided.
+     * Entry chosen by the user can be used to delete issues or expand series.
+     *
+     * @return the Entry chosen by the user
+     */
+    public Entry chooseSeriesMenu(ArrayList<Entry> entries) {
+        ArrayList<Series> seriesList = null;
+        int userChoice = -1;
+        Entry chosenEntry = null;
+
+        try {
+            for (Entry e : entries) {
+                if (e instanceof Series) {
+                    Series s = (Series) e;
+                    seriesList.add(s);
+                }
+            }
+            System.out.println("Here are your choices:\n");
+
+            // Achtung! The printed list starts at 1 instead of 0!
+            for (int i = 0; i == seriesList.size(); i++) {
+                Entry l = seriesList.get(i);
+                System.out.println("#" + (i + 1) + ":");
+                printDetails(seriesList.get(i));
+            }
+            System.out.println("Please select an item\n");
+            userChoice = parser.nextInt();
+            chosenEntry = seriesList.get((userChoice - 1));
+
+        } catch (NullPointerException npe) {
+            System.out.print("ERROR: Nothing found!");
+        }
+        return chosenEntry;
+}
 }
