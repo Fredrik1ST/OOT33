@@ -2,6 +2,7 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.DateTimeException;
 
 /**
  * A scanner with some useful methods for the UI.
@@ -43,12 +44,15 @@ public class Parser {
             try {
                 while (input < 0) {
                     input = parser.nextInt();
+                    if (input < 0) {
+                        System.out.println("ERROR: Input must be positive");
+                    }
                 }
                 isInt = true;
 
             } catch (InputMismatchException ime) {
-                System.out.println("\nPlease enter an integer\n");
-                nextInt();
+                System.out.println("ERROR: Not an integer\n");
+                parser.reset();
             }
         }
         return input;

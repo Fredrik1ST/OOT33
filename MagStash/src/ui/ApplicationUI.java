@@ -4,14 +4,15 @@ import ui.*;
 import ui.show.*; // Static methods for displaying literature
 import entries.*;
 import handling.LiteratureRegister;
-import handling.ProductNumbers;
 import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.lang.NullPointerException;
+import java.time.LocalDate;
 import java.time.DateTimeException;
+import java.util.Set;
 
 /**
  * Makes up the user interface (text based) of the application.
@@ -69,6 +70,7 @@ public class ApplicationUI {
     public ApplicationUI() {
         litReg = new LiteratureRegister();
         parser = new Parser();
+        ProductNumbers productTypes = new ProductNumbers();
     }
 
     /**
@@ -240,7 +242,7 @@ public class ApplicationUI {
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all literature\"");
 
-        TreeSet<Entry> litSet = (TreeSet<Entry>) litReg.getSet();
+        Set<Entry> litSet = litReg.getSet();
         for (Entry l : litSet) {
             printDetails(l);
         }
@@ -355,6 +357,7 @@ public class ApplicationUI {
         }
 
         boolean dateIsValid = false;
+
         while (!dateIsValid) {
             try {
                 System.out.println("Enter year of release (YYYY): ");
@@ -363,6 +366,38 @@ public class ApplicationUI {
                 month = parser.nextInt();
                 System.out.println("Enter day of release (DD): ");
                 day = parser.nextInt();
+
+                switch (ProductNumbers.getProductTypes()[productTypeNumber]) {
+
+                    case "book": //Book
+                        wasAdded = litReg.addLiterature(
+                                new Book(title, publisher, genre,
+                                        year, month, day, releaseNr, author, edition));
+                        break;
+
+                    case "magazine": //Magazine
+                        wasAdded = litReg.addLiterature(
+                                new Magazine(title, publisher, genre,
+                                        year, month, day, releaseNr));
+
+                        break;
+
+                    case "journal": //Journal
+                        wasAdded = litReg.addLiterature(
+                                new Journal(title, publisher, genre,
+                                        year, month, day, releaseNr));
+                        break;
+
+                    case "newspaper": //Newspaper
+                        wasAdded = litReg.addLiterature(
+                                new Newspaper(title, publisher, genre,
+                                        year, month, day, releaseNr));
+                        break;
+
+                    default:
+                        break;
+
+                }
                 dateIsValid = true;
             } catch (DateTimeException dte) {
                 dateIsValid = false;
@@ -372,42 +407,10 @@ public class ApplicationUI {
             }
         }
 
-        switch (ProductNumbers.getProductTypes()[productTypeNumber]) {
-
-            case "book": //Book
-                wasAdded = litReg.addLiterature(
-                        new Book(title, publisher, genre,
-                                year, month, day, releaseNr, author, edition));
-                break;
-
-            case "magazine": //Magazine
-                wasAdded = litReg.addLiterature(
-                        new Magazine(title, publisher, genre,
-                                year, month, day, releaseNr));
-
-                break;
-
-            case "journal": //Journal
-                wasAdded = litReg.addLiterature(
-                        new Journal(title, publisher, genre,
-                                year, month, day, releaseNr));
-                break;
-
-            case "newspaper": //Newspaper
-                wasAdded = litReg.addLiterature(
-                        new Newspaper(title, publisher, genre,
-                                year, month, day, releaseNr));
-                break;
-
-            default:
-                break;
-
-        }
-
         if (!wasAdded) {
             System.out.println("The "
                     + ProductNumbers.getProductTypes()[productTypeNumber]
-                    + " could not be added. An identical entry exists.");
+                    + " could not be added.\n");
         }
 
     }
@@ -629,5 +632,5 @@ public class ApplicationUI {
             System.out.print("ERROR: Nothing found!");
         }
         return chosenEntry;
-}
+    }
 }

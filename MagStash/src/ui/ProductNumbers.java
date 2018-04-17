@@ -1,4 +1,4 @@
-package handling;
+package ui;
 
 /**
  * PROPOSAL : use this class to keep track of standards,

@@ -1,6 +1,6 @@
 package testing;
 
-import handling.ProductNumbers;
+import ui.ProductNumbers;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
