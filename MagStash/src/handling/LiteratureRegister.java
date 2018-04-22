@@ -94,7 +94,7 @@ public class LiteratureRegister {
      * @param publisher Publisher to search for.
      * @return Formatted string of all literatures with matching publisher
      */
-    public final ArrayList getByPublisher(final String publisher) {
+    public ArrayList<Entry> getByPublisher(String publisher) {
         ArrayList<Entry> matches = new ArrayList<>();
         for (Entry l : litRegister) {
             if (l.getPublisher().contains(publisher)) {

@@ -7,8 +7,10 @@ package testing;
 
 import entries.*;
 import handling.LiteratureRegister;
+import ui.ApplicationUI;
 import java.util.ArrayList;
 import java.util.HashSet;
+import org.junit.Test;
 import ui.Parser;
 import ui.show.ShowBook;
 import ui.show.ShowJournal;
@@ -21,13 +23,18 @@ import ui.show.ShowSeries;
  * @author Fredrik
  */
 public class ApplicationUITest {
+
     Parser parser;
-    
+    ApplicationUI ui;
+    LiteratureRegister litReg;
+
     public ApplicationUITest() {
         parser = new Parser();
+        ui = new ApplicationUI();
+        litReg = new LiteratureRegister();
     }
-    
-        /**
+
+    /**
      * Prints details of given Literature
      */
     public void printDetails(Entry l) {
@@ -48,29 +55,56 @@ public class ApplicationUITest {
             System.out.print(ShowNewspaper.getDetailsAsString(np));
         }
     }
-        /**
+
+    /**
      * Makes an indexed list of Literature that the user can choose from.
      * Literature and indexes are made from whatever ArrayList is provided.
      * Entry chosen by the user can be used to delete issues or expand series.
+     *
      * @return the Entry chosen by the user
      */
-    public Entry chooseItem(ArrayList<Entry> entries) { 
-        int userChoice = -1;
-        Entry chosenEntry;
-        
-        System.out.println("Here are your choices:\n");
-        
-        // Achtung! The printed list starts at 1 instead of 0!
-         for (int i = 0; i == entries.size(); i++) {
-            Entry l = entries.get(i);
-            System.out.println("#" + (i + 1) + ":");
-            printDetails(entries.get(i));
+    @Test
+    public void listItem() {
+        litReg.addLiterature(new Book(
+                "A book", "some publisher", "a genre", 1995, 11, 18, 0, "author", 1));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 1));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 2));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some publisher", "a genre", 1995, 11, 18, 3));
+        Series series = new MagazineSeries(
+                "A magazine series", "some publisher", "a genre", 3);
+        litReg.addLiterature(series);
+
+        System.out.println("Get by title (litReg): \n");
+        ArrayList<Entry> entries1 = litReg.getByTitle("magazine");
+        ArrayList<Entry> entries2 = new ArrayList<Entry>();
+        ArrayList<Entry> entries3 = new ArrayList<Entry>();
+        for (Entry e : entries1) {
+            System.out.print(e.getTitle());
+            if (e instanceof Literature) {
+                System.out.print(" #" + ((Literature) e).getReleaseNr());
+                entries2.add(e);
+            }
+            System.out.print("\n");
+        }
+        // THIS DOES NOT WORK FOR LISTING
+        System.out.println("\nExperimental loop: ");
+        for (int i = 0; i == entries2.size(); i++) {
+            Entry l = entries2.get(i);
+            System.out.println("#" + (i + 1) + ": "
+                    + l.getTitle());
+            printDetails(entries2.get(i));
+
+        }
+        System.out.println("Loop done... \n");
+        for (Entry e : entries2) {
+            System.out.print(e.getTitle());
+            if (e instanceof Literature) {
+                System.out.print(" #" + ((Literature) e).getReleaseNr());
+            }
+            System.out.print("\n");
+        }
     }
-         System.out.println("Please select an item\n");
-         userChoice = parser.nextInt();
-         chosenEntry = entries.get((userChoice-1));
-         
-         return chosenEntry;
-         
-}
 }

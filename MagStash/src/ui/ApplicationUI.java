@@ -4,13 +4,8 @@ import ui.*;
 import ui.show.*; // Static methods for displaying literature
 import entries.*;
 import handling.LiteratureRegister;
-import java.util.Scanner;
-import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.InputMismatchException;
-import java.lang.NullPointerException;
-import java.time.LocalDate;
 import java.time.DateTimeException;
 import java.util.Set;
 
@@ -53,7 +48,7 @@ public class ApplicationUI {
                 "3. Find literature by publisher",};
 
     /**
-     * The "add" menu. Shows what the user can add to the regiter.
+     * The "add" menu. Shows what the user can add to the register.
      */
     private String[] editMenuItems
             = {
@@ -61,8 +56,8 @@ public class ApplicationUI {
                 "2. Add a new series",
                 "3. Add existing literature to a series",
                 "4. Fill register for testing purposes",
-                "5. Remove literature",
-                "6. Remove series"};
+                "5. Search for and remove literature",
+                "6. Search for and remove series"};
 
     /**
      * Creates an instance of the ApplicationUI User interface.
@@ -97,7 +92,7 @@ public class ApplicationUI {
 
                     case 3:
                         System.out.println(
-                                "\nThank you for using Application v0.1. Bye!\n");
+                                "\nThank you for using Application v0.3. Bye!\n");
                         quit = true;
                         break;
 
@@ -196,20 +191,21 @@ public class ApplicationUI {
                     break;
 
                 case 3: // Add existing literature to an existing series
-                    System.out.println("WORK IN PROGRESS!!!");
+                    System.out.println("WORK IN PROGRESS!");
                     break;
 
                 case 4: // Fill register for testing
                     System.out.println("\nFilling register...");
                     fillRegister();
+                    System.out.println("Register filled.");
                     break;
 
                 case 5: // Remove single literature
-                    removeProduct();
+                    removeProductBySearch();
                     break;
 
                 case 6: // Remove a series
-                    System.out.println("WORK IN PROGRESS!!!");
+                    System.out.println("WORK IN PROGRESS!");
                 default:
                     break;
 
@@ -241,11 +237,7 @@ public class ApplicationUI {
      */
     private void listAllProducts() {
         System.out.println("\nYou selected \"List all literature\"");
-
-        Set<Entry> litSet = litReg.getSet();
-        for (Entry l : litSet) {
-            printDetails(l);
-        }
+        listIndexedEntries(litReg.getAllLiterature());
     }
 
     /**
@@ -253,18 +245,16 @@ public class ApplicationUI {
      */
     private void listSeries() {
         ArrayList<Entry> litList = litReg.getAllLiterature();
-        for (int i = 0; i == litList.size(); i++) {
-            Entry l = litList.get(i);
-            if (l instanceof Series) {
-                System.out.println("#" + (+1) + ":");
-                printDetails(litList.get(i));
+        ArrayList<Entry> seriesList = new ArrayList<Entry>();
+        for (Entry e : litList) {
+            if (e instanceof Series) {
+                Series s = (Series) e;
+                seriesList.add(s);
             }
         }
+        listIndexedEntries(seriesList);
     }
 
-    /**
-     * Lists all literature not in series
-     */
     /**
      * Lists all literature containing the search string in their title.
      */
@@ -275,11 +265,7 @@ public class ApplicationUI {
         searchString = parser.nextLine();
 
         ArrayList<Entry> litList = litReg.getByTitle(searchString);
-        for (int i = 0; i == litList.size(); i++) {
-            Entry l = litList.get(i);
-            System.out.println("#" + (i + 1) + ":");
-            printDetails(litList.get(i));
-        }
+        listIndexedEntries(litList);
 
     }
 
@@ -293,10 +279,7 @@ public class ApplicationUI {
         searchString = parser.nextLine();
 
         ArrayList<Entry> litList = litReg.getByPublisher(searchString);
-        for (int i = 0; i == litList.size(); i++) {
-            System.out.println("#" + (i + 1) + ":");
-            printDetails(litList.get(i));
-        }
+        listIndexedEntries(litList);
     }
 
     /**
@@ -418,8 +401,9 @@ public class ApplicationUI {
     /**
      * Removes a piece of literature from the literature register.
      */
-    private void removeProduct() {
+    private void removeProductBySearch() {
         boolean wasRemoved = false;
+        String searchString = "";
 
         String title;
         String publisher;
@@ -433,8 +417,18 @@ public class ApplicationUI {
         int isSeriesInt = 0;
         int productTypeNumber = 0;
 
+        System.out.println("Search for entries to remove: ");
+        searchString = parser.nextLine();
+        ArrayList<Entry> matches = litReg.getByTitle(searchString);
+
+        // Creates an indexed list of the matching Entries.
+        listIndexedEntries(matches);
+
+        // Chooses an indexed Entry and deletes it from litReg.
+        wasRemoved = litReg.removeLiterature(chooseIndexedEntry(matches));
+
         if (!wasRemoved) {
-            System.out.println("ERROR: The "
+            System.out.println("\nThe "
                     + ProductNumbers.getProductTypes()[productTypeNumber]
                     + " could not be removed.");
         }
@@ -560,77 +554,42 @@ public class ApplicationUI {
     }
 
     /**
-     * Makes an indexed list of Literature that the user can choose from.
-     * Literature and indexes are made from whatever ArrayList is provided.
-     * Literature chosen by the user can be used to e.g. delete issues.
-     *
-     * @return the Literature chosen by the user
+     * Makes an indexed list of Entries out of the provided ArrayList.
+     * The index starts at 1 instead of 0, which is what Java uses internally.
+     * The "chooseIndexedEntry" enables the user to pick
      */
-    public Entry chooseLiteratureMenu(ArrayList<Entry> entries) {
-
-        ArrayList<Literature> litList = null;
-        int userChoice = -1;
-        Entry chosenEntry = null;
+    public void listIndexedEntries(ArrayList<Entry> entries) {
+        int index = 1;
 
         try {
-            for (Entry e : entries) {
-                if (e instanceof Literature) {
-                    Literature l = (Literature) e;
-                    litList.add(l);
-                }
-            }
-            System.out.println("Here are your choices:\n");
-
             // Achtung! The printed list starts at 1 instead of 0!
-            for (int i = 0; i == litList.size(); i++) {
-                Entry l = litList.get(i);
-                System.out.println("#" + (i + 1) + ":");
-                printDetails(litList.get(i));
+            for (Entry e : entries) {
+                System.out.print("\n\nEntry #" + (index) + ":");
+                printDetails(e);
+                index++;
             }
-            System.out.println("Please select an item\n");
-            userChoice = parser.nextInt();
-            chosenEntry = litList.get((userChoice - 1));
 
         } catch (NullPointerException npe) {
             System.out.print("ERROR: Nothing found!");
         }
-        return chosenEntry;
     }
 
     /**
-     * Makes an indexed list of Entries that the user can choose from.
-     * Entries and indexes are made from whatever ArrayList is provided.
-     * Entry chosen by the user can be used to delete issues or expand series.
+     * Returns an indexed Entry chosen by the user from an ArrayList.
+     * To be used with the "listIndexedEntries" method above.
      *
-     * @return the Entry chosen by the user
+     * @param entries The ArrayList the user picks an Entry from
+     * @param choice The index (starting from 1) of the user's chosen Entry
+     * @return the user's chosen Entry
      */
-    public Entry chooseSeriesMenu(ArrayList<Entry> entries) {
-        ArrayList<Series> seriesList = null;
-        int userChoice = -1;
-        Entry chosenEntry = null;
-
+    public Entry chooseIndexedEntry(ArrayList<Entry> entries) {
+        int index = 0;
         try {
-            for (Entry e : entries) {
-                if (e instanceof Series) {
-                    Series s = (Series) e;
-                    seriesList.add(s);
-                }
-            }
-            System.out.println("Here are your choices:\n");
-
-            // Achtung! The printed list starts at 1 instead of 0!
-            for (int i = 0; i == seriesList.size(); i++) {
-                Entry l = seriesList.get(i);
-                System.out.println("#" + (i + 1) + ":");
-                printDetails(seriesList.get(i));
-            }
-            System.out.println("Please select an item\n");
-            userChoice = parser.nextInt();
-            chosenEntry = seriesList.get((userChoice - 1));
-
-        } catch (NullPointerException npe) {
-            System.out.print("ERROR: Nothing found!");
+            System.out.println("\n\nSelect an entry;\n");
+            index = parser.nextInt();
+        } catch (IndexOutOfBoundsException ioobe) {
+            System.out.println("\nERROR: non-existing index");
         }
-        return chosenEntry;
+        return entries.get(index - 1);
     }
 }
