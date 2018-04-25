@@ -1,6 +1,7 @@
 package handling;
 
 import ui.ApplicationUI;
+import ui.gui.*;
 
 /**
  * @author Hans Christian HF, Fredrik ST, Magnus RK
@@ -12,9 +13,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        ApplicationUI appUI = new ApplicationUI();
-        appUI.setProductTypeName("item");
-        appUI.start();
+        ui.gui.ApplicationGUI.main(args);
     }
 
 }
