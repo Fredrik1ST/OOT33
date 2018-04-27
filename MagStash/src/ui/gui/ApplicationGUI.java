@@ -7,6 +7,7 @@ package ui.gui;
 import entries.*;
 import handling.*;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -61,11 +62,10 @@ public class ApplicationGUI extends Application {
         topLayout = new HBox();        // Holds the search bar & return button
         bottomLayout = new HBox();     // Small runtime messages to the user
 
-        
         // Set up search bar and return(?) button (for the top layout)
         searchBar = new TextField();
         searchBar.setPromptText("Search for literature");
-        
+
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
 
@@ -91,21 +91,24 @@ public class ApplicationGUI extends Application {
                 "Newspapers");
 
         // Configure the menu's general scene (layout)
-        
-                
-        leftLayout.getChildren().add(leftToolBar);
+        leftLayout.getChildren().addAll(
+                boxSelectType, btnAdd, btnRemove, btnTest);
+        leftLayout.setSpacing(5);
+        leftLayout.setPadding(new Insets(0,10,10,10));
         // rightLayout.getChildren().add();
         topLayout.getChildren().add(searchBar);
+        topLayout.setPadding(new Insets(10,10,10,10));
         // bottomLayout.getChildren().add();
         centerLayout.getChildren().add(litDisplay);
-        
-        
+        centerLayout.setPadding(new Insets(0,10,0,0));
+
         mainLayout.setTop(topLayout);
         mainLayout.setBottom(bottomLayout);
         mainLayout.setLeft(leftLayout);
         mainLayout.setRight(rightLayout);
         mainLayout.setCenter(centerLayout);
 
+        
         mainScene = new Scene(mainLayout, 1080, 720);
         mainWindow.setScene(mainScene);
         mainWindow.setTitle("Library v1.0");
