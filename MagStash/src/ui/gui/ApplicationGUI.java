@@ -13,9 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -68,6 +70,7 @@ public class ApplicationGUI extends Application {
 
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
+        createTable();
 
         // Set up buttons and toolbar (for the left layout)
         btnAdd = new Button("Add");
@@ -113,5 +116,30 @@ public class ApplicationGUI extends Application {
         mainWindow.setScene(mainScene);
         mainWindow.setTitle("Library v1.0");
         mainWindow.show();
+    }
+    
+    private void createTable() {
+        
+        litDisplay.setEditable(false);
+        
+        TableColumn litNameCol = new TableColumn("Literature Name");
+        litNameCol.setMinWidth(250);
+        litNameCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("title"));
+        
+        TableColumn litPublCol = new TableColumn("Publisher");
+        litPublCol.setMinWidth(150);
+        litPublCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("publisher"));
+        
+        TableColumn litGenrCol = new TableColumn("Genre"); 
+        litGenrCol.setMinWidth(100);
+        litGenrCol.setCellValueFactory(new PropertyValueFactory<Entry, String> ("genre")); 
+        
+        TableColumn litDateCol = new TableColumn("Release Date");
+        litDateCol.setMinWidth(100);
+        //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
+        
+        //litDisplay.setItems(litRegister); TODO: legg til literaturregister i klassen og ordne med det
+        litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol, 
+                litDateCol);
     }
 }
