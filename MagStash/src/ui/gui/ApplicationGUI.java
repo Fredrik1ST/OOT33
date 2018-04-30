@@ -7,9 +7,15 @@ package ui.gui;
 import entries.*;
 import handling.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -45,6 +51,9 @@ public class ApplicationGUI extends Application {
     ComboBox<String> boxSelectType;
     // Toolbars are (usually) just rows of buttons
     ToolBar leftToolBar;
+    
+    LiteratureRegister litReg;
+    ObservableList<Entry> litList;
 
 // Main should only contain the launch method    
     public static void main(String[] args) {
@@ -53,6 +62,11 @@ public class ApplicationGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Create the register to hold all the literature, and the list to show in the table
+        litReg = new LiteratureRegister();
+        fillRegister();
+        litList = FXCollections.observableArrayList(litReg.getAllLiterature());
+        
         // Set up the main stage (mainWindow)
         mainWindow = primaryStage;
         mainWindow.setTitle("Library");
@@ -81,8 +95,11 @@ public class ApplicationGUI extends Application {
         leftToolBar.setOrientation(Orientation.VERTICAL);
         btnAdd.setOnAction(e -> System.out.println(
                 "UNFINISHED. SHOULD ADD LITERATURE."));
-        btnRemove.setOnAction(e -> System.out.println(
-                "UNFINISHED. SHOULD REMOVE LITERATURE"));
+        btnRemove.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
+            }
+        });
         btnTest.setOnAction(
                 e -> ui.gui.AlertBox.display("HAHA!", "GOTCHA!!"));
         boxSelectType.setPromptText("Select Type");
@@ -138,8 +155,41 @@ public class ApplicationGUI extends Application {
         litDateCol.setMinWidth(100);
         //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
         
-        //litDisplay.setItems(litRegister); TODO: legg til literaturregister i klassen og ordne med det
+        litDisplay.setItems(litList);
         litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol, 
                 litDateCol);
+    }
+    
+    private void removeEntry(int selectedIndex) {
+        if (selectedIndex >= 0) {
+            litReg.removeLiterature(litDisplay.getSelectionModel().getSelectedItem());
+            litDisplay.getItems().remove(selectedIndex);
+        }
+        else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No entry Selected");
+            alert.setContentText("Please select an entry in the table.");
+
+            alert.showAndWait();
+        }
+            
+    }
+    
+    private void fillRegister() {
+        litReg.addLiterature(new Book(
+                "A book", "some book publisher", "a book genre", 1995, 11, 18, 0, "author", 1));
+        litReg.addLiterature(new Magazine(
+                "A magazine", "some mag publisher", "a mag genre", 1995, 11, 18, 1));
+        litReg.addLiterature(new Magazine(
+                "Another magazine", "another mag publisher", "another mag genre", 1995, 11, 18, 2));
+        litReg.addLiterature(new Magazine(
+                "A third magazine", "a third mag publisher", "a third mag genre", 1995, 11, 18, 3));
+        Series series = new MagazineSeries(
+                "A magazine series", "some mag series publisher", "a mag series genre", 3);
+        series.add(new Magazine(
+                "A mag series mag", "some mag series mag publisher", "a mag series mag genre", 1995, 11, 18, 1));
+        litReg.addLiterature(series);
     }
 }
