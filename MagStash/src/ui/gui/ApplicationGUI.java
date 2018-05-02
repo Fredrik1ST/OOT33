@@ -6,6 +6,7 @@ package ui.gui;
 
 import entries.*;
 import handling.*;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -93,8 +94,7 @@ public class ApplicationGUI extends Application {
         boxSelectType = new ComboBox<String>();
         leftToolBar = new ToolBar(boxSelectType, btnAdd, btnRemove, btnTest);
         leftToolBar.setOrientation(Orientation.VERTICAL);
-        btnAdd.setOnAction(e -> System.out.println(
-                "UNFINISHED. SHOULD ADD LITERATURE."));
+        btnAdd.setOnAction(e -> ui.gui.AddBox.showChoiceDialog(litReg));
         btnRemove.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
@@ -191,5 +191,9 @@ public class ApplicationGUI extends Application {
         series.add(new Magazine(
                 "A mag series mag", "some mag series mag publisher", "a mag series mag genre", 1995, 11, 18, 1));
         litReg.addLiterature(series);
+    }
+    
+    protected LiteratureRegister getRegister() {
+        return this.litReg;
     }
 }

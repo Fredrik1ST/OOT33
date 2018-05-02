@@ -7,6 +7,7 @@ import handling.LiteratureRegister;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.time.DateTimeException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -244,7 +245,7 @@ public class ApplicationUI {
      * Lists all series in the register.
      */
     private void listSeries() {
-        ArrayList<Entry> litList = litReg.getAllLiterature();
+        List<Entry> litList = litReg.getAllLiterature();
         ArrayList<Entry> seriesList = new ArrayList<Entry>();
         for (Entry e : litList) {
             if (e instanceof Series) {
@@ -264,7 +265,7 @@ public class ApplicationUI {
         System.out.println("Enter title to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Entry> litList = litReg.getByTitle(searchString);
+        List<Entry> litList = litReg.getByTitle(searchString);
         listIndexedEntries(litList);
 
     }
@@ -278,7 +279,7 @@ public class ApplicationUI {
         System.out.println("Enter publisher to search for: ");
         searchString = parser.nextLine();
 
-        ArrayList<Entry> litList = litReg.getByPublisher(searchString);
+        List<Entry> litList = litReg.getByPublisher(searchString);
         listIndexedEntries(litList);
     }
 
@@ -419,7 +420,7 @@ public class ApplicationUI {
 
         System.out.println("Search for entries to remove: ");
         searchString = parser.nextLine();
-        ArrayList<Entry> matches = litReg.getByTitle(searchString);
+        List<Entry> matches = litReg.getByTitle(searchString);
 
         // Creates an indexed list of the matching Entries.
         listIndexedEntries(matches);
@@ -558,7 +559,7 @@ public class ApplicationUI {
      * The index starts at 1 instead of 0, which is what Java uses internally.
      * The "chooseIndexedEntry" enables the user to pick
      */
-    public void listIndexedEntries(ArrayList<Entry> entries) {
+    public void listIndexedEntries(List<Entry> entries) {
         int index = 1;
 
         try {
@@ -582,7 +583,7 @@ public class ApplicationUI {
      * @param choice The index (starting from 1) of the user's chosen Entry
      * @return the user's chosen Entry
      */
-    public Entry chooseIndexedEntry(ArrayList<Entry> entries) {
+    public Entry chooseIndexedEntry(List<Entry> entries) {
         int index = 0;
         try {
             System.out.println("\n\nSelect an entry;\n");

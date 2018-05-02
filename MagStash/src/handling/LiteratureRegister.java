@@ -5,6 +5,7 @@ import entries.Entry;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that holds all literature in a HashSet. Work in progress.
@@ -62,8 +63,8 @@ public class LiteratureRegister {
      *
      * @return
      */
-    public ArrayList<Entry> getAllLiterature() {
-        ArrayList<Entry> allLiterature = new ArrayList<>();
+    public List<Entry> getAllLiterature() {
+        List<Entry> allLiterature = new ArrayList<>();
         for (Entry l : litRegister) {
             allLiterature.add(l);
         }
@@ -76,8 +77,8 @@ public class LiteratureRegister {
      * @param title the title to search for
      * @return ArrayList of all literature containing title
      */
-    public ArrayList<Entry> getByTitle(String title) {
-        ArrayList<Entry> matches = new ArrayList<>();
+    public List<Entry> getByTitle(String title) {
+        List<Entry> matches = new ArrayList<>();
         for (Entry l : litRegister) {
 
             if (l.getTitle().contains(title)) {
@@ -94,8 +95,8 @@ public class LiteratureRegister {
      * @param publisher Publisher to search for.
      * @return Formatted string of all literatures with matching publisher
      */
-    public ArrayList<Entry> getByPublisher(String publisher) {
-        ArrayList<Entry> matches = new ArrayList<>();
+    public List<Entry> getByPublisher(String publisher) {
+        List<Entry> matches = new ArrayList<>();
         for (Entry l : litRegister) {
             if (l.getPublisher().contains(publisher)) {
                 matches.add(l);

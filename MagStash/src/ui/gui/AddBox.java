@@ -1,14 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Throw this guy a LiteratureRegister and he'll take the user through
+ * the process of adding entries to it. With windows & other cool stuff.
  */
 package ui.gui;
 
+import handling.LiteratureRegister;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -20,47 +22,54 @@ import javafx.stage.Stage;
  *
  * @author Fredrik
  */
-public class AddBox extends Application{
+public class AddBox extends Application {
+
+    public static void showChoiceDialog(LiteratureRegister litReg) {
+        Stage window = new Stage();
+        
+        ChoiceDialog<String> choiceDialog = new ChoiceDialog<String>();
+        choiceDialog.setHeaderText("Add literature");
+        choiceDialog.setContentText("Select literature type:");
+        choiceDialog.getItems().addAll(
+                "Book", "Magazine", "Journal", "Newspaper");
+        choiceDialog.show();
+
+        window.initModality(Modality.APPLICATION_MODAL); // Prevents the user from interacting with other windows while active.
+        window.setTitle("Add literature"); // Title of the window
+        window.setHeight(100);
+        window.setWidth(250);
+
+        Label label = new Label("Enter details:"); // Error message displayed
+        Button closeButton = new Button("Add");
+        closeButton.setOnAction(e -> window.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER); // Centers the window
+
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        //window.showAndWait();
+
+    }
     
-    Stage window1, window2;
-    Label label1, label2;
-    Button button1, button2;
-    TextField titleF, publisherF, genreF, authorF, releaseNrF, perYearF;
+    private void addBook(LiteratureRegister litReg) {
+        
+    }
     
-    public static void display() {
-    Stage window = new Stage();
+    private void addMagazine(LiteratureRegister litReg) {
+        
+    }
     
-    window.initModality(Modality.APPLICATION_MODAL); // Prevents the user from interacting with other windows while active.
-    window.setTitle("Add literature"); // Title of the window
-    window.setHeight(100);
-    window.setWidth(250);
+    private void addJournal(LiteratureRegister litReg) {
+        
+    }
     
-    Label label = new Label("Enter details:"); // Error message displayed
-    Button closeButton = new Button("Add");
-    closeButton.setOnAction(e -> window.close());
-    
-    VBox layout = new VBox(10);
-    layout.getChildren().addAll(label, closeButton);
-    layout.setAlignment(Pos.CENTER); // Centers the window
-    
-    Scene scene = new Scene(layout);
-    window.setScene(scene);
-    window.showAndWait();
-    
-    
-}
+    private void addNewspaper(LiteratureRegister litReg) {
+        
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        window1 = primaryStage;
-        
-        button1 = new Button("Cool button");
-        button1.setOnAction(e -> System.out.println("Cool, eh?")); // A cool lambda
-
-       StackPane layout1 = new StackPane();
-       layout1.getChildren().addAll(button1);
-       
-       Scene scene1 = new Scene(layout1, 400, 400);
-       
     }
 }

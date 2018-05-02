@@ -10,6 +10,7 @@ import handling.LiteratureRegister;
 import ui.ApplicationUI;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import org.junit.Test;
 import ui.Parser;
 import ui.show.ShowBook;
@@ -78,7 +79,7 @@ public class ApplicationUITest {
         litReg.addLiterature(series);
 
         System.out.println("Get by title (litReg): \n");
-        ArrayList<Entry> entries1 = litReg.getByTitle("magazine");
+        List<Entry> entries1 = litReg.getByTitle("magazine");
         ArrayList<Entry> entries2 = new ArrayList<Entry>();
         ArrayList<Entry> entries3 = new ArrayList<Entry>();
         for (Entry e : entries1) {
