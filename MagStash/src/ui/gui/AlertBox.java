@@ -11,10 +11,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- *
+ * The best alert box ever. 100% REAL no fake no bamboozle.
  * @author Fredrik
  */
-public class AlertBox extends Application{
+public class AlertBox {
     
     Stage window1, window2;
     Scene scene1, scene2;
@@ -43,19 +43,4 @@ public class AlertBox extends Application{
     
     
 }
-
-    // This method is needed to create an FX class, but never really used here.
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        window1 = primaryStage;
-        
-        button1 = new Button("Cool button");
-        button1.setOnAction(e -> System.out.println("Cool, eh?")); // A cool lambda
-
-       StackPane layout1 = new StackPane();
-       layout1.getChildren().addAll(button1);
-       
-       Scene scene1 = new Scene(layout1, 400, 400);
-       
-    }
 }

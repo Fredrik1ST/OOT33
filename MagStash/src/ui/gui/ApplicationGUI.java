@@ -20,6 +20,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,8 +40,11 @@ public class ApplicationGUI extends Application {
     Scene mainScene;
     // Panes arrange the visual layout of nodes
     BorderPane mainLayout;
-    HBox topLayout, bottomLayout;
-    VBox leftLayout, rightLayout, centerLayout;
+    HBox bottomLayout;
+    VBox topLayout, leftLayout, rightLayout, centerLayout;
+    // Menus, like those at the very top of most programs
+    MenuBar menuBar;
+    Menu fileMenu, editMenu, viewMenu, helpMenu;
     // List of literature presented to the user
     TableView<Entry> litDisplay;
     // TextField for taking search terms from the user
@@ -76,20 +81,28 @@ public class ApplicationGUI extends Application {
         mainLayout = new BorderPane(); // Pane holding everything in the menu
         leftLayout = new VBox();       // The vertical menu on the left
         centerLayout = new VBox();      // Contains the list (maybe not VBox?)
-        topLayout = new HBox();        // Holds the search bar & return button
+        topLayout = new VBox();        // Holds the search bar & return button
         bottomLayout = new HBox();     // Small runtime messages to the user
 
+        // Set up menus
+        fileMenu = new Menu("File");
+        editMenu = new Menu("Edit");
+        helpMenu = new Menu("Help");
+        menuBar = new MenuBar();
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+        
         // Set up search bar and return(?) button (for the top layout)
         searchBar = new TextField();
         searchBar.setPromptText("Search for literature");
+        searchBar.setMaxWidth(Double.MAX_VALUE);
 
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
         createTable();
 
-        // Set up buttons and toolbar (for the left layout)
-        btnAdd = new Button("Add");
-        btnRemove = new Button("Remove");
+        // Set up the buttons
+        btnAdd = new Button("Add literature");
+        btnRemove = new Button("Remove literature");
         btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
         boxSelectType = new ComboBox<String>();
         leftToolBar = new ToolBar(boxSelectType, btnAdd, btnRemove, btnTest);
@@ -109,18 +122,22 @@ public class ApplicationGUI extends Application {
                 "Magazines",
                 "Journals",
                 "Newspapers");
-
-        // Configure the menu's general scene (layout)
+        btnAdd.setMaxWidth(Double.MAX_VALUE);
+        btnRemove.setMaxWidth(Double.MAX_VALUE);
+        btnTest.setMaxWidth(Double.MAX_VALUE);
+        boxSelectType.setMaxWidth(Double.MAX_VALUE);
+        
+        // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
-                boxSelectType, btnAdd, btnRemove, btnTest);
+                searchBar, boxSelectType, btnAdd, btnRemove, btnTest);
         leftLayout.setSpacing(5);
-        leftLayout.setPadding(new Insets(0,10,10,10));
+        leftLayout.setPadding(new Insets(10,10,10,10));
         // rightLayout.getChildren().add();
-        topLayout.getChildren().add(searchBar);
-        topLayout.setPadding(new Insets(10,10,10,10));
+        topLayout.getChildren().add(menuBar);
+        //topLayout.setPadding(new Insets(10,10,10,10));
         // bottomLayout.getChildren().add();
         centerLayout.getChildren().add(litDisplay);
-        centerLayout.setPadding(new Insets(0,10,0,0));
+        centerLayout.setPadding(new Insets(10,10,0,0));
 
         mainLayout.setTop(topLayout);
         mainLayout.setBottom(bottomLayout);
