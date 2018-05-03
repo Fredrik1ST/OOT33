@@ -10,8 +10,6 @@ import java.util.Set;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -52,7 +50,7 @@ public class ApplicationGUI extends Application {
     // Labels are just text nodes to be put somewhere
     Label label;
     // Buttons are frickin' buttons
-    Button btnAdd, btnRemove, btnTest;
+    Button btnAdd, btnRemove, btnViewInfo, btnTest;
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
     // Toolbars are (usually) just rows of buttons
@@ -104,16 +102,16 @@ public class ApplicationGUI extends Application {
         // Set up the buttons
         btnAdd = new Button("Add literature");
         btnRemove = new Button("Remove literature");
+        btnViewInfo = new Button("View info");
         btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
         boxSelectType = new ComboBox<String>();
         leftToolBar = new ToolBar(boxSelectType, btnAdd, btnRemove, btnTest);
         leftToolBar.setOrientation(Orientation.VERTICAL);
         btnAdd.setOnAction(e -> addBox.showChoiceDialog(litReg));
-        btnRemove.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
-            }
-        });
+        btnRemove.setOnAction(e -> 
+                removeEntry(litDisplay.getSelectionModel().getSelectedIndex()));
+        btnViewInfo.setOnAction(e -> 
+                createInfoBox(litDisplay.getSelectionModel().getSelectedIndex()));
         btnTest.setOnAction(
                 e -> ui.gui.AlertBox.display("HAHA!", "GOTCHA!!"));
         boxSelectType.setPromptText("Select Type");
@@ -125,12 +123,13 @@ public class ApplicationGUI extends Application {
                 "Newspapers");
         btnAdd.setMaxWidth(Double.MAX_VALUE);
         btnRemove.setMaxWidth(Double.MAX_VALUE);
+        btnViewInfo.setMaxWidth(Double.MAX_VALUE);
         btnTest.setMaxWidth(Double.MAX_VALUE);
         boxSelectType.setMaxWidth(Double.MAX_VALUE);
         
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
-                searchBar, boxSelectType, btnAdd, btnRemove, btnTest);
+                searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo, btnTest);
         leftLayout.setSpacing(5);
         leftLayout.setPadding(new Insets(10,10,10,10));
         // rightLayout.getChildren().add();
@@ -153,11 +152,14 @@ public class ApplicationGUI extends Application {
         mainWindow.show();
     }
     
+    /**
+     * Creates a table that displays the entries in the literature register
+     */
     private void createTable() {
         
         litDisplay.setEditable(false);
         
-        TableColumn litNameCol = new TableColumn("Literature Name");
+        TableColumn litNameCol = new TableColumn("Title");
         litNameCol.setMinWidth(250);
         litNameCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("title"));
         
@@ -178,23 +180,42 @@ public class ApplicationGUI extends Application {
                 litDateCol);
     }
     
+    /**
+     * Removes the selected entry from the literature register and from 
+     * the list that's displayed in the litDisplay table. 
+     * @param selectedIndex index of the selected entry
+     */
     private void removeEntry(int selectedIndex) {
         if (selectedIndex >= 0) {
-            litReg.removeLiterature(litDisplay.getSelectionModel().getSelectedItem());
-            litDisplay.getItems().remove(selectedIndex);
+            litReg.removeLiterature(
+                    litDisplay.getSelectionModel().getSelectedItem());
+            updateObservableList();
         }
         else {
             // Nothing selected.
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No entry Selected");
-            alert.setContentText("Please select an entry in the table.");
-
-            alert.showAndWait();
-        }
-            
+            showNoEntrySelectedError();
+        }  
     }
     
+    /**
+     * Opens another window that lists the values of the selected item. 
+     * @param selectedIndex index of the selected item
+     */
+    private void createInfoBox(int selectedIndex) {
+        if (selectedIndex >= 0) {
+            InfoBox infoBox = new InfoBox(
+                    litDisplay.getSelectionModel().getSelectedItem());
+            infoBox.display();
+        }
+        else {
+            // Nothing selected.
+            showNoEntrySelectedError();
+        }
+    }
+    
+    /**
+     * Fills register with various types of literature.
+     */
     private void fillRegister() {
         litReg.addLiterature(new Book(
                 "A book", "some book publisher", "a book genre", 1995, 11, 18, 0, "author", 1));
@@ -211,7 +232,30 @@ public class ApplicationGUI extends Application {
         litReg.addLiterature(series);
     }
     
+    /**
+     * Returns the literature register
+     * @return the literature register
+     */
     protected LiteratureRegister getRegister() {
         return this.litReg;
+    }
+    
+    /**
+     * Updates the list that's displayed in the litDisplay table
+     */
+    private void updateObservableList() {
+        litList.setAll(litReg.getAllLiterature());
+    }
+    
+    /**
+     * Displays an error because no item was selected.
+     */
+    private void showNoEntrySelectedError() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("No Selection");
+        alert.setHeaderText("No entry Selected");
+        alert.setContentText("Please select an entry in the table.");
+
+        alert.showAndWait();
     }
 }

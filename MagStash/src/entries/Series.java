@@ -145,4 +145,8 @@ public abstract class Series extends Entry {
                 + this.getGenre().length() * 17
                 + this.getReleasesPerYear() * 31);
     }
+    
+    public TreeMap<Integer, Literature> getMap() {
+        return issues;
+    }
 }
