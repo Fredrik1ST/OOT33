@@ -58,6 +58,7 @@ public class ApplicationGUI extends Application {
     // Toolbars are (usually) just rows of buttons
     ToolBar leftToolBar;
     
+    AddBox addBox = new AddBox();
     LiteratureRegister litReg;
     ObservableList<Entry> litList;
 
@@ -107,7 +108,7 @@ public class ApplicationGUI extends Application {
         boxSelectType = new ComboBox<String>();
         leftToolBar = new ToolBar(boxSelectType, btnAdd, btnRemove, btnTest);
         leftToolBar.setOrientation(Orientation.VERTICAL);
-        btnAdd.setOnAction(e -> ui.gui.AddBox.showChoiceDialog(litReg));
+        btnAdd.setOnAction(e -> addBox.showChoiceDialog(litReg));
         btnRemove.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 removeEntry(litDisplay.getSelectionModel().getSelectedIndex());

@@ -4,25 +4,28 @@
  */
 package ui.gui;
 
+import entries.*;
 import handling.LiteratureRegister;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -37,7 +40,7 @@ public class AddBox {
      *
      * @param litReg LiteratureRegister to be added to
      */
-    public static void showChoiceDialog(LiteratureRegister litReg) {
+    public void showChoiceDialog(LiteratureRegister litReg) {
         ChoiceDialog<String> choiceDialog = new ChoiceDialog<String>();
         choiceDialog.setHeaderText(null);
         choiceDialog.setContentText("Select literature type:");
@@ -79,13 +82,18 @@ public class AddBox {
      * @param type Literature type to be added
      * @param litReg LiteratureRegister to be added to
      */
-    private static void add(String type, LiteratureRegister litReg) {
+    private void add(String type, LiteratureRegister litReg) {
+
+        // Initialize the window & layout
         Stage window = new Stage();
-        VBox root = new VBox();
+        VBox root = new VBox(10);
+        VBox headerBox = new VBox(5);
         GridPane grid = new GridPane();
+        HBox dateBox = new HBox(5);
+        HBox btnBox = new HBox(30);
         Scene scene = new Scene(root);
 
-        // Create labels
+        // Initialize labels
         Label promptLabel = new Label("Enter details: ");
         Label titleLabel = new Label("Title: ");
         Label publisherLabel = new Label("Publisher: ");
@@ -93,30 +101,129 @@ public class AddBox {
         Label authorLabel = new Label("Author: ");
         Label releaseNrLabel = new Label("Release #: ");
         Label dateLabel = new Label("Release date: ");
+        Label editionLabel = new Label("Edition: ");
 
-        // Initialize TextFields
+        // Initialize TextFields (String)
         TextField titleField = new TextField();
         TextField publisherField = new TextField();
         TextField genreField = new TextField();
         TextField authorField = new TextField();
+        TextField editionField = new TextField();
+        // Initialzie TextFields (Int)
         TextField releaseNrField = new TextField();
         TextField dayField = new TextField();
         TextField monthField = new TextField();
         TextField yearField = new TextField();
 
-        // Set up numeric TextFields
+        // Initialize buttons
+        Button addBtn = new Button("Add");
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setOnAction(e -> window.close());
+
+        // Set up TextFields
+        titleField.setPromptText("Enter title");
+        publisherField.setPromptText("Enter publisher");
+        genreField.setPromptText("Enter genre");
+        authorField.setPromptText("Enter author");
+        editionField.setPromptText("Enter edition number");
+        releaseNrField.setPromptText("Enter release number");
         dayField.setPromptText("Day");
         monthField.setPromptText("Month");
         yearField.setPromptText("Year");
         makeNumericTextFields(dayField, monthField, yearField);
-        
-        Button addBtn = new Button("Add");
-        Button cancelBtn = new Button("Cancel");
+
+        // Import media
+        ImageView readerIconView = null;
+        try {
+            readerIconView = new ImageView(
+                    new Image(getClass().getResourceAsStream("/media/reader.png")));
+        } catch (NullPointerException npe) {
+            System.out.println("You screwed up the icon!"
+                    + "\nChange the ImageView-directory in AddBox.");
+        }
+        if (readerIconView != null) {
+            promptLabel.setGraphic(readerIconView);
+        }
+        promptLabel.setFont(new Font("Arial", 60));
+        promptLabel.setTextFill(Color.web("#383838"));
+
+        // Set up common layout
+        root.getChildren().addAll(headerBox, grid, btnBox);
+        root.setPadding(new Insets(10, 10, 10, 10));
+        headerBox.getChildren().addAll(promptLabel);
+        headerBox.setAlignment(Pos.CENTER);
+        dateBox.getChildren().addAll(dayField, monthField, yearField);
+        btnBox.getChildren().addAll(addBtn, cancelBtn);
+        btnBox.setAlignment(Pos.CENTER);
+        grid.setVgap(5);
+        grid.setHgap(10);
+        grid.setAlignment(Pos.CENTER);
 
         switch (type) {
             case "Book":
                 System.out.println(type.toUpperCase() + "-MAKING TIME!");
-                root.getChildren().addAll(promptLabel, grid);
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(authorLabel, 0, 3);
+                GridPane.setConstraints(releaseNrLabel, 0, 4);
+                GridPane.setConstraints(editionLabel, 0, 5);
+                GridPane.setConstraints(dateLabel, 0, 6);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(authorField, 1, 3);
+                GridPane.setConstraints(releaseNrField, 1, 4);
+                GridPane.setConstraints(editionField, 1, 5);
+                GridPane.setConstraints(dateBox, 1, 6);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releaseNrLabel, editionLabel, authorLabel,
+                        dateLabel, titleField, publisherField, genreField,
+                        authorField, releaseNrField, editionField, dateBox);
+
+                try {
+                    // Make the button crunch the numbers
+                    addBtn.setOnAction(e -> {
+                        final String title = titleField.getText();
+                        final String publisher = publisherField.getText();
+                        final String genre = genreField.getText();
+                        final String author = authorField.getText();
+                        final int releaseNr = Integer.parseInt(releaseNrField.getText());
+                        final int day = Integer.parseInt(dayField.getText());
+                        final int month = Integer.parseInt(monthField.getText());
+                        final int year = Integer.parseInt(yearField.getText());
+                        final int edition = Integer.parseInt(editionField.getText());
+
+                        if (litReg.addLiterature(new Book(title, publisher, genre,
+                                year, month, day, releaseNr, author, edition))) {
+                            Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(title + " was added");
+                    alert.setContentText(null);
+                    alert.showAndWait();
+                            
+                        }
+
+                        window.close();
+
+                    });
+                } catch (NumberFormatException nfe) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Invalid Format");
+                    alert.setContentText("Expected an integer. Please try again.");
+                    alert.showAndWait();
+                    break;
+                }
+
+                window.setScene(scene);
+                window.showAndWait();
                 break;
 
             case "Magazine":
@@ -140,7 +247,7 @@ public class AddBox {
      *
      * @param fields The TextFields to change
      */
-    private static void makeNumericTextFields(TextField... fields) {
+    private void makeNumericTextFields(TextField... fields) {
         for (TextField textField : fields) {
             textField.textProperty().addListener(new ChangeListener<String>() {
                 @Override
@@ -153,5 +260,5 @@ public class AddBox {
             });
         }
     }
-    
+
 }
