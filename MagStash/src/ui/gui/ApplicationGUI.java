@@ -23,11 +23,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class ApplicationGUI extends Application {
@@ -53,9 +53,7 @@ public class ApplicationGUI extends Application {
     Button btnAdd, btnRemove, btnViewInfo, btnTest;
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
-    // Toolbars are (usually) just rows of buttons
-    ToolBar leftToolBar;
-    
+
     AddBox addBox = new AddBox();
     LiteratureRegister litReg;
     ObservableList<Entry> litList;
@@ -71,7 +69,7 @@ public class ApplicationGUI extends Application {
         litReg = new LiteratureRegister();
         fillRegister();
         litList = FXCollections.observableArrayList(litReg.getAllLiterature());
-        
+
         // Set up the main stage (mainWindow)
         mainWindow = primaryStage;
         mainWindow.setTitle("Library");
@@ -89,7 +87,7 @@ public class ApplicationGUI extends Application {
         helpMenu = new Menu("Help");
         menuBar = new MenuBar();
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
-        
+
         // Set up search bar and return(?) button (for the top layout)
         searchBar = new TextField();
         searchBar.setPromptText("Search for literature");
@@ -105,15 +103,6 @@ public class ApplicationGUI extends Application {
         btnViewInfo = new Button("View info");
         btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
         boxSelectType = new ComboBox<String>();
-        leftToolBar = new ToolBar(boxSelectType, btnAdd, btnRemove, btnTest);
-        leftToolBar.setOrientation(Orientation.VERTICAL);
-        btnAdd.setOnAction(e -> addBox.showChoiceDialog(litReg));
-        btnRemove.setOnAction(e -> 
-                removeEntry(litDisplay.getSelectionModel().getSelectedIndex()));
-        btnViewInfo.setOnAction(e -> 
-                createInfoBox(litDisplay.getSelectionModel().getSelectedIndex()));
-        btnTest.setOnAction(
-                e -> ui.gui.AlertBox.display("HAHA!", "GOTCHA!!"));
         boxSelectType.setPromptText("Select Type");
         boxSelectType.getItems().addAll(
                 "All Literature",
@@ -126,18 +115,33 @@ public class ApplicationGUI extends Application {
         btnViewInfo.setMaxWidth(Double.MAX_VALUE);
         btnTest.setMaxWidth(Double.MAX_VALUE);
         boxSelectType.setMaxWidth(Double.MAX_VALUE);
-        
+
+        // Set up Action Events (like button presses)
+        btnAdd.setOnAction(e -> {
+            addBox.showChoiceDialog(litReg);
+            updateObservableList();
+        });
+        btnRemove.setOnAction(e -> {
+            removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
+        });
+        btnViewInfo.setOnAction(e -> {
+            createInfoBox(litDisplay.getSelectionModel().getSelectedIndex());
+        });
+        btnTest.setOnAction(e -> {
+            ui.gui.AlertBox.display("HAHA!", "GOTCHA!!");
+        });
+
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
                 searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo, btnTest);
         leftLayout.setSpacing(5);
-        leftLayout.setPadding(new Insets(10,10,10,10));
+        leftLayout.setPadding(new Insets(10, 10, 10, 10));
         // rightLayout.getChildren().add();
         topLayout.getChildren().add(menuBar);
         //topLayout.setPadding(new Insets(10,10,10,10));
         // bottomLayout.getChildren().add();
         centerLayout.getChildren().add(litDisplay);
-        centerLayout.setPadding(new Insets(10,10,0,0));
+        centerLayout.setPadding(new Insets(10, 10, 0, 0));
 
         mainLayout.setTop(topLayout);
         mainLayout.setBottom(bottomLayout);
@@ -145,44 +149,44 @@ public class ApplicationGUI extends Application {
         mainLayout.setRight(rightLayout);
         mainLayout.setCenter(centerLayout);
 
-        
         mainScene = new Scene(mainLayout, 1080, 720);
         mainWindow.setScene(mainScene);
         mainWindow.setTitle("Library v1.0");
         mainWindow.show();
     }
-    
+
     /**
      * Creates a table that displays the entries in the literature register
      */
     private void createTable() {
-        
+
         litDisplay.setEditable(false);
-        
+
         TableColumn litNameCol = new TableColumn("Title");
         litNameCol.setMinWidth(250);
         litNameCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("title"));
-        
+
         TableColumn litPublCol = new TableColumn("Publisher");
         litPublCol.setMinWidth(150);
         litPublCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("publisher"));
-        
-        TableColumn litGenrCol = new TableColumn("Genre"); 
+
+        TableColumn litGenrCol = new TableColumn("Genre");
         litGenrCol.setMinWidth(100);
-        litGenrCol.setCellValueFactory(new PropertyValueFactory<Entry, String> ("genre")); 
-        
+        litGenrCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("genre"));
+
         TableColumn litDateCol = new TableColumn("Release Date");
         litDateCol.setMinWidth(100);
         //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
-        
+
         litDisplay.setItems(litList);
-        litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol, 
+        litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol,
                 litDateCol);
     }
-    
+
     /**
-     * Removes the selected entry from the literature register and from 
-     * the list that's displayed in the litDisplay table. 
+     * Removes the selected entry from the literature register and from
+     * the list that's displayed in the litDisplay table.
+     *
      * @param selectedIndex index of the selected entry
      */
     private void removeEntry(int selectedIndex) {
@@ -190,15 +194,16 @@ public class ApplicationGUI extends Application {
             litReg.removeLiterature(
                     litDisplay.getSelectionModel().getSelectedItem());
             updateObservableList();
-        }
-        else {
+            playAudio("rip.mp3");
+        } else {
             // Nothing selected.
             showNoEntrySelectedError();
-        }  
+        }
     }
-    
+
     /**
-     * Opens another window that lists the values of the selected item. 
+     * Opens another window that lists the values of the selected item.
+     *
      * @param selectedIndex index of the selected item
      */
     private void createInfoBox(int selectedIndex) {
@@ -206,13 +211,12 @@ public class ApplicationGUI extends Application {
             InfoBox infoBox = new InfoBox(
                     litDisplay.getSelectionModel().getSelectedItem());
             infoBox.display();
-        }
-        else {
+        } else {
             // Nothing selected.
             showNoEntrySelectedError();
         }
     }
-    
+
     /**
      * Fills register with various types of literature.
      */
@@ -231,22 +235,23 @@ public class ApplicationGUI extends Application {
                 "A mag series mag", "some mag series mag publisher", "a mag series mag genre", 1995, 11, 18, 1));
         litReg.addLiterature(series);
     }
-    
+
     /**
      * Returns the literature register
+     *
      * @return the literature register
      */
     protected LiteratureRegister getRegister() {
         return this.litReg;
     }
-    
+
     /**
      * Updates the list that's displayed in the litDisplay table
      */
     private void updateObservableList() {
         litList.setAll(litReg.getAllLiterature());
     }
-    
+
     /**
      * Displays an error because no item was selected.
      */
@@ -257,5 +262,35 @@ public class ApplicationGUI extends Application {
         alert.setContentText("Please select an entry in the table.");
 
         alert.showAndWait();
+    }
+
+    /**
+     * Play a sound clip from the media package by entering its filename.
+     * Only suitable for short clips!
+     *
+     * @param soundName audio file to play
+     */
+    private void playAudio(String audioClip) {
+        switch (audioClip) {
+            case "pageflip.mp3":
+                AudioClip pageflip = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                pageflip.play();
+                break;
+
+            case "rip.mp3":
+                AudioClip rip = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                rip.play(60);
+                break;
+                
+            case "bulbhorn.mp3":
+                AudioClip bulbhorn = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                bulbhorn.play();
+                break;
+            default:
+                break;
+        }
     }
 }

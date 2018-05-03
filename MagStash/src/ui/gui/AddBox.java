@@ -6,6 +6,9 @@ package ui.gui;
 
 import entries.*;
 import handling.LiteratureRegister;
+import java.io.File;
+import java.net.URL;
+import java.time.DateTimeException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javafx.beans.value.ChangeListener;
@@ -24,6 +27,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -67,11 +73,7 @@ public class AddBox {
                     break;
             }
         } catch (NoSuchElementException nope) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("No such element Exception");
-            alert.setContentText("Something went really wrong "
-                    + "deep down in the code. You should contact us.");
+            System.out.println("");
         }
 
     }
@@ -130,9 +132,10 @@ public class AddBox {
         dayField.setPromptText("Day");
         monthField.setPromptText("Month");
         yearField.setPromptText("Year");
-        makeNumericTextFields(dayField, monthField, yearField);
+        makeNumericTextFields(releaseNrField, editionField,
+                dayField, monthField, yearField);
 
-        // Import media
+        // Import graphics
         ImageView readerIconView = null;
         try {
             readerIconView = new ImageView(
@@ -144,7 +147,7 @@ public class AddBox {
         if (readerIconView != null) {
             promptLabel.setGraphic(readerIconView);
         }
-        promptLabel.setFont(new Font("Arial", 60));
+        promptLabel.setFont(new Font("Arial", 50));
         promptLabel.setTextFill(Color.web("#383838"));
 
         // Set up common layout
@@ -187,40 +190,38 @@ public class AddBox {
                         dateLabel, titleField, publisherField, genreField,
                         authorField, releaseNrField, editionField, dateBox);
 
-                try {
-                    // Make the button crunch the numbers
-                    addBtn.setOnAction(e -> {
-                        final String title = titleField.getText();
-                        final String publisher = publisherField.getText();
-                        final String genre = genreField.getText();
-                        final String author = authorField.getText();
-                        final int releaseNr = Integer.parseInt(releaseNrField.getText());
-                        final int day = Integer.parseInt(dayField.getText());
-                        final int month = Integer.parseInt(monthField.getText());
-                        final int year = Integer.parseInt(yearField.getText());
-                        final int edition = Integer.parseInt(editionField.getText());
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    boolean wasAdded = false;
+                    
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final String author = authorField.getText();
+                    final int releaseNr = Integer.parseInt(releaseNrField.getText());
+                    final int day = Integer.parseInt(dayField.getText());
+                    final int month = Integer.parseInt(monthField.getText());
+                    final int year = Integer.parseInt(yearField.getText());
+                    final int edition = Integer.parseInt(editionField.getText());
 
-                        if (litReg.addLiterature(new Book(title, publisher, genre,
-                                year, month, day, releaseNr, author, edition))) {
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setHeaderText(title + " was added");
-                    alert.setContentText(null);
-                    alert.showAndWait();
-                            
-                        }
-
-                        window.close();
-
-                    });
-                } catch (NumberFormatException nfe) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setTitle("ERROR");
-                    alert.setHeaderText("Invalid Format");
-                    alert.setContentText("Expected an integer. Please try again.");
-                    alert.showAndWait();
-                    break;
-                }
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new Book(title, publisher, genre,
+                            year, month, day, releaseNr, author, edition))) {
+                        playAudio("pageflip.mp3");
+                        wasAdded = true;
+                        
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    if (wasAdded) {
+                    window.close();
+                    }
+                });
 
                 window.setScene(scene);
                 window.showAndWait();
@@ -228,21 +229,161 @@ public class AddBox {
 
             case "Magazine":
                 System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releaseNrLabel, 0, 3);
+                GridPane.setConstraints(dateLabel, 0, 4);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releaseNrField, 1, 3);
+                GridPane.setConstraints(dateBox, 1, 4);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releaseNrLabel, dateLabel, titleField,
+                        publisherField, genreField, releaseNrField, dateBox);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releaseNr = Integer.parseInt(releaseNrField.getText());
+                    final int day = Integer.parseInt(dayField.getText());
+                    final int month = Integer.parseInt(monthField.getText());
+                    final int year = Integer.parseInt(yearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new Magazine(title, publisher, genre,
+                            year, month, day, releaseNr))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
                 break;
 
             case "Journal":
                 System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releaseNrLabel, 0, 3);
+                GridPane.setConstraints(dateLabel, 0, 4);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releaseNrField, 1, 3);
+                GridPane.setConstraints(dateBox, 1, 4);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releaseNrLabel, dateLabel, titleField,
+                        publisherField, genreField, releaseNrField, dateBox);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releaseNr = Integer.parseInt(releaseNrField.getText());
+                    final int day = Integer.parseInt(dayField.getText());
+                    final int month = Integer.parseInt(monthField.getText());
+                    final int year = Integer.parseInt(yearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new Journal(title, publisher, genre,
+                            year, month, day, releaseNr))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
                 break;
 
             case "Newspaper":
                 System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releaseNrLabel, 0, 3);
+                GridPane.setConstraints(dateLabel, 0, 4);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releaseNrField, 1, 3);
+                GridPane.setConstraints(dateBox, 1, 4);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releaseNrLabel, dateLabel, titleField,
+                        publisherField, genreField, releaseNrField, dateBox);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releaseNr = Integer.parseInt(releaseNrField.getText());
+                    final int day = Integer.parseInt(dayField.getText());
+                    final int month = Integer.parseInt(monthField.getText());
+                    final int year = Integer.parseInt(yearField.getText());
+                    
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new Newspaper(title, publisher,
+                            genre, year, month, day, releaseNr))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
                 break;
         }
 
     }
 
     /**
-     * WORK IN PROGRESS!
      * Changes TextFields so that they only accept numerical input.
      *
      * @param fields The TextFields to change
@@ -258,6 +399,36 @@ public class AddBox {
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * Play a sound clip from the media package by entering its filename.
+     * Only suitable for short clips!
+     *
+     * @param soundName audio file to play
+     */
+    private void playAudio(String audioClip) {
+        switch (audioClip) {
+            case "pageflip.mp3":
+                AudioClip pageflip = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                pageflip.play();
+                break;
+
+            case "rip.mp3":
+                AudioClip rip = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                rip.play();
+                break;
+
+            case "bulbhorn.mp3":
+                AudioClip bulbhorn = new AudioClip(this.getClass().getResource(
+                        "/media/" + audioClip).toString());
+                bulbhorn.play();
+                break;
+            default:
+                break;
         }
     }
 

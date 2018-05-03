@@ -2,6 +2,7 @@
 package handling;
 
 import entries.Entry;
+import java.time.DateTimeException;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -35,7 +36,8 @@ public class LiteratureRegister {
         try {
             wasAdded = litRegister.add(l);
         } catch (java.time.DateTimeException dte) {
-            //TODO: Handle the exception
+            wasAdded = false;
+            return wasAdded;
         }
         return wasAdded;
     }
