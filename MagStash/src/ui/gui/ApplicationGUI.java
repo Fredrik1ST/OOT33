@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -43,6 +44,7 @@ public class ApplicationGUI extends Application {
     // Menus, like those at the very top of most programs
     MenuBar menuBar;
     Menu fileMenu, editMenu, viewMenu, helpMenu;
+    MenuItem aboutItem;
     // List of literature presented to the user
     TableView<Entry> litDisplay;
     // TextField for taking search terms from the user
@@ -54,6 +56,7 @@ public class ApplicationGUI extends Application {
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
 
+    AboutBox aboutBox = new AboutBox();
     AddBox addBox = new AddBox();
     LiteratureRegister litReg;
     ObservableList<Entry> litList;
@@ -85,7 +88,10 @@ public class ApplicationGUI extends Application {
         fileMenu = new Menu("File");
         editMenu = new Menu("Edit");
         helpMenu = new Menu("Help");
+        aboutItem = new MenuItem("About");
         menuBar = new MenuBar();
+        helpMenu.getItems().addAll(aboutItem);
+        aboutItem.setOnAction(e -> aboutBox.display());
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
         // Set up search bar and return(?) button (for the top layout)

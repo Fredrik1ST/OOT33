@@ -1,7 +1,3 @@
-/*
- * Throw this guy a LiteratureRegister and he'll take the user through
- * the process of adding entries to it. With windows & other cool stuff.
- */
 package ui.gui;
 
 import entries.*;
@@ -35,7 +31,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- *
+ * Starts by letting the user choose a Literature type to add
+ * through a choice dialog, then opens an appropriate form to fill out.
  * @author Fredrik
  */
 public class AddBox {
@@ -79,7 +76,8 @@ public class AddBox {
     }
 
     /**
-     * Chews the user's input and spits it out as a new piece of Literature.
+     * Creates a form to accept input from the user.
+     * Converts the user's input into a new piece of Literature.
      *
      * @param type Literature type to be added
      * @param litReg LiteratureRegister to be added to
