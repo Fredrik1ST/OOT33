@@ -111,7 +111,11 @@ public abstract class Series extends Entry {
     public int getSize() {
         return this.issues.size();
     }
-
+    
+    public String getRelease() {
+            return getReleasesPerYear() + " releases per year";
+    }
+    
     /**
      * Compares this object to another to see if they're the same.
      *
@@ -149,4 +153,6 @@ public abstract class Series extends Entry {
     public TreeMap<Integer, Literature> getMap() {
         return issues;
     }
+    
+    
 }

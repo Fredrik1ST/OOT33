@@ -54,7 +54,7 @@ public class ApplicationGUI extends Application {
     // Labels are just text nodes to be put somewhere
     Label label;
     // Buttons are frickin' buttons
-    Button btnAdd, btnRemove, btnViewInfo, btnTest;
+    Button btnAdd, btnRemove, btnViewInfo;
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
 
@@ -120,11 +120,9 @@ public class ApplicationGUI extends Application {
         btnAdd = new Button("Add literature");
         btnRemove = new Button("Remove literature");
         btnViewInfo = new Button("View info");
-        btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
         btnAdd.setMaxWidth(Double.MAX_VALUE);
         btnRemove.setMaxWidth(Double.MAX_VALUE);
         btnViewInfo.setMaxWidth(Double.MAX_VALUE);
-        btnTest.setMaxWidth(Double.MAX_VALUE);
         boxSelectType.setMaxWidth(Double.MAX_VALUE);
 
         // Set up Action Events (like button presses)
@@ -153,13 +151,10 @@ public class ApplicationGUI extends Application {
         btnViewInfo.setOnAction(e -> {
             createInfoBox(litDisplay.getSelectionModel().getSelectedIndex());
         });
-        btnTest.setOnAction(e -> {
-            ui.gui.AlertBox.display("HAHA!", "GOTCHA!!");
-        });
 
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
-                searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo, btnTest);
+                searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo);
         leftLayout.setSpacing(5);
         leftLayout.setPadding(new Insets(10, 10, 10, 10));
         // rightLayout.getChildren().add();
@@ -169,7 +164,7 @@ public class ApplicationGUI extends Application {
         centerLayout.getChildren().add(litDisplay);
         centerLayout.setPadding(new Insets(10, 10, 0, 0));
 
-        mainLayout.setTop(topLayout);
+        mainLayout.setTop(topLayout);   
         mainLayout.setBottom(bottomLayout);
         mainLayout.setLeft(leftLayout);
         mainLayout.setRight(rightLayout);
@@ -197,12 +192,12 @@ public class ApplicationGUI extends Application {
         litPublCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("publisher"));
 
         TableColumn litGenrCol = new TableColumn("Genre");
-        litGenrCol.setMinWidth(100);
+        litGenrCol.setMinWidth(150);
         litGenrCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("genre"));
 
         TableColumn litDateCol = new TableColumn("Release Date");
-        litDateCol.setMinWidth(100);
-        //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
+        litDateCol.setMinWidth(150);
+        litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, String>("release"));
 
         updateTable(litList);
         litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol,

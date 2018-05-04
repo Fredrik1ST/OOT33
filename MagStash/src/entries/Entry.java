@@ -58,6 +58,8 @@ public abstract class Entry {
     public final String getGenre() {
         return this.genre;
     }
+    
+    abstract public String getRelease();
 
     /**
      * Overrides the method "equals". Necessary for comparing literature types.
