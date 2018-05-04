@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 /**
  * Starts by letting the user choose a Literature type to add
  * through a choice dialog, then opens an appropriate form to fill out.
+ *
  * @author Fredrik
  */
 public class AddBox {
@@ -48,7 +49,9 @@ public class AddBox {
         choiceDialog.setHeaderText(null);
         choiceDialog.setContentText("Select literature type:");
         choiceDialog.getItems().addAll(
-                "Book", "Magazine", "Journal", "Newspaper");
+                "Book", "Magazine", "Journal", "Newspaper",
+                "Book Series", "Magazine Series",
+                "Journal Series", "Newspaper Series");
         Optional<String> choice = choiceDialog.showAndWait();
 
         try {
@@ -68,9 +71,25 @@ public class AddBox {
                 case "Newspaper":
                     add("Newspaper", litReg);
                     break;
+
+                case "Book Series":
+                    add("Book Series", litReg);
+                    break;
+
+                case "Magazine Series":
+                    add("Magazine Series", litReg);
+                    break;
+
+                case "Journal Series":
+                    add("Journal Series", litReg);
+                    break;
+
+                case "Newspaper Series":
+                    add("Newspaper Series", litReg);
+                    break;
             }
         } catch (NoSuchElementException nope) {
-            System.out.println("");
+            System.out.println("showChoiceDialog in AddBox is broken.");
         }
 
     }
@@ -102,6 +121,7 @@ public class AddBox {
         Label releaseNrLabel = new Label("Release #: ");
         Label dateLabel = new Label("Release date: ");
         Label editionLabel = new Label("Edition: ");
+        Label releasesPerYearLabel = new Label("Releases per year: ");
 
         // Initialize TextFields (String)
         TextField titleField = new TextField();
@@ -114,6 +134,7 @@ public class AddBox {
         TextField dayField = new TextField();
         TextField monthField = new TextField();
         TextField yearField = new TextField();
+        TextField releasesPerYearField = new TextField();
 
         // Initialize buttons
         Button addBtn = new Button("Add");
@@ -131,7 +152,7 @@ public class AddBox {
         monthField.setPromptText("Month");
         yearField.setPromptText("Year");
         makeNumericTextFields(releaseNrField, editionField,
-                dayField, monthField, yearField);
+                dayField, monthField, yearField, releasesPerYearField);
 
         // Import graphics
         ImageView readerIconView = null;
@@ -191,7 +212,7 @@ public class AddBox {
                 // Make the button crunch the numbers
                 addBtn.setOnAction(e -> {
                     boolean wasAdded = false;
-                    
+
                     final String title = titleField.getText();
                     final String publisher = publisherField.getText();
                     final String genre = genreField.getText();
@@ -207,7 +228,7 @@ public class AddBox {
                             year, month, day, releaseNr, author, edition))) {
                         playAudio("pageflip.mp3");
                         wasAdded = true;
-                        
+
                     } else {
                         playAudio("bulbhorn.mp3");
                         Alert alert = new Alert(AlertType.INFORMATION);
@@ -217,7 +238,7 @@ public class AddBox {
                         alert.showAndWait();
                     }
                     if (wasAdded) {
-                    window.close();
+                        window.close();
                     }
                 });
 
@@ -358,10 +379,194 @@ public class AddBox {
                     final int day = Integer.parseInt(dayField.getText());
                     final int month = Integer.parseInt(monthField.getText());
                     final int year = Integer.parseInt(yearField.getText());
-                    
+
                     // Add the literature (or don't) and give some feedback
                     if (litReg.addLiterature(new Newspaper(title, publisher,
                             genre, year, month, day, releaseNr))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
+                break;
+
+            case "Book Series":
+                System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releasesPerYearLabel, 0, 3);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releasesPerYearField, 1, 3);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releasesPerYearLabel, titleField,
+                        publisherField, genreField, releasesPerYearField);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releasesPerYear = Integer.parseInt(releasesPerYearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new BookSeries(title, publisher,
+                            genre, releasesPerYear))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
+                break;
+                
+                case "Magazine Series":
+                System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releasesPerYearLabel, 0, 3);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releasesPerYearField, 1, 3);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releasesPerYearLabel, titleField,
+                        publisherField, genreField, releasesPerYearField);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releasesPerYear = Integer.parseInt(releasesPerYearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new MagazineSeries(title, publisher,
+                            genre, releasesPerYear))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
+                break;
+                
+                case "Journal Series":
+                System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releasesPerYearLabel, 0, 3);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releasesPerYearField, 1, 3);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releasesPerYearLabel, titleField,
+                        publisherField, genreField, releasesPerYearField);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releasesPerYear = Integer.parseInt(releasesPerYearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new JournalSeries(title, publisher,
+                            genre, releasesPerYear))) {
+                        playAudio("pageflip.mp3");
+                    } else {
+                        playAudio("bulbhorn.mp3");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Duplicate Error");
+                        alert.setContentText(title + " already exists.");
+                        alert.showAndWait();
+                    }
+                    window.close();
+                });
+
+                window.setScene(scene);
+                window.showAndWait();
+                break;
+                
+                case "Newspaper Series":
+                System.out.println(type.toUpperCase() + "-MAKING TIME!");
+
+                // Left side of window (text)
+                GridPane.setConstraints(titleLabel, 0, 0);
+                GridPane.setConstraints(publisherLabel, 0, 1);
+                GridPane.setConstraints(genreLabel, 0, 2);
+                GridPane.setConstraints(releasesPerYearLabel, 0, 3);
+
+                // Right side of window (input fields)
+                GridPane.setConstraints(titleField, 1, 0);
+                GridPane.setConstraints(publisherField, 1, 1);
+                GridPane.setConstraints(genreField, 1, 2);
+                GridPane.setConstraints(releasesPerYearField, 1, 3);
+
+                // Add to grid
+                grid.getChildren().addAll(titleLabel, publisherLabel,
+                        genreLabel, releasesPerYearLabel, titleField,
+                        publisherField, genreField, releasesPerYearField);
+
+                // Make the button crunch the numbers
+                addBtn.setOnAction(e -> {
+                    final String title = titleField.getText();
+                    final String publisher = publisherField.getText();
+                    final String genre = genreField.getText();
+                    final int releasesPerYear = Integer.parseInt(releasesPerYearField.getText());
+
+                    // Add the literature (or don't) and give some feedback
+                    if (litReg.addLiterature(new NewspaperSeries(title, publisher,
+                            genre, releasesPerYear))) {
                         playAudio("pageflip.mp3");
                     } else {
                         playAudio("bulbhorn.mp3");

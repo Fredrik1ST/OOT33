@@ -58,6 +58,7 @@ public class ApplicationGUI extends Application {
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
 
+    FunBox alertBox = new FunBox();
     AboutBox aboutBox = new AboutBox();
     AddBox addBox = new AddBox();
     LiteratureRegister litReg;
@@ -138,10 +139,10 @@ public class ApplicationGUI extends Application {
             createInfoBox(litDisplay.getSelectionModel().getSelectedIndex());
         });
         btnTest.setOnAction(e -> {
-            ui.gui.AlertBox.display("HAHA!", "GOTCHA!!");
+            alertBox.display("Free Calcium!", "Good bones and Calcium will come to you!!");
         });
 
-        enableSearchBar();
+        enableSearch();
 
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
@@ -196,9 +197,9 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     *
+     * Sets up listeners and events for the search bar and literature type box.
      */
-    private void enableSearchBar() {
+    private void enableSearch() {
         ObservableList<Entry> list = FXCollections.observableArrayList(litList);
         boxSelectType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -327,6 +328,7 @@ public class ApplicationGUI extends Application {
      */
     private void updateObservableList() {
         litList.setAll(litReg.getAllLiterature());
+        
     }
 
     /**
