@@ -6,12 +6,12 @@ package ui.gui;
 
 import entries.*;
 import handling.*;
-import java.util.Set;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -102,6 +102,23 @@ public class ApplicationGUI extends Application {
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
         createTable();
+        
+        FilteredList<Entry> searchResults = new FilteredList(litList, p -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchResults.setPredicate(entry -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (entry.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false; 
+            });
+        });
+        SortedList<Entry> sortedData = new SortedList<>(searchResults);
+        sortedData.comparatorProperty().bind(litDisplay.comparatorProperty());
+        litDisplay.setItems(sortedData);
 
         // Set up the buttons
         btnAdd = new Button("Add literature");
