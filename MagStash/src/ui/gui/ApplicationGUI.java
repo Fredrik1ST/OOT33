@@ -7,6 +7,8 @@ package ui.gui;
 import entries.*;
 import handling.*;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -102,23 +104,6 @@ public class ApplicationGUI extends Application {
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
         createTable();
-        
-        FilteredList<Entry> searchResults = new FilteredList(litList, p -> true);
-        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchResults.setPredicate(entry -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (entry.getTitle().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false; 
-            });
-        });
-        SortedList<Entry> sortedData = new SortedList<>(searchResults);
-        sortedData.comparatorProperty().bind(litDisplay.comparatorProperty());
-        litDisplay.setItems(sortedData);
 
         // Set up the buttons
         btnAdd = new Button("Add literature");
@@ -132,7 +117,9 @@ public class ApplicationGUI extends Application {
                 "Books",
                 "Magazines",
                 "Journals",
-                "Newspapers");
+                "Newspapers",
+                "Series");
+        boxSelectType.getSelectionModel().selectFirst();
         btnAdd.setMaxWidth(Double.MAX_VALUE);
         btnRemove.setMaxWidth(Double.MAX_VALUE);
         btnViewInfo.setMaxWidth(Double.MAX_VALUE);
@@ -153,6 +140,8 @@ public class ApplicationGUI extends Application {
         btnTest.setOnAction(e -> {
             ui.gui.AlertBox.display("HAHA!", "GOTCHA!!");
         });
+
+        enableSearchBar();
 
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
@@ -207,8 +196,73 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Removes the selected entry from the literature register and from
-     * the list that's displayed in the litDisplay table.
+     *
+     */
+    private void enableSearchBar() {
+        ObservableList<Entry> list = FXCollections.observableArrayList(litList);
+        boxSelectType.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue ov, String s1, String s2) {
+                list.clear();
+                for (Entry e : litList) {
+                    switch (s2) {
+                        case "Books":
+                                if (e instanceof Book) {
+                                    list.add(e);
+                                }
+                            break;
+                        case "Magazines":
+
+                                if (e instanceof Magazine) {
+                                    list.add(e);
+                                }
+                            break;
+                        case "Journals":
+                                if (e instanceof Journal) {
+                                    list.add(e);
+                                }
+                            break;
+                        case "Newspapers":
+                                if (e instanceof Newspaper) {
+                                    list.add(e);
+                                }
+                            break;
+                        case "Series":
+                                if (e instanceof Series) {
+                                    list.add(e);
+                                }
+                            break;
+                        default:
+                            list.add(e);
+                            break;
+                    }
+                }
+            }
+        }
+        );
+
+        FilteredList<Entry> filteredList = new FilteredList(list, p -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(entry -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (entry.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Entry> searchResults = new SortedList<>(filteredList);
+        searchResults.comparatorProperty().bind(litDisplay.comparatorProperty());
+        litDisplay.setItems(searchResults);
+
+    }
+
+    /**
+     * Removes the selected entry from the literature register and from the list
+     * that's displayed in the litDisplay table.
      *
      * @param selectedIndex index of the selected entry
      */
@@ -288,8 +342,8 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Play a sound clip from the media package by entering its filename.
-     * Only suitable for short clips!
+     * Play a sound clip from the media package by entering its filename. Only
+     * suitable for short clips!
      *
      * @param soundName audio file to play
      */
@@ -306,7 +360,7 @@ public class ApplicationGUI extends Application {
                         "/media/" + audioClip).toString());
                 rip.play(60);
                 break;
-                
+
             case "bulbhorn.mp3":
                 AudioClip bulbhorn = new AudioClip(this.getClass().getResource(
                         "/media/" + audioClip).toString());
