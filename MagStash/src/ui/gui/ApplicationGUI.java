@@ -96,20 +96,14 @@ public class ApplicationGUI extends Application {
         aboutItem.setOnAction(e -> aboutBox.display());
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
-        // Set up search bar and return(?) button (for the top layout)
-        searchBar = new TextField();
-        searchBar.setPromptText("Search for literature");
-        searchBar.setMaxWidth(Double.MAX_VALUE);
-
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
         createTable();
-
-        // Set up the buttons
-        btnAdd = new Button("Add literature");
-        btnRemove = new Button("Remove literature");
-        btnViewInfo = new Button("View info");
-        btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
+        
+        // Set up search bar and combobox used for sorting the table. 
+        searchBar = new TextField();
+        searchBar.setPromptText("Search for literature");
+        searchBar.setMaxWidth(Double.MAX_VALUE);
         boxSelectType = new ComboBox<String>();
         boxSelectType.setPromptText("Select Type");
         boxSelectType.getItems().addAll(
@@ -120,6 +114,13 @@ public class ApplicationGUI extends Application {
                 "Newspapers",
                 "Series");
         boxSelectType.getSelectionModel().selectFirst();
+        enableSearch();
+
+        // Set up the buttons
+        btnAdd = new Button("Add literature");
+        btnRemove = new Button("Remove literature");
+        btnViewInfo = new Button("View info");
+        btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
         btnAdd.setMaxWidth(Double.MAX_VALUE);
         btnRemove.setMaxWidth(Double.MAX_VALUE);
         btnViewInfo.setMaxWidth(Double.MAX_VALUE);
@@ -130,9 +131,24 @@ public class ApplicationGUI extends Application {
         btnAdd.setOnAction(e -> {
             addBox.showChoiceDialog(litReg);
             updateObservableList();
+            String type = boxSelectType.getValue();
+            if (type.equals("All Literature")) {
+                boxSelectType.getSelectionModel().selectLast();
+            } else {
+                boxSelectType.getSelectionModel().selectFirst();
+            }
+            boxSelectType.getSelectionModel().select(type);
         });
         btnRemove.setOnAction(e -> {
             removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
+            updateObservableList();
+            String type = boxSelectType.getValue();
+            if (type.equals("All Literature")) {
+                boxSelectType.getSelectionModel().selectLast();
+            } else {
+                boxSelectType.getSelectionModel().selectFirst();
+            }
+            boxSelectType.getSelectionModel().select(type);
         });
         btnViewInfo.setOnAction(e -> {
             createInfoBox(litDisplay.getSelectionModel().getSelectedIndex());
@@ -140,8 +156,6 @@ public class ApplicationGUI extends Application {
         btnTest.setOnAction(e -> {
             ui.gui.AlertBox.display("HAHA!", "GOTCHA!!");
         });
-
-        enableSearchBar();
 
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
@@ -190,58 +204,66 @@ public class ApplicationGUI extends Application {
         litDateCol.setMinWidth(100);
         //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
 
-        litDisplay.setItems(litList);
+        updateTable(litList);
         litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol,
                 litDateCol);
     }
+    
+    /**
+     * Updates the litDisplay table with the given ObservableList.
+     * @param l the ObservableList used to update the table.
+     */
+    private void updateTable(ObservableList l) {
+        litDisplay.setItems(l);
+    }
 
     /**
-     *
+     * Initialises the search bar and combo box used for sorting the entries on 
+     * the table. 
      */
-    private void enableSearchBar() {
-        ObservableList<Entry> list = FXCollections.observableArrayList(litList);
+    private void enableSearch() {
+        ObservableList<Entry> sortedList = FXCollections.observableArrayList(litList);
         boxSelectType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String s1, String s2) {
-                list.clear();
+                sortedList.clear();
                 for (Entry e : litList) {
                     switch (s2) {
                         case "Books":
                                 if (e instanceof Book) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Magazines":
 
                                 if (e instanceof Magazine) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Journals":
                                 if (e instanceof Journal) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Newspapers":
                                 if (e instanceof Newspaper) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Series":
                                 if (e instanceof Series) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         default:
-                            list.add(e);
+                            sortedList.add(e);
                             break;
                     }
                 }
             }
-        }
-        );
+        });
 
-        FilteredList<Entry> filteredList = new FilteredList(list, p -> true);
+        FilteredList<Entry> filteredList = new FilteredList(sortedList, p -> true);
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(entry -> {
                 if (newValue == null || newValue.isEmpty()) {
@@ -256,13 +278,12 @@ public class ApplicationGUI extends Application {
         });
         SortedList<Entry> searchResults = new SortedList<>(filteredList);
         searchResults.comparatorProperty().bind(litDisplay.comparatorProperty());
-        litDisplay.setItems(searchResults);
+        updateTable(searchResults);
 
     }
 
     /**
-     * Removes the selected entry from the literature register and from the list
-     * that's displayed in the litDisplay table.
+     * Removes the selected entry from the literature register.
      *
      * @param selectedIndex index of the selected entry
      */
@@ -270,7 +291,6 @@ public class ApplicationGUI extends Application {
         if (selectedIndex >= 0) {
             litReg.removeLiterature(
                     litDisplay.getSelectionModel().getSelectedItem());
-            updateObservableList();
             playAudio("rip.mp3");
         } else {
             // Nothing selected.

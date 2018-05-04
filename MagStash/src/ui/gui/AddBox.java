@@ -2,9 +2,6 @@ package ui.gui;
 
 import entries.*;
 import handling.LiteratureRegister;
-import java.io.File;
-import java.net.URL;
-import java.time.DateTimeException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javafx.beans.value.ChangeListener;
@@ -24,8 +21,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
