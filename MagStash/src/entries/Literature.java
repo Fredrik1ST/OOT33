@@ -90,6 +90,10 @@ public abstract class Literature
     public final int getDay() {
         return releaseDate.getDayOfMonth();
     }
+    
+    public String getRelease() {
+        return getYear() + "/" + getMonth() + "/" + getDay();
+    }
 
     /**
      * Compares this object to another to see if they're the same.

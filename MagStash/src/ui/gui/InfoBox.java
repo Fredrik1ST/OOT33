@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui.gui;
 
 import entries.*;
@@ -18,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * 
+ * A window that provides a table of the contents (fields) of entries
  * @author HC Finnson
  */
 public class InfoBox {
@@ -30,7 +25,7 @@ public class InfoBox {
     }
 
     /**
-     * Creates a new window that display the information of the given entry
+     * Creates a new window that display the fields of the selected entry
      */
     public void display() {
         int n = 0;
@@ -75,11 +70,6 @@ public class InfoBox {
                     ("" + ((Literature) selectedEntry).getReleaseNr())), 1, n);
             n++;
         }
-        
-        //if (selectedEntry instanceof Book) {
-        //    infoLayout.add(new Text("Author: "), 0, n);
-        //    infoLayout.add(new Text(selectedEntry.getAuthor()), 1, n);
-        //}
 
         infoLayout.add(new Text("Publisher: "), 0, n);
         infoLayout.add(new Text(selectedEntry.getPublisher()), 1, n);

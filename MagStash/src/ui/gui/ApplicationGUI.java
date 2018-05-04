@@ -1,7 +1,3 @@
-/*
- * This class holds the Main function and the main menu of the GUI.
- * Based on the "show literature" page on Mockup.
- */
 package ui.gui;
 
 import entries.*;
@@ -14,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -31,8 +28,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * Contains the Main method of the program and the GUI's main window.
+ * This acts as a hub between the user and program. It displays information
+ * about the Literature Register's contents as well as being able to edit it.
+ */
 public class ApplicationGUI extends Application {
 
     // Stages are windows
@@ -54,7 +57,7 @@ public class ApplicationGUI extends Application {
     // Labels are just text nodes to be put somewhere
     Label label;
     // Buttons are frickin' buttons
-    Button btnAdd, btnRemove, btnViewInfo, btnTest;
+    Button btnAdd, btnRemove, btnViewInfo, btnFun;
     // ComboBox is a simple scrolldown menu
     ComboBox<String> boxSelectType;
 
@@ -97,20 +100,14 @@ public class ApplicationGUI extends Application {
         aboutItem.setOnAction(e -> aboutBox.display());
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
-        // Set up search bar and return(?) button (for the top layout)
-        searchBar = new TextField();
-        searchBar.setPromptText("Search for literature");
-        searchBar.setMaxWidth(Double.MAX_VALUE);
-
         // Set up the literature table (for the center layout)
         litDisplay = new TableView<Entry>();
         createTable();
-
-        // Set up the buttons
-        btnAdd = new Button("Add literature");
-        btnRemove = new Button("Remove literature");
-        btnViewInfo = new Button("View info");
-        btnTest = new Button("ｆｒｅｅ　ｃａｎｄｙ");
+        
+        // Set up search bar and combobox used for sorting the table. 
+        searchBar = new TextField();
+        searchBar.setPromptText("Search for literature");
+        searchBar.setMaxWidth(Double.MAX_VALUE);
         boxSelectType = new ComboBox<String>();
         boxSelectType.setPromptText("Select Type");
         boxSelectType.getItems().addAll(
@@ -121,42 +118,62 @@ public class ApplicationGUI extends Application {
                 "Newspapers",
                 "Series");
         boxSelectType.getSelectionModel().selectFirst();
+        enableSearch();
+
+        // Set up the buttons
+        btnAdd = new Button("Add literature");
+        btnRemove = new Button("Remove literature");
+        btnViewInfo = new Button("View info");
+        btnFun = new Button("Free calcium");
+        btnFun.setAlignment(Pos.BOTTOM_CENTER);
+        btnFun.setFont(new Font("Arial", 7));
         btnAdd.setMaxWidth(Double.MAX_VALUE);
         btnRemove.setMaxWidth(Double.MAX_VALUE);
         btnViewInfo.setMaxWidth(Double.MAX_VALUE);
-        btnTest.setMaxWidth(Double.MAX_VALUE);
         boxSelectType.setMaxWidth(Double.MAX_VALUE);
 
         // Set up Action Events (like button presses)
         btnAdd.setOnAction(e -> {
             addBox.showChoiceDialog(litReg);
             updateObservableList();
+            String type = boxSelectType.getValue();
+            if (type.equals("All Literature")) {
+                boxSelectType.getSelectionModel().selectLast();
+            } else {
+                boxSelectType.getSelectionModel().selectFirst();
+            }
+            boxSelectType.getSelectionModel().select(type);
         });
         btnRemove.setOnAction(e -> {
             removeEntry(litDisplay.getSelectionModel().getSelectedIndex());
+            updateObservableList();
+            String type = boxSelectType.getValue();
+            if (type.equals("All Literature")) {
+                boxSelectType.getSelectionModel().selectLast();
+            } else {
+                boxSelectType.getSelectionModel().selectFirst();
+            }
+            boxSelectType.getSelectionModel().select(type);
         });
         btnViewInfo.setOnAction(e -> {
             createInfoBox(litDisplay.getSelectionModel().getSelectedIndex());
         });
-        btnTest.setOnAction(e -> {
+        btnFun.setOnAction(e -> {
             alertBox.display("Free Calcium!", "Good bones and Calcium will come to you!!");
         });
-
         enableSearch();
-
+        
         // Configure the left menu's general scene (layout)
         leftLayout.getChildren().addAll(
-                searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo, btnTest);
+                searchBar, boxSelectType, btnAdd, btnRemove, btnViewInfo,
+                btnFun);
         leftLayout.setSpacing(5);
         leftLayout.setPadding(new Insets(10, 10, 10, 10));
-        // rightLayout.getChildren().add();
         topLayout.getChildren().add(menuBar);
-        //topLayout.setPadding(new Insets(10,10,10,10));
-        // bottomLayout.getChildren().add();
         centerLayout.getChildren().add(litDisplay);
         centerLayout.setPadding(new Insets(10, 10, 0, 0));
 
-        mainLayout.setTop(topLayout);
+        mainLayout.setTop(topLayout);   
         mainLayout.setBottom(bottomLayout);
         mainLayout.setLeft(leftLayout);
         mainLayout.setRight(rightLayout);
@@ -184,65 +201,73 @@ public class ApplicationGUI extends Application {
         litPublCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("publisher"));
 
         TableColumn litGenrCol = new TableColumn("Genre");
-        litGenrCol.setMinWidth(100);
+        litGenrCol.setMinWidth(150);
         litGenrCol.setCellValueFactory(new PropertyValueFactory<Entry, String>("genre"));
 
         TableColumn litDateCol = new TableColumn("Release Date");
-        litDateCol.setMinWidth(100);
-        //litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, >("litDate"));
+        litDateCol.setMinWidth(150);
+        litDateCol.setCellValueFactory(new PropertyValueFactory<Literature, String>("release"));
 
-        litDisplay.setItems(litList);
+        updateTable(litList);
         litDisplay.getColumns().addAll(litNameCol, litPublCol, litGenrCol,
                 litDateCol);
     }
-
+    
     /**
-     * Sets up listeners and events for the search bar and literature type box.
+     * Updates the litDisplay table with the given ObservableList.
+     * @param l the ObservableList used to update the table.
      */
+    private void updateTable(ObservableList l) {
+        litDisplay.setItems(l);
+    }
+
+
+     /** Initialises the search bar and combo box used for sorting the entries on 
+      *  the table. 
+      */
     private void enableSearch() {
-        ObservableList<Entry> list = FXCollections.observableArrayList(litList);
+        ObservableList<Entry> sortedList = FXCollections.observableArrayList(litList);
         boxSelectType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String s1, String s2) {
-                list.clear();
+                sortedList.clear();
                 for (Entry e : litList) {
                     switch (s2) {
                         case "Books":
                                 if (e instanceof Book) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Magazines":
 
                                 if (e instanceof Magazine) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Journals":
                                 if (e instanceof Journal) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Newspapers":
                                 if (e instanceof Newspaper) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         case "Series":
                                 if (e instanceof Series) {
-                                    list.add(e);
+                                    sortedList.add(e);
                                 }
                             break;
                         default:
-                            list.add(e);
+                            sortedList.add(e);
                             break;
                     }
                 }
             }
-        }
-        );
+        });
 
-        FilteredList<Entry> filteredList = new FilteredList(list, p -> true);
+        FilteredList<Entry> filteredList = new FilteredList(sortedList, p -> true);
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(entry -> {
                 if (newValue == null || newValue.isEmpty()) {
@@ -257,13 +282,12 @@ public class ApplicationGUI extends Application {
         });
         SortedList<Entry> searchResults = new SortedList<>(filteredList);
         searchResults.comparatorProperty().bind(litDisplay.comparatorProperty());
-        litDisplay.setItems(searchResults);
+        updateTable(searchResults);
 
     }
 
     /**
-     * Removes the selected entry from the literature register and from the list
-     * that's displayed in the litDisplay table.
+     * Removes the selected entry from the literature register.
      *
      * @param selectedIndex index of the selected entry
      */
@@ -271,7 +295,6 @@ public class ApplicationGUI extends Application {
         if (selectedIndex >= 0) {
             litReg.removeLiterature(
                     litDisplay.getSelectionModel().getSelectedItem());
-            updateObservableList();
             playAudio("rip.mp3");
         } else {
             // Nothing selected.
